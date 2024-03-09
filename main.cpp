@@ -1,66 +1,40 @@
-#include <iostream>
+#include "func.h"
+// #include "BaseObject.h"
+#include "PrintScreen.h"
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
 
-const int WIDTH = 800, HEIGHT = 800;
+extern SDL_Window* g_Window;   // cua so hien thi
+extern SDL_Surface* gScreenSurface;
+extern SDL_Surface* gHelloWorld;
 
-int main( int argc, char *argv[] )
+int main(int argc, char* argv[])
 {
-    SDL_Surface *imageSurface = NULL;
-    SDL_Surface *windowSurface = NULL;
-    
-    SDL_Init( SDL_INIT_EVERYTHING );
-    
-    SDL_Window *window = SDL_CreateWindow( "Hello SDL World", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_ALLOW_HIGHDPI );
-    windowSurface = SDL_GetWindowSurface( window );
-    
-    // Check that the window was successfully created
-    if ( NULL == window )
+    if(!init())
+        return -1;
+    else
     {
-        // In the case that the window could not be made...
-        std::cout << "Could not create window: " << SDL_GetError( ) << std::endl;
-        return 1;
-    }
-    
-    if( !( IMG_Init( IMG_INIT_PNG ) & IMG_INIT_PNG ) )
-    {
-        std::cout << "Could not create window: " << IMG_GetError( ) << std::endl;
-        return 1;
-    }
-    
-    SDL_Event windowEvent;
-    
-    imageSurface = IMG_Load( "chess1.png" );
-    
-    if ( NULL == imageSurface )
-    {
-        std::cout << "SDL could not load image! SDL Error: " << SDL_GetError( ) << std::endl;
-    }
-    
-    while ( true )
-    {
-        if ( SDL_PollEvent( &windowEvent ) )
+        if(!LoadBackground())
         {
-            if ( SDL_QUIT == windowEvent.type )
+            return -1;
+        }
+        else
+        {
+            SDL_BlitSurface(gHelloWorld, NULL, gScreenSurface, NULL);
+            SDL_UpdateWindowSurface( g_Window );
+        }
+    }
+    SDL_Event e;
+    bool quit = false;
+    while(!quit)
+    {
+        while(SDL_PollEvent(&e))
+        {
+            if(e.type == SDL_QUIT)
             {
-                break;
+                quit = true;
             }
         }
-        
-        SDL_BlitSurface( imageSurface, NULL, windowSurface, NULL );
-        
-        SDL_UpdateWindowSurface( window );
     }
-    
-    SDL_FreeSurface( imageSurface );
-    SDL_FreeSurface( windowSurface );
-    
-    imageSurface = NULL;
-    windowSurface = NULL;
-    
-    SDL_DestroyWindow( window );
-    SDL_Quit( );
-    
-    return EXIT_SUCCESS;
+    close();
+    return 0;
 }
