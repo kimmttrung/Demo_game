@@ -1,39 +1,106 @@
 #include "func.h"
-// #include "BaseObject.h"
-#include "PrintScreen.h"
+#include "BaseObject.h"
+#include "GameMap.h"
 
+// extern SDL_Window* g_Window = NULL;
+// extern SDL_Renderer* g_screen = NULL;
+// extern SDL_Event g_event;
 
-extern SDL_Window* g_Window;   // cua so hien thi
-extern SDL_Surface* gScreenSurface;
-extern SDL_Surface* gHelloWorld;
+BaseObject g_background;
 
-int main(int argc, char* argv[])
+bool InitData()
 {
-    if(!init())
-        return -1;
+    bool success = true;
+    int ret = SDL_Init(SDL_INIT_VIDEO);
+    if(ret < 0)
+        return false;
+
     else
     {
-        if(!LoadBackground())
+        g_Window = SDL_CreateWindow("huong dan SDL",
+                                    SDL_WINDOWPOS_UNDEFINED,
+                                    SDL_WINDOWPOS_UNDEFINED, 
+                                    SCREEN_WIDTH, SCREEN_HEIGHT, 
+                                    SDL_WINDOW_SHOWN);
+
+        if(g_Window == NULL)
         {
-            return -1;
+            printf( "Không thể tạo cửa sổ! SDL_Error: %s\n", SDL_GetError() );
+            success = false;
         }
         else
         {
-            SDL_BlitSurface(gHelloWorld, NULL, gScreenSurface, NULL);
-            SDL_UpdateWindowSurface( g_Window );
-        }
-    }
-    SDL_Event e;
-    bool quit = false;
-    while(!quit)
-    {
-        while(SDL_PollEvent(&e))
-        {
-            if(e.type == SDL_QUIT)
+            g_screen = SDL_CreateRenderer(g_Window, -1, SDL_RENDERER_ACCELERATED);
+            if (g_screen == NULL)
+                success = false;
+            else
             {
-                quit = true;
+                SDL_SetRenderDrawColor(g_screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
+                int imgFlags = IMG_INIT_PNG;
+                if(!(IMG_Init(imgFlags) && imgFlags))
+                    success = false;
             }
         }
+    }
+    return success;
+}
+
+bool LoadBackground()
+{
+    bool ret = g_background.LoadImg("img//1.jpg", g_screen);
+    if(ret == false)
+        return false;
+    
+    return true;
+
+}
+void close()
+{
+    g_background.Free();
+
+    SDL_DestroyRenderer(g_screen);
+    g_screen = NULL;
+
+    SDL_DestroyWindow(g_Window);
+    g_Window = NULL;
+
+    IMG_Quit();
+    SDL_Quit();
+
+}
+
+int main(int argc, char* argv[])
+{
+    if(InitData() == false)
+        return -1;
+
+    if(LoadBackground() == false)
+        return -1;
+
+    GameMap game_map;
+    game_map.LoadMap("map/map01.dat");
+    game_map.LoadTiles(g_screen);
+
+
+    bool is_quit = false;
+    while(!is_quit)
+    {
+        while(SDL_PollEvent(&g_event) != 0)
+        {
+            if(g_event.type == SDL_QUIT)
+            {
+                is_quit = true;
+            }
+        }
+
+        SDL_SetRenderDrawColor(g_screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
+        SDL_RenderClear(g_screen);
+
+        g_background.Render(g_screen, NULL);
+        game_map.DrawMap(g_screen);
+
+        SDL_RenderPresent(g_screen);
+
     }
     close();
     return 0;

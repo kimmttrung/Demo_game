@@ -1,63 +1,102 @@
-#include <iostream>
+#include "func.h"
+#include "BaseObject.h"
 
-#include <SDL2/SDL.h>
+// BaseObject g_background;
 
-#include <SDL2/SDL_image.h>
+// bool InitData()
+// {
+//     bool success = true;
+//     int ret = SDL_Init(SDL_INIT_VIDEO);
+//     if(ret < 0)
+//         return false;
+//     else
+//     {
+//         g_Window = SDL_CreateWindow("huong dan SDL",
+//                                     SDL_WINDOWPOS_UNDEFINED,
+//                                     SDL_WINDOWPOS_UNDEFINED, 
+//                                     SCREEN_WIDTH, SCREEN_HEIGHT, 
+//                                     SDL_WINDOW_SHOWN);
 
-const int WIDTH = 800, HEIGHT = 800;
+//         if(g_Window == NULL)
+//         {
+//             printf( "Không thể tạo cửa sổ! SDL_Error: %s\n", SDL_GetError() );
+//             success = false;
+//         }
+//         else
+//         {
+//             g_screen = SDL_CreateRenderer(g_Window, -1, SDL_RENDERER_ACCELERATED);
+//             if (g_screen == NULL)
+//                 success = false;
+//             else
+//             {
+//                 SDL_SetRenderDrawColor(g_screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
+//                 int imgFlags = IMG_INIT_PNG;
+//                 if(!(IMG_Init(imgFlags) && imgFlags))
+//                     success = false;
+//             }
+//         }
+//     }
+//     return success;
+// }
 
-int main( int argc, char *argv[] )
-{
-    SDL_Surface *imageSurface = NULL;
-    SDL_Surface *windowSurface = NULL;
+// bool LoadBackground()
+// {
+//     bool ret = g_background.LoadImg("img//chess3.jpg", g_screen);
+//     if(ret == false)
+//         return false;
     
-    if ( SDL_Init( SDL_INIT_EVERYTHING ) < 0 )
-    {
-        std::cout << "SDL could not initialize! SDL Error: " << SDL_GetError( ) << std::endl;
-    }
-    
-    SDL_Window *window = SDL_CreateWindow( "Hello SDL World", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_ALLOW_HIGHDPI );
-    windowSurface = SDL_GetWindowSurface( window );
-    
-    if ( NULL == window )
-    {
-        std::cout << "Could not create window: " << SDL_GetError( ) << std::endl;
-        
-        return EXIT_FAILURE;
-    }
-    
-    SDL_Event windowEvent;
-    
-    imageSurface = IMG_Load( "C:\\Users\\ADMIN\\OneDrive\\Desktop\\SDL Template\\chess1.png" );
-    if( imageSurface == NULL )
-    {
-        std::cout << "SDL could not load image! SDL Error: " << SDL_GetError( ) << std::endl;
-    }
-    
-    while ( true )
-    {
-        if ( SDL_PollEvent( &windowEvent ) )
-        {
-            if ( SDL_QUIT == windowEvent.type )
-            {
-                break;
-            }
-        }
-        
-        SDL_BlitSurface( imageSurface, NULL, windowSurface, NULL );
-        
-        //Update the surface
-        SDL_UpdateWindowSurface( window );
-    }
-    
-    SDL_FreeSurface( imageSurface );
-    SDL_FreeSurface( windowSurface );
-    
-    imageSurface = NULL;
-    windowSurface = NULL;
-    
-    SDL_DestroyWindow( window );
-    SDL_Quit( );
-    
-    return EXIT_SUCCESS;
-}
+//     return true;
+//     // bool success = true;
+//     // gHelloWorld = SDL_LoadBMP("img//chess1.png");
+//     // if (gHelloWorld == NULL)
+//     // {
+//     //     printf( "Không thể tải hình ảnh %s! Lỗi SDL: %s\n", "02_getting_an_image_on_the_screen/hello_world.bmp", SDL_GetError() );
+//     //     success = false;
+//     // }
+//     // return success;
+// }
+// void close()
+// {
+//     g_background.Free();
+
+//     SDL_DestroyRenderer(g_screen);
+//     g_screen = NULL;
+
+//     SDL_DestroyWindow(g_Window);
+//     g_Window = NULL;
+
+//     IMG_Quit();
+//     SDL_Quit();
+
+// }
+
+// int main(int argc, char* argv[])
+// {
+//     if(InitData() == false)
+//         return -1;
+
+//     if(LoadBackground() == false)
+//         return -1;
+
+//     bool is_quit = false;
+//     while(!is_quit)
+//     {
+//         while(SDL_PollEvent(&g_event) != 0)
+//         {
+//             if(g_event.type == SDL_QUIT)
+//             {
+//                 is_quit = true;
+//             }
+//         }
+
+//         SDL_SetRenderDrawColor(g_screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
+//         SDL_RenderClear(g_screen);
+
+//         g_background.Render(g_screen, NULL);
+
+//         SDL_RenderPresent(g_screen);
+
+//     }
+//     close();
+//     return 0;
+// }
