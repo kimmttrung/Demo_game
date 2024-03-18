@@ -1,6 +1,6 @@
 
 #include "BaseObject.h"
-
+// khoi tao hcn
 BaseObject::BaseObject()
 {
     p_object_ = NULL;
@@ -15,6 +15,7 @@ BaseObject::~BaseObject()
     Free();
 }
 
+// load anh
 bool BaseObject::LoadImg(std::string path, SDL_Renderer* screen)
 {
     SDL_Texture* new_texture = NULL;
@@ -22,7 +23,9 @@ bool BaseObject::LoadImg(std::string path, SDL_Renderer* screen)
     SDL_Surface* load_surface = IMG_Load(path.c_str());
     if(load_surface != NULL)
     {
+        // dat mau nen 
         SDL_SetColorKey(load_surface, SDL_TRUE, SDL_MapRGB(load_surface->format, COLOR_KEY_R, COLOR_KEY_G, COLOR_KEY_B));
+        // tao doi tuong
         new_texture = SDL_CreateTextureFromSurface(screen, load_surface);
         if(new_texture != NULL)
         {
@@ -34,12 +37,16 @@ bool BaseObject::LoadImg(std::string path, SDL_Renderer* screen)
     }
 
     p_object_ = new_texture;
+    
     return p_object_ != NULL;
 }
 
 void BaseObject::Render(SDL_Renderer* des, const SDL_Rect* clip)
 {
+    // vi tri va kich thuoc anh
     SDL_Rect renderquad = {rect_.x, rect_.y, rect_.w, rect_.h};
+
+    // dẩy toàn bộ thông số pObject lên des
     SDL_RenderCopy(des, p_object_, clip, &renderquad);
 }
 
