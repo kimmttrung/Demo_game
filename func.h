@@ -16,7 +16,7 @@ static SDL_Event g_event;
 
 // Screen
 
-const int SCREEN_WIDTH = 1280;
+const int SCREEN_WIDTH = 1200;
 const int SCREEN_HEIGHT = 640;
 const int SCREEN_BPP = 32;
 
@@ -31,7 +31,14 @@ const int RENDER_DRAW_COLOR = 255;
 #define MAX_MAP_X 400
 #define MAX_MAP_Y 10
 
-
+struct Input
+{
+    int left_;
+    int right_;
+    int up_;
+    int down_;
+    int jump_;
+};
 
 struct Map
 {

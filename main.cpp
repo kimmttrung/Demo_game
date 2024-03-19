@@ -1,6 +1,8 @@
 #include "func.h"
 #include "BaseObject.h"
 #include "GameMap.h"
+#include "MainObject.h"
+
 
 BaseObject g_background;
 
@@ -12,7 +14,6 @@ bool InitData()
     if(ret < 0)
         return false;
 
-    // SDL_SetHint()
     g_Window = SDL_CreateWindow("huong dan SDL",
                                 SDL_WINDOWPOS_UNDEFINED,
                                 SDL_WINDOWPOS_UNDEFINED, 
@@ -81,6 +82,12 @@ int main(int argc, char* argv[])
     game_map.LoadTiles(g_screen);
 
 
+    MainObject player;
+    player.LoadImg("img//player_right.png", g_screen);
+    player.set_clips();
+
+
+
     bool is_quit = false;
     while(!is_quit)
     {
@@ -91,6 +98,8 @@ int main(int argc, char* argv[])
             {
                 is_quit = true;
             }
+
+            player.HandelInputAction(g_event, g_screen);
         }
 
         // reset lại man hình
@@ -100,6 +109,8 @@ int main(int argc, char* argv[])
 
         g_background.Render(g_screen, NULL);
         game_map.DrawMap(g_screen);
+
+        player.Show(g_screen);
 
         SDL_RenderPresent(g_screen);
 

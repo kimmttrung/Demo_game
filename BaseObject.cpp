@@ -30,7 +30,7 @@ bool BaseObject::LoadImg(std::string path, SDL_Renderer* screen)
         if(new_texture != NULL)
         {
             rect_.w = load_surface->w;
-            rect_.h = load_surface->h;
+            rect_.h = load_surface->h; //64
         }
 
         SDL_FreeSurface(load_surface);
