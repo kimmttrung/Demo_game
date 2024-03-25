@@ -9,6 +9,8 @@
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
 
+#include "Entity.h"
+
 class RenderWindow
 {
 public:
@@ -16,7 +18,7 @@ public:
     SDL_Texture* loadTextrue(const char* p_filePath);
     void CleanUp();
     void clear();
-    void render(SDL_Texture* p_tex);
+    void render(Entity& p_entity);
     void display();
 private:
     SDL_Window* window;

@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "RenderWindow.h"
+#include "Entity.h"
 
 int main(int argc, char* argv[])
 {
@@ -12,8 +13,13 @@ int main(int argc, char* argv[])
     if(!(IMG_Init(IMG_INIT_PNG)))
         std::cout << "IMG_init has failed. Error: " << SDL_GetError() << std::endl;
 
-    RenderWindow window("Game treasure", 1280, 700);
-    SDL_Texture* grassTexture = window.loadTextrue("background2.jpg");
+    RenderWindow window("Game treasure", 1400, 1000);
+    SDL_Texture* grassTexture = window.loadTextrue("img/tileMap1.png");
+
+    Entity entities[3] =    {Entity(0, 0, grassTexture),
+                            Entity(50,0, grassTexture),
+                            Entity(50,50, grassTexture)};
+    //Entity flatfrom0(0, 0, grassTexture);
 
     bool gameRun = true;
 
@@ -28,7 +34,12 @@ int main(int argc, char* argv[])
         }
 
         window.clear();
-        window.render(grassTexture);
+
+        for(int i=0;i<3;i++){
+            window.render(entities[i]);
+        }
+        //window.render(flatfrom0);
+        
         window.display();
     }
     window.CleanUp();

@@ -1,7 +1,9 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <iostream>
+
 #include "RenderWindow.h"
+#include "Entity.h"
 
 RenderWindow::RenderWindow(const char* p_title, int p_w, int p_h)
     :window(NULL), renderer(NULL)
@@ -39,21 +41,21 @@ void RenderWindow::CleanUp()
     SDL_DestroyWindow(window);
 }
 
-void RenderWindow::render(SDL_Texture* p_tex)
+void RenderWindow::render(Entity& p_entity)
 {
-    // SDL_Rect src;
-    // src.x = 0;
-    // src.y = 0;
-    // src.w = 64;
-    // src.h = 64;
+    SDL_Rect src;// kich thuoc thuc the
+    src.x = p_entity.getCurrentFrame().x;
+    src.y = p_entity.getCurrentFrame().y;
+    src.w = p_entity.getCurrentFrame().w;
+    src.h = p_entity.getCurrentFrame().h;
 
-    // SDL_Rect dst;
-    // dst.x = 0;
-    // dst.y = 0;
-    // dst.w = 64;
-    // dst.h = 64;
+    SDL_Rect dst;
+    dst.x = p_entity.getX() * 4;
+    dst.y = p_entity.getY() * 4;
+    dst.w = p_entity.getCurrentFrame().w * 4;
+    dst.h = p_entity.getCurrentFrame().h * 4;
 
-    SDL_RenderCopy(renderer, p_tex,NULL , NULL); // sao chep vao vung hien thi
+    SDL_RenderCopy(renderer, p_entity.getTex(), &src ,&dst); // sao chep vao vung hien thi
 }
 
 void RenderWindow::display()
