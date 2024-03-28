@@ -5,8 +5,10 @@
 #include "RenderWindow.h"
 #include "Entity.h"
 
+SDL_Renderer* RenderWindow::renderer = nullptr;
+
 RenderWindow::RenderWindow(const char* p_title, int p_w, int p_h)
-    :window(NULL), renderer(NULL)
+    :window(NULL)
 {
     window = SDL_CreateWindow(p_title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, p_w, p_h, SDL_WINDOW_SHOWN);
 
@@ -18,6 +20,16 @@ RenderWindow::RenderWindow(const char* p_title, int p_w, int p_h)
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
 }
+// SDL_Surface* RenderWindow::tileMap(const char* p_filePath)
+// {
+//     SDL_Surface* surface = NULL;
+//         surface = IMG_LoadTexture(renderer, p_filePath);
+
+//     if(surface == NULL)
+//         std::cout << "Failed to load texture.Error: " << SDL_GetError() << std::endl;
+
+//         return surface;
+// }
 
 SDL_Texture* RenderWindow::loadTextrue(const char* p_filePath)
 {
@@ -50,8 +62,8 @@ void RenderWindow::render(Entity& p_entity)
     src.h = p_entity.getCurrentFrame().h;
 
     SDL_Rect dst;
-    dst.x = p_entity.getX() * 4;
-    dst.y = p_entity.getY() * 4;
+    dst.x = p_entity.getPos().x * 4;
+    dst.y = p_entity.getPos().y * 4;
     dst.w = p_entity.getCurrentFrame().w * 4;
     dst.h = p_entity.getCurrentFrame().h * 4;
 
