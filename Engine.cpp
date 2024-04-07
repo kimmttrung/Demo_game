@@ -2,7 +2,10 @@
 #include "Texture.h"
 #include <iostream>
 
+#include "Warrior.h"
+
 Engine* Engine::s_Instance = nullptr;
+Warrior* player = nullptr;
 
 bool Engine::Init()
 {
@@ -27,21 +30,28 @@ bool Engine::Init()
         }
         check = true;
     }
-    TextureManager::GetInstance()->Load("background3", "img/background3.jpg");
+
+    TextureManager::GetInstance()->Load("player", "img/player_right.png");
+
+    player = new Warrior(new Properties("player", 30,40, 100, 200 ));
+
+    Transform kim;
+    kim.Log();
+
     return m_Running = true;
 }
 
 void Engine::Update()
 {
-    
+    player->Update(0);
 }
 
 void Engine::Render()
 {
-    SDL_SetRenderDrawColor(m_Renderer, 255,255,117,0);
+    SDL_SetRenderDrawColor(m_Renderer, 167,175,180,0);
     SDL_RenderPresent(m_Renderer);
 
-    TextureManager::GetInstance()->Draw("background3", 0, 0, 1500,1001);
+    player->Draw();
 }
 void Engine::Events()
 {
@@ -56,7 +66,7 @@ void Engine::Events()
 }
 void Engine::Clean()
 {
-    TextureManager::GetInstance()->clean();
+    TextureManager::GetInstance()->Clean();
     SDL_DestroyRenderer(m_Renderer);
     SDL_DestroyWindow(window);
     IMG_Quit();

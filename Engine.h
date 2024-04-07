@@ -4,8 +4,8 @@
 #include <SDL2/SDL_image.h>
 #include <iostream>
 
-#define SCREEN_WIDTH 1500
-#define SCREEN_HEIGHT 1000
+#define SCREEN_WIDTH 1280
+#define SCREEN_HEIGHT 640
 
 class Engine
 {
