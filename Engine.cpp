@@ -1,8 +1,10 @@
 #include "Engine.h"
 #include "Texture.h"
 #include <iostream>
-
+#include "Input.h"
 #include "Warrior.h"
+#include <SDL2/SDL.h>
+
 
 Engine* Engine::s_Instance = nullptr;
 Warrior* player = nullptr;
@@ -31,9 +33,10 @@ bool Engine::Init()
         check = true;
     }
 
-    TextureManager::GetInstance()->Load("player", "img/player_right.png");
+    TextureManager::GetInstance()->Load("player", "img/animation1.png");
+    TextureManager::GetInstance()->Load("player", "img/animation1.png");
 
-    player = new Warrior(new Properties("player", 30,40, 100, 200 ));
+    player = new Warrior(new Properties("player", 0,0,120,135));
 
     Transform kim;
     kim.Log();
@@ -43,26 +46,20 @@ bool Engine::Init()
 
 void Engine::Update()
 {
+    
     player->Update(0);
 }
 
 void Engine::Render()
 {
-    SDL_SetRenderDrawColor(m_Renderer, 167,175,180,0);
+    SDL_SetRenderDrawColor(m_Renderer, 10,6,6,255);// dăt mau sd cho thao tac ve
     SDL_RenderPresent(m_Renderer);
 
     player->Draw();
 }
 void Engine::Events()
 {
-    SDL_Event event;
-    while(SDL_PollEvent(&event)){
-        switch ((event.type)){
-            case SDL_QUIT:
-                Quit();
-                break;
-        }
-    }
+    Input::GetInstance()->Listen();
 }
 void Engine::Clean()
 {

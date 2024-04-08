@@ -2,6 +2,8 @@
 
 #include "Character.h"
 #include "Animation.h"
+#include "DoRoi.h"
+
 
 class Warrior: public Character{
 
@@ -13,8 +15,6 @@ class Warrior: public Character{
 
 
     private:
-        // int m_Row, m_Frame, m_FrameCount;
-        // int m_AnimSpeed;
-
         Animation* m_Animation;
+        RigidBody* m_RigiBody;
 };
