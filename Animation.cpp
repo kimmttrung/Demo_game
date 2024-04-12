@@ -20,3 +20,4 @@ void Animation::SetProps(std::string textureID, int spriteRow, int frameCount, i
     m_Flip = flip;
     
 }
+// SDL_GetTicks(): Lấy số mili giây kể từ khi khởi tạo thư viện SDL.

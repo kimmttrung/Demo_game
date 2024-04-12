@@ -1,11 +1,11 @@
 #include "Input.h"
 #include "Engine.h"
 
-Input* Input::s_Instance = nullptr;
+Input* Input::s_Instance = nullptr;// khởi tạo biến tĩnh
 
 Input::Input()
 {
-    m_KeyStates = SDL_GetKeyboardState(nullptr);
+    m_KeyStates = SDL_GetKeyboardState(nullptr);// trạng thái hiện tại của bàn phím.
 }
 void Input::Listen()
 {
@@ -21,6 +21,7 @@ void Input::Listen()
         }
     }
 }
+// SDL_Scancode: mã quét bàn phím
 bool Input::GetKeyDown(SDL_Scancode key)
 {
     if(m_KeyStates[key] == 1)

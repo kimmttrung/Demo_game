@@ -5,23 +5,22 @@
 class Input
 {
     public:
+        // thể hiện duy nhất của lớp Input
         static Input* GetInstance(){
             return s_Instance = (s_Instance != nullptr)? s_Instance : new Input();
         }
         void Listen();
-        bool GetKeyDown(SDL_Scancode key);
+        bool GetKeyDown(SDL_Scancode key);// kiem tra mã 
         bool GetKeyUp(SDL_Scancode key);
-        // bool GetKeyRight(SDL_Scancode key);
-        // bool GetKeyLeft(SDL_Scancode key);
+        
         
     private:
-        Input();
+        Input();// 1 constructor ngăn k tạo ở bên ngoài lớp
         void KeyUp();
         void KeyDown();
-        // void KeyRight();
-        // void KeyLeft();
+        
 
-        const Uint8* m_KeyStates;
-        static Input* s_Instance;
+        const Uint8* m_KeyStates; // contro đến trạng thái các sự kiện phím
+        static Input* s_Instance;// biến tĩnh
 
 };

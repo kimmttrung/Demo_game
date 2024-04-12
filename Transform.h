@@ -17,3 +17,5 @@ public:
     inline void Translate(Vector v){X += v.X; Y += v.Y;}
 
 };
+
+//inline: tối ưu việc gọi lại hàm chỉ cần chèn

@@ -5,7 +5,8 @@
 #include "DoRoi.h"
 
 
-class Warrior: public Character{
+class Warrior: public Character // kế thừa lớp Character
+{
 
     public:
         Warrior(Properties* props);
@@ -13,8 +14,9 @@ class Warrior: public Character{
         virtual void Update(float dt) ;
         virtual void Clean();
 
-
     private:
-        Animation* m_Animation;
-        RigidBody* m_RigiBody;
+        Animation* m_Animation; // con trỏ đến lớp Animation
+        RigidBody* m_RigiBody;  // con trỏ đến lớp RigidBody
 };
+
+// virtual: cho phép các lớp con ghi đè lên hàm ảo của lớp cha

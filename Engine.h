@@ -11,19 +11,19 @@ class Engine
 {
 public:
     static Engine* GetInstance(){
-        return s_Instance = (s_Instance != nullptr)? s_Instance : new Engine();
+        return s_Instance = (s_Instance != nullptr)? s_Instance : new Engine(); // thể hiện duy nhất của lớp Engine
     }
 
-    bool Init();
-    void Clean();
+    bool Init();// lõi, đồ họa ...
     void Quit();
+    void Clean();
 
     void Events();
     void Update();
-    void Render();
+    void Render();// vẽ đối tượng
 
     inline bool Running() {return m_Running;}
-    inline SDL_Renderer* GetRenderer(){return m_Renderer;}
+    inline SDL_Renderer* GetRenderer(){return m_Renderer;}// trả về renderer để engine sd vẽ đồ họa
     inline SDL_Window* GetWindow(){return window;}
 private:
     Engine(){}

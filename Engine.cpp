@@ -3,7 +3,8 @@
 #include "Input.h"
 #include "Warrior.h"
 #include <SDL2/SDL.h>
-// #include "Timer.h"
+#include "Timer.h"
+#include "Camera.h"
 #include <iostream>
 
 
@@ -39,11 +40,13 @@ bool Engine::Init()
 
     TextureManager::GetInstance()->Load("player", "img/animation1.png");
     TextureManager::GetInstance()->Load("player_Run", "img/animation1.png");
-
+    
     player = new Warrior(new Properties("player", 100,200,120,135));
 
-    // Transform kim;
-    // kim.Log();
+    // SDL_Rect Game::camera = {0, 0, map->getScaledSize() * map->getSizeX() - WINDOW_WIDTH, map->getScaledSize() * map->getSizeY() - WINDOW_HEIGHT};
+
+    Transform kim;
+    kim.Log();
 
 
     int tilemap[80][10] = {
@@ -107,12 +110,11 @@ bool Engine::Init()
 
     };
 
-
     SDL_Rect tile[20][10];
     for(int i=0;i<20;i++){
         for(int j=0;j<10;j++){
             tile[i][j].x = i * 64;
-            tile[i][j].y = j * 64;
+            tile[i][j].y = j * 64 ;
             tile[i][j].w = 64;
             tile[i][j].h = 64;
         }
@@ -161,27 +163,11 @@ bool Engine::Init()
     select_tile_7.w = 64;
     select_tile_7.h = 64;
 
-    const Uint8* keys = SDL_GetKeyboardState(NULL);
-    static int setX = 0;
-    if(keys[SDL_SCANCODE_RIGHT]){
-        setX++;
-        // SDL_Delay(50);
-    }
-    if(keys[SDL_SCANCODE_LEFT]){
-        setX--;
-        // SDL_Delay(50);
-    }
     
-    if(setX < 0){
-        setX = 0;
-    }
-    if(setX > 100){
-        setX = 100;
-    }
 
     for(int i=0;i<20;i++){
         for(int j=0;j<10;j++){
-            switch (tilemap[i+setX][j])
+            switch (tilemap[i][j])
             {
             case 1:
                 SDL_RenderCopy(m_Renderer, tile_map_texture,&select_tile_1,&tile[i][j]);
@@ -213,20 +199,24 @@ bool Engine::Init()
             }
         }
     }
+
     return m_Running = true;
 
 }
 
 void Engine::Update()
 {
-    // float dt = Timer::GetInstance()->GetDeltaTime();
-    player->Update(0);
+    float dt = Timer::GetInstance()->GetDeltaTime();
+    player->Update(dt);
+    Camera::GetInstance()->Update(dt);
+
 }
 
 void Engine::Render()
 {
     SDL_SetRenderDrawColor(m_Renderer, 124,218,254,255);// dăt mau sd cho thao tac ve
     SDL_RenderPresent(m_Renderer);
+
 
     player->Draw();
     SDL_RenderPresent(m_Renderer);
