@@ -10,11 +10,16 @@ class Input
         }
         void Listen();
         bool GetKeyDown(SDL_Scancode key);
-
+        bool GetKeyUp(SDL_Scancode key);
+        // bool GetKeyRight(SDL_Scancode key);
+        // bool GetKeyLeft(SDL_Scancode key);
+        
     private:
         Input();
         void KeyUp();
         void KeyDown();
+        // void KeyRight();
+        // void KeyLeft();
 
         const Uint8* m_KeyStates;
         static Input* s_Instance;

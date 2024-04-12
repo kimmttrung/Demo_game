@@ -2,13 +2,13 @@
 #include "Texture.h"
 #include <SDL2/SDL.h>
 #include "Input.h"
-
+#include <iostream>
 
 Warrior::Warrior(Properties* props): Character(props)
 {
     m_RigiBody = new RigidBody();
     m_Animation = new Animation();
-    m_Animation->SetProps(m_TextureID, 1,4, 100,SDL_FLIP_HORIZONTAL);
+    m_Animation->SetProps(m_TextureID, 1,4, 100);
     
 }
 
@@ -20,22 +20,24 @@ void Warrior::Draw()
 
 void Warrior::Update(float dt)
 {
-    m_Animation->SetProps(m_TextureID,1,4,100);
+    m_Animation->SetProps("player",1,4,100);
     m_RigiBody->UnSetForce();
 
     if(Input::GetInstance()->GetKeyDown(SDL_SCANCODE_A)){
-        m_RigiBody->ApplyForceX(1);
-        m_Animation->SetProps("Run2.2", 2, 4, 100);
+        m_RigiBody->ApplyForceX(0.1*BACKWARD);
+        m_Animation->SetProps("player_Run", 2, 4, 100, SDL_FLIP_HORIZONTAL);
     }
     if(Input::GetInstance()->GetKeyDown(SDL_SCANCODE_D)){
-        m_RigiBody->ApplyForceX(1);
-        m_Animation->SetProps("Run2.2", 2, 4, 100);
+        m_RigiBody->ApplyForceX(0.1*FORWARD);
+        m_Animation->SetProps("player_Run", 2, 4, 100);
     }
+    std::cout << dt << std::endl;
 
-    m_RigiBody->Update(0.05);
+    m_RigiBody->Update(0.7); // toc do 
     m_RigiBody->ApplyForceX(10);
-    m_Transform->TranslateX(m_RigiBody->Position().X);
-    //m_Transform->TranslateY(m_RigiBody->Position().Y);
+
+    m_Transform->TranslateX(m_RigiBody->ViTri().X);
+    //m_Transform->TranslateY(m_RigiBody->ViTri().Y);
     m_Animation->Update();
    
 }

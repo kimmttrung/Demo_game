@@ -31,6 +31,7 @@ private:
 
     SDL_Window* window;
     SDL_Renderer* m_Renderer;
+    SDL_Surface* surface;
     static Engine* s_Instance;
     
 };

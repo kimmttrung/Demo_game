@@ -16,10 +16,18 @@ void Input::Listen()
             case SDL_QUIT: Engine::GetInstance()->Quit();break;
             case SDL_KEYUP: KeyUp(); break;
             case SDL_KEYDOWN: KeyDown(); break;
+            // case SDL_KEYRIGHT: KeyRight(); break;
+            // case SDL_LEFT(); break;
         }
     }
 }
 bool Input::GetKeyDown(SDL_Scancode key)
+{
+    if(m_KeyStates[key] == 1)
+        return true;
+    return false;
+}
+bool Input::GetKeyUp(SDL_Scancode key)
 {
     if(m_KeyStates[key] == 1)
         return true;

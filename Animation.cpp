@@ -18,4 +18,5 @@ void Animation::SetProps(std::string textureID, int spriteRow, int frameCount, i
     m_FrameCount = frameCount; // so luong
     m_AnimSpeed = animSpeed; // toc do 
     m_Flip = flip;
+    
 }
