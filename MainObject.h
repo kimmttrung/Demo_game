@@ -31,8 +31,8 @@ public:
     void DoPlayer(Map& map_data);// cộng trừ cho nhân vật di chuyển 
     void CheckMap(Map& map_data);// kiểm tra map
 
-    // void SetMapXY(const int map_x, const int map_y){map_x_ = map_x; map_y_ = map_y;}
-    // void CenterOnMap(Map& map_data);
+    void SetMapXY(const int map_x, const int map_y){map_x_ = map_x; map_y_ = map_y;}// thiết lập vị trí map
+    void TinhToanMap(Map& map_data); // tính toán thông số bản đồ 
 private:
 
     float x_val_;       // tang bao nhieu
@@ -52,7 +52,7 @@ private:
     
     bool on_ground_;// kiem tra nhân vật có đang ở trên mặt đất không
 
-    int map_x_;
+    int map_x_;// vị trí map mới sau khi di chuyển
     int map_y_;
 
 

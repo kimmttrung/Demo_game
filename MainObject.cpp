@@ -19,6 +19,8 @@ MainObject::MainObject()
 
     bool on_ground_ = false;
 
+    map_x_ = 0;
+    map_y_ = 0;
 }
 
 MainObject::~MainObject()
@@ -142,9 +144,35 @@ void MainObject::DoPlayer(Map& map_data)
         x_val_ += PLAYER_SPEED;
     }
 
-    CheckMap(map_data);
+    CheckMap(map_data);// kiểm tra map
+    TinhToanMap(map_data);// tính toán thông số map
 
 }
+
+void MainObject::TinhToanMap(Map& map_data)
+{
+    map_data.start_x = x_pos_ - (SCREEN_WIDTH / 2);// vị trí bắt đầu map
+    if (map_data.start_x < 0)
+    {
+        map_data.start_x = 0;
+    }
+    else if (map_data.start_x + SCREEN_WIDTH >= map_data.max_x)
+    {
+        map_data.start_x = map_data.max_x - SCREEN_WIDTH;
+    }
+
+    map_data.start_y = y_pos_ - (SCREEN_HEIGHT / 2);// vị trí bắt đầu map
+    if (map_data.start_y < 0)
+    {
+        map_data.start_y = 0;
+    }
+    else if (map_data.start_y + SCREEN_HEIGHT >= map_data.max_y)
+    {
+        map_data.start_y = map_data.max_y - SCREEN_HEIGHT;
+    }
+
+}
+
 
 void MainObject::CheckMap(Map& map_data)
 {

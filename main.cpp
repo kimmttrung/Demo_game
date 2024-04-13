@@ -105,9 +105,12 @@ int main(int argc, char* argv[])
         game_map.DrawMap(g_screen);
         Map map_data = game_map.getMap();// lấy thông tin map
 
+        p_player.SetMapXY(map_data.start_x, map_data.start_y);// thiết lập vị trí map
         p_player.DoPlayer(map_data);// di chuyển nhân vật thông qua dữ liệu map truyền vào
         p_player.Show(g_screen);// hiển thị nhân vật
 
+        game_map.SetMap(map_data);// thiết lập thông tin map
+        game_map.DrawMap(g_screen);// vẽ map
 
         SDL_RenderPresent(g_screen);
     }
