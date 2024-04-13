@@ -12,7 +12,7 @@ public:
     SDL_Rect GetRect() const {return rect_;} // trả về kích thước đối tượng là hcn
     SDL_Texture* GetObject() const {return p_object_;}// trả về contro của đối tượng sd
 
-    virtual bool LoadImg(std::string path, SDL_Renderer* screen);// load hình ảnh
+    bool LoadImg(std::string path, SDL_Renderer* screen);// load hình ảnh
     void Render(SDL_Renderer* des, const SDL_Rect* clip = NULL);// vẽ hình ảnh lên màn hình
     void Free();
 

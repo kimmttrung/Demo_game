@@ -1,7 +1,7 @@
 
 #include "BaseObject.h"
-// khoi tao hcn
-BaseObject::BaseObject()
+
+BaseObject::BaseObject()// khoi tao hcn
 {
     p_object_ = NULL;
     rect_.x = 0;
@@ -15,8 +15,7 @@ BaseObject::~BaseObject()
     Free();
 }
 
-// load anh
-bool BaseObject::LoadImg(std::string path, SDL_Renderer* screen)
+bool BaseObject::LoadImg(std::string path, SDL_Renderer* screen)// load anh
 {
     SDL_Texture* new_texture = NULL;
 

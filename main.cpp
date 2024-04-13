@@ -1,7 +1,7 @@
 #include <iostream>
 #include "ComFun.h"
 #include "BaseObject.h"
-
+#include "GameMap.h"
 
 BaseObject g_background;
 
@@ -9,7 +9,8 @@ bool InitData()
 {
     bool success = true;
     // khoi tao SDL
-    if(SDL_Init(SDL_INIT_VIDEO) < 0)
+    int ret = SDL_Init(SDL_INIT_VIDEO);
+    if(ret < 0)
         return false;
 
     g_Window = SDL_CreateWindow("Game treasure std - kim1",
@@ -27,24 +28,25 @@ bool InitData()
     {
         // tao render de ve hinh anh len sreeen
         // SDL_RENDERER_ACCELERATED: tang toc do phan ung
-        g_Screen = SDL_CreateRenderer(g_Window, -1, SDL_RENDERER_ACCELERATED);
-        if (g_Screen == NULL)
+        g_screen = SDL_CreateRenderer(g_Window, -1, SDL_RENDERER_ACCELERATED);
+        if (g_screen == NULL)
             success = false;
         else
         {
             // sd mau cho thao tac ve
-            SDL_SetRenderDrawColor(g_Screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
+            SDL_SetRenderDrawColor(g_screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
             int imgFlags = IMG_INIT_PNG;
             if(!(IMG_Init(imgFlags) && imgFlags))
                 success = false;    
         }
     }
+
     return success;
 }
 
 bool LoadBackground()
 {
-    bool ret = g_background.LoadImg("img/Bground.png", g_Screen);
+    bool ret = g_background.LoadImg("img/Bground1.jpg", g_screen);
     if(ret == false)
         return false;
     return true;
@@ -54,8 +56,8 @@ void close()
 {
     g_background.Free();
 
-    SDL_DestroyRenderer(g_Screen);
-    g_Screen = NULL;
+    SDL_DestroyRenderer(g_screen);
+    g_screen = NULL;
 
     SDL_DestroyWindow(g_Window);
     g_Window = NULL;
@@ -71,6 +73,13 @@ int main(int argc, char* argv[])
     if(LoadBackground() == false)
         return -1;
 
+    GameMap game_map;
+    #pragma GCC diagnostic ignored "-Wwrite-strings"
+    game_map.LoadMap("map1/map012.dat");// load map
+    #pragma GCC diagnostic warning "-Wwrite-strings"
+    game_map.LoadTiles(g_screen);// load hinh anh cho map
+
+
     bool is_quit = false;
     while(!is_quit)
     {
@@ -82,14 +91,16 @@ int main(int argc, char* argv[])
             }
         }
 
-        SDL_SetRenderDrawColor(g_Screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
-        SDL_RenderClear(g_Screen);
+        SDL_SetRenderDrawColor(g_screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
+        SDL_RenderClear(g_screen);
 
-        g_background.Render(g_Screen);
+        g_background.Render(g_screen, NULL);
+        game_map.DrawMap(g_screen);
 
-        SDL_RenderPresent(g_Screen);
+
+        SDL_RenderPresent(g_screen);
     }
     
-
+    close();
     return 0;
 }

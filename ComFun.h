@@ -11,7 +11,7 @@
 
 
 static SDL_Window* g_Window = NULL;
-static SDL_Renderer* g_Screen = NULL;
+static SDL_Renderer* g_screen = NULL;
 static SDL_Event g_Event;
 
 // SDL_Surface: là 1 cấu trúc hìn ảnh chứ pixel: tạo, vẽ, xóa, chuyển đổi, lưu, tải, ...
@@ -31,7 +31,7 @@ const int COLOR_KEY_B = 180;
 
 const int RENDER_DRAW_COLOR = 255;
 
-#define TILE_SIZE 64
+#define TILE_SIZE 64// kích thước 1 ô vuông
 #define BALCK 0
 
 #define MAX_MAP_X 400
@@ -48,13 +48,13 @@ struct Input
 
 struct Map // lưu trữ thông tin map
 {
-    int start_x_;
-    int start_y_;
+    int start_x;
+    int start_y;
 
-    int max_x_;
-    int max_y_;
+    int max_x;
+    int max_y;
 
     int tile[MAX_MAP_Y][MAX_MAP_X];// mảng 2 chiều lưu trữ thông tin map
-    char* file_name_;// tên file map
+    char* file_name;// tên file map
 
 };
