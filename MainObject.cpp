@@ -89,7 +89,6 @@ void MainObject::Show(SDL_Renderer* des)
     SDL_Rect* current_clip = &frame_clip_[frame_];// frame hien tai, khung hien tai
     SDL_Rect renderQuad = {rect_.x, rect_.y, width_frame_, height_frame_};// đẩy lên màn hình với frame hiện tại
 
-    SDL_Delay(30);
     SDL_RenderCopy(des, p_object_, current_clip, &renderQuad);// load len man hinh
 
 }
@@ -259,10 +258,10 @@ void MainObject::CheckMap(Map& map_data)
 
     int width_min = width_frame_ < TILE_SIZE ? width_frame_ : TILE_SIZE;
     x1 = (x_pos_)/TILE_SIZE;
-    x2 = (x_pos_ + width_min - 1)/TILE_SIZE;
+    x2 = (x_pos_ + width_min - 4)/TILE_SIZE;
 
     y1 = (y_pos_ + y_val_)/TILE_SIZE;
-    y2 = (y_pos_ + y_val_ + height_frame_ - 1)/TILE_SIZE;
+    y2 = (y_pos_ + y_val_ + height_frame_ - 4)/TILE_SIZE;
 
     /*
         x1,y1******x2,y1
@@ -282,8 +281,8 @@ void MainObject::CheckMap(Map& map_data)
 
             if(val1 != BLANK && val2 != BLANK)
             {
-                y_pos_ = y2*TILE_SIZE;// đứng trên mặt đất
-                y_pos_ -= height_frame_ + 1;
+                y_pos_ = y2*TILE_SIZE ;// đứng trên mặt đất
+                y_pos_ -= height_frame_ + 4;
                 y_val_ = 0;
                 TrenBeMat = true; // lưu trạng thái đứng trên mặt đất
             }
