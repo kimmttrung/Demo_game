@@ -3,9 +3,9 @@
 #include "BaseObject.h"
 #include "ComFun.h"
 
-#define GRAVITY_APEED 0.6   // trọng lực
-#define MAX_FALL_SPEED 10
-#define PLAYER_SPEED 4
+#define GRAVITY_APEED 0.8   // trọng lực rơi
+#define MAX_FALL_SPEED 10   // tốc độ rơi tối đa
+#define PLAYER_SPEED 6      // tốc độ di chuyển nhân vật
 
 class MainObject : public BaseObject
 {
@@ -26,11 +26,10 @@ public:
     void Show(SDL_Renderer* des);   // hiển thị hình ảnh
    
     void HandelInputAction(SDL_Event events, SDL_Renderer* screen);//xu ly event
-   
     void set_clips();     // xu ly khung nhân vật
-    //void DoPlayer(Map& map_data);// cộng trừ cho nhân vật di chuyển 
 
-    // void CheckMap(Map& map_data);
+    void DoPlayer(Map& map_data);// cộng trừ cho nhân vật di chuyển 
+    void CheckMap(Map& map_data);// kiểm tra map
 
     // void SetMapXY(const int map_x, const int map_y){map_x_ = map_x; map_y_ = map_y;}
     // void CenterOnMap(Map& map_data);
@@ -43,7 +42,7 @@ private:
     float x_pos_;       // vi tri hien tai
     float y_pos_;
 
-    int width_frame_;       // kich thuoc animation
+    int width_frame_;     // kich thuoc animation
     int height_frame_;
 
     SDL_Rect frame_clip_[8];// luu anh nhan vat
@@ -51,7 +50,7 @@ private:
     int frame_;// chỉ só frame
     int status_;// trang thai di chuyen
     
-    bool on_ground_;
+    bool on_ground_;// kiem tra nhân vật có đang ở trên mặt đất không
 
     int map_x_;
     int map_y_;

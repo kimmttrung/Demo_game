@@ -22,6 +22,7 @@ class GameMap
         void LoadMap(char* name);// load map từ file
         void LoadTiles(SDL_Renderer* screen);// load hình ảnh cho map
         void DrawMap(SDL_Renderer* screen);// vẽ map
+        Map getMap() const {return game_map_;}
 
 
     private:

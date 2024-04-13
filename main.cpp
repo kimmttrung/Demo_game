@@ -103,10 +103,12 @@ int main(int argc, char* argv[])
 
         g_background.Render(g_screen, NULL);
         game_map.DrawMap(g_screen);
+        Map map_data = game_map.getMap();// lấy thông tin map
 
+        p_player.DoPlayer(map_data);// di chuyển nhân vật thông qua dữ liệu map truyền vào
         p_player.Show(g_screen);// hiển thị nhân vật
 
-        
+
         SDL_RenderPresent(g_screen);
     }
     

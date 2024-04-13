@@ -32,7 +32,7 @@ const int COLOR_KEY_B = 180;
 const int RENDER_DRAW_COLOR = 255;
 
 #define TILE_SIZE 64// kích thước 1 ô vuông
-#define BALCK 0
+#define BLANK 0 // trạng thái bằng 0
 
 #define MAX_MAP_X 400
 #define MAX_MAP_Y 10
@@ -48,10 +48,10 @@ struct Input
 
 struct Map // lưu trữ thông tin map
 {
-    int start_x;
+    int start_x;// đầu map
     int start_y;
 
-    int max_x;
+    int max_x;// cuối map
     int max_y;
 
     int tile[MAX_MAP_Y][MAX_MAP_X];// mảng 2 chiều lưu trữ thông tin map
