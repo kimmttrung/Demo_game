@@ -28,8 +28,8 @@ bool BaseObject::LoadImg(std::string path, SDL_Renderer* screen)// load anh
         new_texture = SDL_CreateTextureFromSurface(screen, load_surface);
         if(new_texture != NULL)
         {
-            rect_.w = load_surface->w;
-            rect_.h = load_surface->h; //64
+            rect_.w = load_surface->w;// rect_.w : chiều rông tấm ảnh: 480/8 = 60(<= 1 ô của map)
+            rect_.h = load_surface->h; // rect_.h : chiều cao tấm ảnh: 64
         }
 
         SDL_FreeSurface(load_surface);

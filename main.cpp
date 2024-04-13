@@ -2,6 +2,8 @@
 #include "ComFun.h"
 #include "BaseObject.h"
 #include "GameMap.h"
+#include "MainObject.h"
+
 
 BaseObject g_background;
 
@@ -73,12 +75,16 @@ int main(int argc, char* argv[])
     if(LoadBackground() == false)
         return -1;
 
-    GameMap game_map;
+
+    GameMap game_map;// khai bao map
     #pragma GCC diagnostic ignored "-Wwrite-strings"
     game_map.LoadMap("map1/map012.dat");// load map
     #pragma GCC diagnostic warning "-Wwrite-strings"
     game_map.LoadTiles(g_screen);// load hinh anh cho map
 
+    MainObject p_player;// khai bao animation
+    p_player.LoadImg("img/player_right.png", g_screen);
+    p_player.set_clips();
 
     bool is_quit = false;
     while(!is_quit)
@@ -89,6 +95,7 @@ int main(int argc, char* argv[])
             {
                 is_quit = true;
             }
+            p_player.HandelInputAction(g_Event, g_screen);// xử lý di chuyển nhân vật
         }
 
         SDL_SetRenderDrawColor(g_screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
@@ -97,7 +104,9 @@ int main(int argc, char* argv[])
         g_background.Render(g_screen, NULL);
         game_map.DrawMap(g_screen);
 
+        p_player.Show(g_screen);// hiển thị nhân vật
 
+        
         SDL_RenderPresent(g_screen);
     }
     
