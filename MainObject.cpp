@@ -59,11 +59,15 @@ void MainObject::set_clips() // xử lý khung nhân vật
 
 void MainObject::Show(SDL_Renderer* des)
 {
-    if(status_ == WALK_LEFT){
+    if(TrenBeMat == true)
+    {
+        y_val_ += GRAVITY_APEED;
+        if(status_ == WALK_LEFT){
         LoadImg("img/player_left.png", des);
-    }
-    else{
-        LoadImg("img/player_right.png", des);
+        }
+        else{
+            LoadImg("img/player_right.png", des);
+        }
     }
 
     if (input_type_.left_ == 1 || input_type_.right_ == 1)
@@ -85,7 +89,7 @@ void MainObject::Show(SDL_Renderer* des)
     SDL_Rect* current_clip = &frame_clip_[frame_];// frame hien tai, khung hien tai
     SDL_Rect renderQuad = {rect_.x, rect_.y, width_frame_, height_frame_};// đẩy lên màn hình với frame hiện tại
 
-    SDL_Delay(10);
+    SDL_Delay(30);
     SDL_RenderCopy(des, p_object_, current_clip, &renderQuad);// load len man hinh
 
 }
@@ -101,13 +105,19 @@ void MainObject::HandelInputAction(SDL_Event events, SDL_Renderer* screen)
                     status_ = WALK_RIGHT;
                     input_type_.right_ = 1;
                     input_type_.left_ = 0;
+                    if(TrenBeMat == true) LoadImg("img/player_right.png", screen);
+                    else LoadImg("img/jum_right.png", screen);
+                    
                 }
                 break;
+
             case SDLK_LEFT:
                 {
                     status_ = WALK_LEFT;
                     input_type_.left_ = 1;
                     input_type_.right_ = 0;
+                    if(TrenBeMat == true) LoadImg("img/left_right.png", screen);
+                    else LoadImg("img/jum_left.png", screen);
                 }
                 break;
         }
@@ -122,6 +132,13 @@ void MainObject::HandelInputAction(SDL_Event events, SDL_Renderer* screen)
             case SDLK_LEFT:
                 input_type_.left_ = 0;
                 break;
+        }
+    }
+    if(events.type == SDL_MOUSEBUTTONDOWN) // bấm chuột nhảy
+    {
+        if(events.button.button == SDL_BUTTON_LEFT)
+        {
+            input_type_.jump_ = 1;
         }
     }
 }
@@ -143,6 +160,17 @@ void MainObject::DoPlayer(Map& map_data)
     {
         x_val_ += PLAYER_SPEED;
     }
+
+    if(input_type_.jump_ == 1)
+    {
+        if(TrenBeMat == true)
+        {
+            y_val_ = -PLAYER_JUMP_VAL;
+        }
+        input_type_.jump_ = 0;
+        TrenBeMat = false;
+    }
+
 
     CheckMap(map_data);// kiểm tra map
     TinhToanMap(map_data);// tính toán thông số map
@@ -257,7 +285,7 @@ void MainObject::CheckMap(Map& map_data)
                 y_pos_ = y2*TILE_SIZE;// đứng trên mặt đất
                 y_pos_ -= height_frame_ + 1;
                 y_val_ = 0;
-                on_ground_ = true; // lưu trạng thái đứng trên mặt đất
+                TrenBeMat = true; // lưu trạng thái đứng trên mặt đất
             }
         }
         else if(y_val_ < 0) // nhảy lên 

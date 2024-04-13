@@ -6,7 +6,7 @@
 #define GRAVITY_APEED 0.8   // trọng lực rơi
 #define MAX_FALL_SPEED 10   // tốc độ rơi tối đa
 #define PLAYER_SPEED 6      // tốc độ di chuyển nhân vật
-
+#define PLAYER_JUMP_VAL 20  // tốc độ nhảy
 class MainObject : public BaseObject
 {
 public:
@@ -50,7 +50,7 @@ private:
     int frame_;// chỉ só frame
     int status_;// trang thai di chuyen
     
-    bool on_ground_;// kiem tra nhân vật có đang ở trên mặt đất không
+    bool TrenBeMat;// kiem tra nhân vật có đang ở trên mặt đất không
 
     int map_x_;// vị trí map mới sau khi di chuyển
     int map_y_;
