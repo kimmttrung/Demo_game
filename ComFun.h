@@ -35,6 +35,9 @@ const int RENDER_DRAW_COLOR = 255;
 #define TILE_SIZE 64// kích thước 1 ô vuông
 #define BLANK 0 // trạng thái bằng 0
 
+#define MONEY 4 // trạng thái tiền
+#define KEY 10 // trạng thái chìa khóa
+
 #define MAX_MAP_X 400
 #define MAX_MAP_Y 10
 

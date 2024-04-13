@@ -17,10 +17,11 @@ MainObject::MainObject()
     input_type_.down_ = 0; 
     input_type_.up_ = 0;
 
-    bool on_ground_ = false;
+    bool TrenBeMat = false;
 
     map_x_ = 0;
     map_y_ = 0;
+    money_count_ = 0;
 }
 
 MainObject::~MainObject()
@@ -56,7 +57,12 @@ void MainObject::set_clips() // xử lý khung nhân vật
     }
 }
 
+void MainObject::IncreaseMoney()
+{
+    money_count_++;
+    key_count_++;
 
+}
 void MainObject::Show(SDL_Renderer* des)
 {
     if(TrenBeMat == true)
@@ -234,22 +240,40 @@ void MainObject::CheckMap(Map& map_data)
             int val1 = map_data.tile[y1][x2];
             int val2 = map_data.tile[y2][x2];
 
-            if(val1 != BLANK || val2 != BLANK)
+            if(val1 == MONEY || val2 == MONEY || val1 == KEY || val2 == KEY)
             {
-                x_pos_ = x2*TILE_SIZE;
-                x_pos_ -= width_frame_ + 1;
-                x_val_ = 0;
+                map_data.tile[y1][x2] = 0;
+                map_data.tile[y2][x2] = 0;
+                IncreaseMoney();
             }
+            else
+            {
+                if(val1 != BLANK || val2 != BLANK)
+                {
+                    x_pos_ = x2*TILE_SIZE;
+                    x_pos_ -= width_frame_ + 1;
+                    x_val_ = 0;
+                }
+            }
+            
         }
         else if(x_val_ < 0) // di chuyển sang trái
         {
             int val1 = map_data.tile[y1][x1];
             int val2 = map_data.tile[y2][x1];
 
-            if(val1 != BLANK || val2 != BLANK)
+            if(val1 == MONEY || val2 == MONEY || val1 == KEY || val2 == KEY)
             {
-                x_pos_ = (x1 + 1)*TILE_SIZE;
-                x_val_ = 0;
+                map_data.tile[y1][x1] = 0;
+                map_data.tile[y2][x1] = 0;
+                IncreaseMoney();
+            }
+            else{
+                if(val1 != BLANK || val2 != BLANK)
+                {
+                    x_pos_ = (x1 + 1)*TILE_SIZE;
+                    x_val_ = 0;
+                }
             }
         }
     }
@@ -274,17 +298,25 @@ void MainObject::CheckMap(Map& map_data)
 
     if(x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 < MAX_MAP_Y)
     {
-        if(y_val_ > 0) // tốc độ rơi
+        if(y_val_ > 0) // rơi xuống
         {
             int val1 = map_data.tile[y2][x1];
             int val2 = map_data.tile[y2][x2];
 
-            if(val1 != BLANK && val2 != BLANK)
+            if(val1 == MONEY || val2 == MONEY || val1 == KEY || val2 == KEY)
             {
-                y_pos_ = y2*TILE_SIZE ;// đứng trên mặt đất
-                y_pos_ -= height_frame_ + 4;
-                y_val_ = 0;
-                TrenBeMat = true; // lưu trạng thái đứng trên mặt đất
+                map_data.tile[y2][x1] = 0;
+                map_data.tile[y2][x2] = 0;
+                IncreaseMoney();
+            }
+            else{
+                if(val1 != BLANK && val2 != BLANK)
+                {
+                    y_pos_ = y2*TILE_SIZE ;// đứng trên mặt đất
+                    y_pos_ -= height_frame_ + 4;
+                    y_val_ = 0;
+                    TrenBeMat = true; // lưu trạng thái đứng trên mặt đất
+                }
             }
         }
         else if(y_val_ < 0) // nhảy lên 
@@ -292,10 +324,18 @@ void MainObject::CheckMap(Map& map_data)
             int val1 = map_data.tile[y1][x1];
             int val2 = map_data.tile[y1][x2];
 
-            if(val1 != BLANK && val2 != BLANK)
+            if(val1 == MONEY || val2 == MONEY || val1 == KEY || val2 == KEY)
             {
-                y_pos_ = (y1 + 1)*TILE_SIZE;
-                y_val_ = 0;
+                map_data.tile[y1][x1] = 0;
+                map_data.tile[y1][x2] = 0;
+                IncreaseMoney();
+            }
+            else{
+                if(val1 != BLANK && val2 != BLANK)
+                {
+                    y_pos_ = (y1 + 1)*TILE_SIZE;
+                    y_val_ = 0;
+                }
             }
         }
     }

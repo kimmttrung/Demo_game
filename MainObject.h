@@ -33,7 +33,11 @@ public:
 
     void SetMapXY(const int map_x, const int map_y){map_x_ = map_x; map_y_ = map_y;}// thiết lập vị trí map
     void TinhToanMap(Map& map_data); // tính toán thông số bản đồ 
+    void IncreaseMoney();// tăng tiền 
 private:
+
+    int money_count_;   // số tiền ăn đuọc
+    int key_count_;     // số chìa khóa
 
     float x_val_;       // tang bao nhieu
     float y_val_;
