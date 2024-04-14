@@ -59,6 +59,6 @@ private:
     int map_x_;// vị trí map mới sau khi di chuyển
     int map_y_;
 
-
+    int come_back_time_; // thời gian quay lại
 
 };
