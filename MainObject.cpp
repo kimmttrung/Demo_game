@@ -222,7 +222,7 @@ void MainObject::CheckMap(Map& map_data)
     x2 = (x_pos_ + x_val_ + width_frame_ - 1)/TILE_SIZE;
 
     y1 = (y_pos_)/TILE_SIZE;
-    y2 = (y_pos_ + height_min - 1)/TILE_SIZE;
+    y2 = (y_pos_ + height_min -1)/TILE_SIZE;
 
     /*
         x1,y1******x2,y1
@@ -282,10 +282,10 @@ void MainObject::CheckMap(Map& map_data)
 
     int width_min = width_frame_ < TILE_SIZE ? width_frame_ : TILE_SIZE;
     x1 = (x_pos_)/TILE_SIZE;
-    x2 = (x_pos_ + width_min - 4)/TILE_SIZE;
+    x2 = (x_pos_ + width_min )/TILE_SIZE;
 
     y1 = (y_pos_ + y_val_)/TILE_SIZE;
-    y2 = (y_pos_ + y_val_ + height_frame_ - 4)/TILE_SIZE;
+    y2 = (y_pos_ + y_val_ + height_frame_ - 1)/TILE_SIZE;
 
     /*
         x1,y1******x2,y1
@@ -310,10 +310,10 @@ void MainObject::CheckMap(Map& map_data)
                 IncreaseMoney();
             }
             else{
-                if(val1 != BLANK && val2 != BLANK)
+                if(val1 != BLANK || val2 != BLANK)
                 {
                     y_pos_ = y2*TILE_SIZE ;// đứng trên mặt đất
-                    y_pos_ -= height_frame_ + 4;
+                    y_pos_ -= (height_frame_ + 1);
                     y_val_ = 0;
                     TrenBeMat = true; // lưu trạng thái đứng trên mặt đất
                 }
@@ -331,9 +331,9 @@ void MainObject::CheckMap(Map& map_data)
                 IncreaseMoney();
             }
             else{
-                if(val1 != BLANK && val2 != BLANK)
+                if(val1 != BLANK || val2 != BLANK)
                 {
-                    y_pos_ = (y1 + 1)*TILE_SIZE;
+                    y_pos_ = (y1 + 1)*TILE_SIZE ;
                     y_val_ = 0;
                 }
             }
