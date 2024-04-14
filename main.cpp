@@ -48,7 +48,7 @@ bool InitData()
 
 bool LoadBackground()
 {
-    bool ret = g_background.LoadImg("img/Bground1.jpg", g_screen);
+    bool ret = g_background.LoadImg("img/Bground2.jpg", g_screen);
     if(ret == false)
         return false;
     return true;

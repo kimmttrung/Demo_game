@@ -3,8 +3,8 @@
 MainObject::MainObject()
 {
     frame_ = 0;
-    x_pos_ = 0;
-    y_pos_ = 0;
+    x_pos_ = 448;
+    y_pos_ = 448;
     x_val_ = 0;
     y_val_ = 0;
     width_frame_ = 0;
@@ -156,7 +156,7 @@ void MainObject::HandelInputAction(SDL_Event events, SDL_Renderer* screen)
 void MainObject::DoPlayer(Map& map_data)
 {
     if(come_back_time_ == 0){
-        x_val_ = 0;
+        x_val_ = 0 ;
         y_val_ += 0.8;  // tốc độ rơi
 
         if (y_val_ >= MAX_FALL_SPEED)  // tốc độ rơi > tốc độ rơi tối đa
@@ -365,8 +365,8 @@ void MainObject::CheckMap(Map& map_data)
         }
     }
 
-    x_pos_ += x_val_;
-    y_pos_ += y_val_;
+    x_pos_ += x_val_ ;
+    y_pos_ += y_val_ ;
 
     if(x_pos_ < 0) x_pos_ = 0;
     else if(x_pos_ + width_frame_ > map_data.max_x)

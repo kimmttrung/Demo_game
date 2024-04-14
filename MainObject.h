@@ -6,7 +6,7 @@
 #define GRAVITY_APEED 0.8   // trọng lực rơi
 #define MAX_FALL_SPEED 10   // tốc độ rơi tối đa
 #define PLAYER_SPEED 6      // tốc độ di chuyển nhân vật
-#define PLAYER_JUMP_VAL 20  // tốc độ nhảy
+#define PLAYER_JUMP_VAL 17  // tốc độ nhảy
 class MainObject : public BaseObject
 {
 public:
