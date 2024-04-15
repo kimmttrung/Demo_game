@@ -272,7 +272,7 @@ void MainObject::CheckMap(Map& map_data)
             }
             else
             {
-                if(val1 != BLANK || val2 != BLANK  )
+                if((val1 != BLANK || val2 != BLANK) && (val1 != TREE1 || val2 != TREE2)  )
                 {
                     x_pos_ = x2*TILE_SIZE;
                     x_pos_ -= width_frame_ + 1;
@@ -293,7 +293,7 @@ void MainObject::CheckMap(Map& map_data)
                 IncreaseMoney();
             }
             else{
-                if(val1 != BLANK || val2 != BLANK )
+                if((val1 != BLANK || val2 != BLANK) && (val1 != TREE1 || val2 != TREE2) )
                 {
                     x_pos_ = (x1 + 1)*TILE_SIZE;
                     x_val_ = 0;
@@ -334,7 +334,7 @@ void MainObject::CheckMap(Map& map_data)
                 IncreaseMoney();
             }
             else{
-                if(val1 != BLANK || val2 != BLANK )
+                if((val1 != BLANK || val2 != BLANK) && (val1 != TREE1 || val2 != TREE2) )
                 {
                     y_pos_ = y2*TILE_SIZE ;// đứng trên mặt đất
                     y_pos_ -= (height_frame_ + 1);
@@ -355,7 +355,7 @@ void MainObject::CheckMap(Map& map_data)
                 IncreaseMoney();
             }
             else{
-                if(val1 != BLANK || val2 != BLANK ){
+                if((val1 != BLANK || val2 != BLANK) && (val1 != TREE1 || val2 != TREE2) ){
                     y_pos_ = (y1 + 1)*TILE_SIZE ;
                     y_val_ = 0;
                 }

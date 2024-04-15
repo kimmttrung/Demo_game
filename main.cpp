@@ -4,6 +4,7 @@
 #include "GameMap.h"
 #include "MainObject.h"
 #include "Timer.h"
+#include "NguyHiem.h"
 
 BaseObject g_background;
 
@@ -54,6 +55,39 @@ bool LoadBackground()
     return true;
 }
 
+std::vector<ThertsObject*> MakeTherts()
+{
+    ThertsObject* therts_object = new ThertsObject[20];
+    std::vector<ThertsObject*> list_therts;
+    
+    for(int i = 0; i < 20; i++)
+    {
+        ThertsObject* therts_object = new ThertsObject();
+        therts_object->LoadImg("img/threat_level.png", g_screen); // load hình ảnh threat
+        therts_object->set_clip();// cắt hình
+        
+        therts_object->set_x_pos(900 + i*1200);
+        therts_object->set_y_pos(200);
+
+        list_therts.push_back(therts_object);// thêm vào danh sách threat
+    }
+
+    for(int i = 0; i < 20; i++)
+    {
+        ThertsObject* therts_object = new ThertsObject();
+        therts_object->LoadImg("img/threat_level.png", g_screen); // load hình ảnh threat
+        therts_object->set_clip();// cắt hình
+        
+        therts_object->set_x_pos(700 + i*1500);
+        therts_object->set_y_pos(800);
+
+
+        list_therts.push_back(therts_object);// thêm vào danh sách threat
+    }
+    
+    return list_therts;
+}
+
 void close()
 {
     g_background.Free();
@@ -88,6 +122,8 @@ int main(int argc, char* argv[])
     p_player.LoadImg("img/player_right.png", g_screen);
     p_player.set_clips();
 
+    std::vector<ThertsObject*> therts_list = MakeTherts();// khai bao va tao threat
+
     bool is_quit = false;
     while(!is_quit)
     {
@@ -114,6 +150,20 @@ int main(int argc, char* argv[])
 
         game_map.SetMap(map_data);// thiết lập thông tin map
         game_map.DrawMap(g_screen);// vẽ map
+
+        for(int i = 0; i < therts_list.size(); i++)
+        {
+            ThertsObject* therts = therts_list.at(i);
+            if(therts != NULL)
+            {
+                therts->set_map_xy(map_data.start_x, map_data.start_y);
+                therts->DoPlayer(map_data);// di chuyển threat
+                therts->Show(g_screen);
+            }
+        }
+
+
+
 
         SDL_RenderPresent(g_screen);
 
