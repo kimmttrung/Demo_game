@@ -4,7 +4,7 @@ MainObject::MainObject()
 {
     frame_ = 0;
     x_pos_ = 448;
-    y_pos_ = 448;
+    y_pos_ = 0;
     x_val_ = 0;
     y_val_ = 0;
     width_frame_ = 0;
@@ -90,8 +90,7 @@ void MainObject::Show(SDL_Renderer* des)
     {
         frame_ = 0;
     }
-    if(come_back_time_ == 0)
-    {
+    
         rect_.x = x_pos_ - map_x_;
         rect_.y = y_pos_ - map_y_;
 
@@ -99,8 +98,6 @@ void MainObject::Show(SDL_Renderer* des)
         SDL_Rect renderQuad = {rect_.x, rect_.y, width_frame_, height_frame_};// đẩy lên màn hình với frame hiện tại
 
         SDL_RenderCopy(des, p_object_, current_clip, &renderQuad);// load len man hinh
-
-    }
     
 }
 
@@ -155,6 +152,7 @@ void MainObject::HandelInputAction(SDL_Event events, SDL_Renderer* screen)
 
 void MainObject::DoPlayer(Map& map_data)
 {
+    
     if(come_back_time_ == 0){
         x_val_ = 0 ;
         y_val_ += 0.8;  // tốc độ rơi
@@ -178,13 +176,14 @@ void MainObject::DoPlayer(Map& map_data)
             {
                 y_val_ = -PLAYER_JUMP_VAL;
             }
-            input_type_.jump_ = 0;
             TrenBeMat = false;
+            input_type_.jump_ = 0;
         }
 
         CheckMap(map_data);// kiểm tra map
         TinhToanMap(map_data);// tính toán thông số map
     }
+
     if(come_back_time_ > 0)
     {
         come_back_time_--;
@@ -258,14 +257,14 @@ void MainObject::CheckMap(Map& map_data)
         x1,y2******x2,y2
     */
 
-    if(x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 < MAX_MAP_Y)
+    if(x1 >= 0 && x2 <= MAX_MAP_X && y1 >= 0 && y2 <= MAX_MAP_Y)
     {
         if(x_val_ > 0) // di chuyển sang phải
         {
             int val1 = map_data.tile[y1][x2];
             int val2 = map_data.tile[y2][x2];
 
-            if(val1 == MONEY || val2 == MONEY || val1 == KEY || val2 == KEY)
+            if(val1 == MONEY || val2 == MONEY || val1 == KEY || val2 == KEY || val1 == HEART || val2 == HEART)
             {
                 map_data.tile[y1][x2] = 0;
                 map_data.tile[y2][x2] = 0;
@@ -273,7 +272,7 @@ void MainObject::CheckMap(Map& map_data)
             }
             else
             {
-                if(val1 != BLANK || val2 != BLANK)
+                if(val1 != BLANK || val2 != BLANK  )
                 {
                     x_pos_ = x2*TILE_SIZE;
                     x_pos_ -= width_frame_ + 1;
@@ -287,14 +286,14 @@ void MainObject::CheckMap(Map& map_data)
             int val1 = map_data.tile[y1][x1];
             int val2 = map_data.tile[y2][x1];
 
-            if(val1 == MONEY || val2 == MONEY || val1 == KEY || val2 == KEY)
+            if(val1 == MONEY || val2 == MONEY || val1 == KEY || val2 == KEY || val1 == HEART || val2 == HEART)
             {
                 map_data.tile[y1][x1] = 0;
                 map_data.tile[y2][x1] = 0;
                 IncreaseMoney();
             }
             else{
-                if(val1 != BLANK || val2 != BLANK)
+                if(val1 != BLANK || val2 != BLANK )
                 {
                     x_pos_ = (x1 + 1)*TILE_SIZE;
                     x_val_ = 0;
@@ -321,21 +320,21 @@ void MainObject::CheckMap(Map& map_data)
         x1,y2******x2,y2
     */
 
-    if(x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 < MAX_MAP_Y)
+    if(x1 >= 0 && x2 <= MAX_MAP_X && y1 >= 0 && y2 <= MAX_MAP_Y)
     {
         if(y_val_ > 0) // rơi xuống
         {
             int val1 = map_data.tile[y2][x1];
             int val2 = map_data.tile[y2][x2];
 
-            if(val1 == MONEY || val2 == MONEY || val1 == KEY || val2 == KEY)
+            if(val1 == MONEY || val2 == MONEY || val1 == KEY || val2 == KEY || val1 == HEART || val2 == HEART)
             {
                 map_data.tile[y2][x1] = 0;
                 map_data.tile[y2][x2] = 0;
                 IncreaseMoney();
             }
             else{
-                if(val1 != BLANK || val2 != BLANK)
+                if(val1 != BLANK || val2 != BLANK )
                 {
                     y_pos_ = y2*TILE_SIZE ;// đứng trên mặt đất
                     y_pos_ -= (height_frame_ + 1);
@@ -349,32 +348,32 @@ void MainObject::CheckMap(Map& map_data)
             int val1 = map_data.tile[y1][x1];
             int val2 = map_data.tile[y1][x2];
 
-            if(val1 == MONEY || val2 == MONEY || val1 == KEY || val2 == KEY)
+            if(val1 == MONEY || val2 == MONEY || val1 == KEY || val2 == KEY || val1 == HEART || val2 == HEART)
             {
                 map_data.tile[y1][x1] = 0;
                 map_data.tile[y1][x2] = 0;
                 IncreaseMoney();
             }
             else{
-                if(val1 != BLANK || val2 != BLANK)
-                {
+                if(val1 != BLANK || val2 != BLANK ){
                     y_pos_ = (y1 + 1)*TILE_SIZE ;
                     y_val_ = 0;
                 }
             }
         }
-    }
+    
 
-    x_pos_ += x_val_ ;
-    y_pos_ += y_val_ ;
+        x_pos_ += x_val_ ;
+        y_pos_ += y_val_ ;
 
-    if(x_pos_ < 0) x_pos_ = 0;
-    else if(x_pos_ + width_frame_ > map_data.max_x)
-    {
-        x_pos_ = map_data.max_x - width_frame_ - 1;
-    }
-    if(y_pos_ > map_data.max_y)
-    {
-        come_back_time_ = 60;
+        if(x_pos_ < 0) x_pos_ = 0;
+        else if(x_pos_ + width_frame_ > map_data.max_x)
+        {
+            x_pos_ = map_data.max_x - width_frame_ - 1;
+        }
+        if(y_pos_ > map_data.max_y )
+        {
+            come_back_time_ = 60;
+        }
     }
 }

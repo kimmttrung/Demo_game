@@ -21,8 +21,8 @@ static SDL_Event g_Event;
 // SCREEN_BPP: số bit màu cho mỗi pixel
 // RENDER_DRAW_COLOR: màu vẽ mặc định
 
-const int SCREEN_WIDTH = 1280;
-const int SCREEN_HEIGHT = 640;
+const int SCREEN_WIDTH = 1920;
+const int SCREEN_HEIGHT = 960;
 const int SCREEN_BPP = 32;
 
 const int FRAME_PER_SECOND = 25;// trong 1s chạy đc 25 frame(càng nhỏ -> chương trình chạy càng chậm)
@@ -35,8 +35,12 @@ const int RENDER_DRAW_COLOR = 255;
 #define TILE_SIZE 64// kích thước 1 ô vuông
 #define BLANK 0 // trạng thái bằng 0
 
-#define MONEY 4 // trạng thái tiền
-#define KEY 10 // trạng thái chìa khóa
+#define MONEY 4 // tiền
+#define KEY 10 // chìa khóa
+#define TREE1 5 // cây1
+#define TREE2 13 // cây2
+#define HEART 14 // trái tim
+#define NGUYHIEM 7 // nước , cọc 
 
 #define MAX_MAP_X 200
 #define MAX_MAP_Y 20
