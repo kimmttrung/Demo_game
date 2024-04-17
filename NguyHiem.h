@@ -2,6 +2,8 @@
 
 #include "ComFun.h"
 #include "BaseObject.h"
+#include "Dan.h"
+
 
 #define THERT_MAX_FALL_SPEED 10
 #define THERT_GRAVITY_SPEED 0.8
@@ -40,6 +42,12 @@ class ThertsObject : public BaseObject
     int get_width_frame() const {return width_frame_;}
     int get_height_frame() const {return height_frame_;}
 
+    void set_type_move(const int& type_move){type_move_ = type_move;}// thiết lập loại di chuyển
+    std::vector<Dan*> get_dan_list() const {return dan_list_;}// lấy danh sách đạn
+    void set_dan_list(const std::vector<Dan*>& dl_list){dan_list_ = dl_list;}// thiết lập danh sách đạn
+    
+    void InitDan(Dan* p_dan, SDL_Renderer* screen);// khởi tạo đạn
+    void MakeDan(SDL_Renderer* screen, const int& x_limit, const int& y_limit);// tạo đạn
     private:
         int map_x_;
         int map_y_;
@@ -62,6 +70,7 @@ class ThertsObject : public BaseObject
         int animation_a_;
         int animation_b_;
         Input input_type_;
-        
+
+        std::vector<Dan*> dan_list_;
 
 };

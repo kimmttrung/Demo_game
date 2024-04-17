@@ -94,7 +94,7 @@ void ThertsObject::CheckToMap(Map& Gmap)
             int val1 = Gmap.tile[y1][x2];
             int val2 = Gmap.tile[y2][x2];
 
-            if(val1 != BLANK || val2 != BLANK )
+            if((val1 != BLANK && val1 != MONEY)|| (val2 != BLANK && val2 != MONEY))
             {
                 x_pos_ = x2*TILE_SIZE;
                 x_pos_ -= width_frame_ + 1;
@@ -107,7 +107,7 @@ void ThertsObject::CheckToMap(Map& Gmap)
             int val1 = Gmap.tile[y1][x1];
             int val2 = Gmap.tile[y2][x1];
 
-            if(val1 != BLANK || val2 != BLANK )
+            if((val1 != BLANK && val1 != MONEY)|| (val2 != BLANK && val2 != MONEY))
             {
                 x_pos_ = (x1 + 1)*TILE_SIZE;
                 x_val_ = 0;
@@ -141,7 +141,7 @@ void ThertsObject::CheckToMap(Map& Gmap)
             int val1 = Gmap.tile[y2][x1];
             int val2 = Gmap.tile[y2][x2];
 
-            if((val1 != BLANK || val2 != BLANK ) )
+            if((val1 != BLANK && val1 != MONEY)|| (val2 != BLANK && val2 != MONEY))
             {
                 y_pos_ = y2*TILE_SIZE ;// đứng trên mặt đất
                 y_pos_ -= (height_frame_ + 1);
@@ -155,7 +155,8 @@ void ThertsObject::CheckToMap(Map& Gmap)
             int val1 = Gmap.tile[y1][x1];
             int val2 = Gmap.tile[y1][x2];
 
-            if(val1 != BLANK || val2 != BLANK ){
+            if((val1 != BLANK && val1 != MONEY)|| (val2 != BLANK && val2 != MONEY))
+            {
                 y_pos_ = (y1 + 1)*TILE_SIZE ;
                 y_val_ = 0;
             }
@@ -209,4 +210,16 @@ void ThertsObject::DoPlayer(Map& Gmap){
         }
     }
 }
+
+// void ThertsObject::InitDan(Dan* p_dan, SDL_Renderer* screen)// khởi tạo đạn
+// {
+//     if(p_dan != NULL)
+//     {
+//         p_dan->LoadImg("img//dan1.png", screen);
+//         p_dan->set_is_move(true);
+        
+//         p_dan->set_x_val(8);
+//         p_dan->set_y_val(0);
+//     }
+// }
 

@@ -40,8 +40,8 @@ const int RENDER_DRAW_COLOR = 255;
 #define TREE1 5 // cây1
 #define TREE2 13 // cây2
 #define HEART 14 // trái tim
-#define NGUYHIEM 7 // nước , cọc 
-
+#define NGUYHIEM 7 // nước 
+#define COC 3// cọc
 #define MAX_MAP_X 200
 #define MAX_MAP_Y 20
 

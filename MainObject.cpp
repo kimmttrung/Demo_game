@@ -119,6 +119,28 @@ void MainObject::HandelInputAction(SDL_Event events, SDL_Renderer* screen)
                     UpdateImage(screen);
                 }
                 break;
+            case SDLK_s:
+            {
+                Dan* p_dan = new Dan();
+                p_dan->set_loai_Dan(Dan::DAN_BAN); // Change to the type of bullet you want
+                p_dan->LoadDan(screen);
+
+                if(status_ == WALK_LEFT)
+                {
+                    p_dan->set_huong_Dan(Dan::DIR_LEFT);
+                    p_dan->SetRect(this->rect_.x, rect_.y + height_frame_ * 0.25);
+                }
+                else
+                {
+                    p_dan->set_huong_Dan(Dan::DIR_RIGHT);
+                    p_dan->SetRect(this->rect_.x + width_frame_ - 20, rect_.y + height_frame_ * 0.25);
+                }
+
+                p_dan->set_x_val(20);
+                p_dan->set_is_move(true);
+
+                dan_list_.push_back(p_dan);
+            }
         }
     }
     else if (events.type == SDL_KEYUP)// kiểm tra sự kiện nhả phím
@@ -142,8 +164,9 @@ void MainObject::HandelInputAction(SDL_Event events, SDL_Renderer* screen)
         else if(events.button.button == SDL_BUTTON_RIGHT)
         {
             Dan* p_dan = new Dan();
-            p_dan->LoadImg("img/dan1.png", screen);
-
+            p_dan->set_loai_Dan(Dan::DAN_BAN_LASER);
+            p_dan->LoadDan( screen);
+            
             if(status_ == WALK_LEFT)
             {
                 p_dan->set_huong_Dan(Dan::DIR_LEFT);
@@ -159,7 +182,7 @@ void MainObject::HandelInputAction(SDL_Event events, SDL_Renderer* screen)
             p_dan->set_is_move(true);
 
             dan_list_.push_back(p_dan);
-
+        
         }
     }
 }
@@ -302,7 +325,7 @@ void MainObject::CheckMap(Map& map_data)
         {
             int val1 = map_data.tile[y1][x2];
             int val2 = map_data.tile[y2][x2];
-
+        
             if(val1 == MONEY || val2 == MONEY || val1 == KEY || val2 == KEY || val1 == HEART || val2 == HEART)
             {
                 map_data.tile[y1][x2] = 0;
@@ -316,7 +339,16 @@ void MainObject::CheckMap(Map& map_data)
                     x_pos_ = x2*TILE_SIZE;
                     x_pos_ -= width_frame_ + 1;
                     x_val_ = 0;
+
                 }
+            }
+            if(val1 == NGUYHIEM || val2 == NGUYHIEM)
+            {
+                come_back_time_ = 60;
+            }
+            if(val1 == COC || val2 == COC)
+            {
+               come_back_time_ = 60;
             }
             
         }
@@ -337,6 +369,14 @@ void MainObject::CheckMap(Map& map_data)
                     x_pos_ = (x1 + 1)*TILE_SIZE;
                     x_val_ = 0;
                 }
+            }
+            if(val1 == NGUYHIEM || val2 == NGUYHIEM)
+            {
+                come_back_time_ = 60;
+            }
+            if(val1 == COC || val2 == COC)
+            {
+               come_back_time_ = 60;
             }
         }
     }
@@ -381,6 +421,14 @@ void MainObject::CheckMap(Map& map_data)
                     TrenBeMat = true; // lưu trạng thái đứng trên mặt đất
                 }
             }
+            if(val1 == NGUYHIEM || val2 == NGUYHIEM)
+            {
+                come_back_time_ = 60;
+            }
+            if(val1 == COC || val2 == COC)
+            {
+               come_back_time_ = 60;
+            }
         }
         else if(y_val_ < 0) // nhảy lên 
         {
@@ -394,11 +442,21 @@ void MainObject::CheckMap(Map& map_data)
                 IncreaseMoney();
             }
             else{
-                if( val1 != BLANK || val2 != BLANK ){
+                if(val1 != BLANK || val2 != BLANK )
+                {
                     y_pos_ = (y1 + 1)*TILE_SIZE ;
                     y_val_ = 0;
                 }
             }
+            if(val1 == NGUYHIEM || val2 == NGUYHIEM)
+            {
+                come_back_time_ = 60;
+            }
+            if(val1 == COC || val2 == COC)
+            {
+               come_back_time_ = 60;
+            }
+
         }
     
 
@@ -412,7 +470,7 @@ void MainObject::CheckMap(Map& map_data)
         }
         if(y_pos_ > map_data.max_y )
         {
-            come_back_time_ = 60;
+            come_back_time_ = 30;
         }
     }
 }
