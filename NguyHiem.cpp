@@ -211,15 +211,35 @@ void ThertsObject::DoPlayer(Map& Gmap){
     }
 }
 
-// void ThertsObject::InitDan(Dan* p_dan, SDL_Renderer* screen)// khởi tạo đạn
-// {
-//     if(p_dan != NULL)
-//     {
-//         p_dan->LoadImg("img//dan1.png", screen);
-//         p_dan->set_is_move(true);
-        
-//         p_dan->set_x_val(8);
-//         p_dan->set_y_val(0);
-//     }
-// }
+void ThertsObject::InitDan(Dan* p_dan, SDL_Renderer* screen)// khởi tạo đạn
+{
+    if(p_dan != NULL)
+    {
+        p_dan->set_loai_Dan(Dan::DAN_BAN_LASER);
+        p_dan->LoadDan(screen);
+        p_dan->set_is_move(true);// đạn di chuyển
+        p_dan->set_huong_Dan(Dan::DIR_LEFT);
+        p_dan->SetRect(x_pos_  + 20, y_pos_ + 10);// vị trí đạn
+        p_dan->set_x_val(15);// tốc độ di chuyển của đạn
+        dan_list_.push_back(p_dan);
+    }
+}
+
+void ThertsObject::MakeDan(SDL_Renderer* screen, const int& x_limit, const int& y_limit)// tạo đạn
+{
+    for(int i = 0; i < dan_list_.size(); i++)
+    {
+        Dan* p_dan = dan_list_.at(i);// lấy đạn
+        if(p_dan != NULL)
+        {
+            if(!p_dan->get_is_move())
+            {
+                p_dan->set_is_move(true);
+                p_dan->SetRect(x_pos_  + 20, y_pos_ + 10);// vị trí đạn
+            }
+            p_dan->HandleMove(x_limit, y_limit);
+            p_dan->Render(screen);
+        }
+    }
+}
 

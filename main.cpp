@@ -69,6 +69,9 @@ std::vector<ThertsObject*> MakeTherts()
         therts_object->set_x_pos(900 + i*1200);
         therts_object->set_y_pos(200);
 
+        Dan* dan = new Dan();
+        therts_object->InitDan(dan, g_screen);// khởi tạo đạn
+        
         list_therts.push_back(therts_object);// thêm vào danh sách threat
     }
 
@@ -81,7 +84,8 @@ std::vector<ThertsObject*> MakeTherts()
         therts_object->set_x_pos(700 + i*1500);
         therts_object->set_y_pos(800);
 
-
+        Dan* dan = new Dan();
+        therts_object->InitDan(dan, g_screen);// khởi tạo đạn
         list_therts.push_back(therts_object);// thêm vào danh sách threat
     }
     
@@ -152,13 +156,15 @@ int main(int argc, char* argv[])
         game_map.SetMap(map_data);// thiết lập thông tin map
         game_map.DrawMap(g_screen);// vẽ map
 
-        for(int i = 0; i < therts_list.size(); i++)
+        for(int i = 0; i < therts_list.size(); i++)// duyệt qua danh sách quái
         {
             ThertsObject* therts = therts_list.at(i);
             if(therts != NULL)
             {
                 therts->set_map_xy(map_data.start_x, map_data.start_y);
                 therts->DoPlayer(map_data);// di chuyển threat
+                therts->MakeDan(g_screen, SCREEN_WIDTH, SCREEN_HEIGHT);// tạo đạn
+
                 therts->Show(g_screen);
             }
         }
