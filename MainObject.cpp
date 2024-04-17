@@ -1,5 +1,7 @@
 #include "MainObject.h"
 
+
+
 MainObject::MainObject()
 {
     frame_ = 0;
@@ -9,7 +11,7 @@ MainObject::MainObject()
     y_val_ = 0;
     width_frame_ = 0;
     height_frame_ = 0;
-    status_ = -1;
+    status_ = 0;
 
     input_type_.left_ = 0;
     input_type_.right_ = 0;
@@ -67,18 +69,9 @@ void MainObject::IncreaseMoney()
 }
 void MainObject::Show(SDL_Renderer* des)
 {
-    if(TrenBeMat == true)
-    {
-        y_val_ += GRAVITY_APEED;
-        if(status_ == WALK_LEFT){
-        LoadImg("img/player_left.png", des);
-        }
-        else{
-            LoadImg("img/player_right.png", des);
-        }
-    }
+    UpdateImage(des);
 
-    if (input_type_.left_ == 1 || input_type_.right_ == 1)
+    if ((input_type_.left_ == 1) || (input_type_.right_ == 1))
     {
         frame_++;
     }
@@ -90,7 +83,8 @@ void MainObject::Show(SDL_Renderer* des)
     {
         frame_ = 0;
     }
-    
+    if(come_back_time_ == 0)
+    {
         rect_.x = x_pos_ - map_x_;
         rect_.y = y_pos_ - map_y_;
 
@@ -98,45 +92,43 @@ void MainObject::Show(SDL_Renderer* des)
         SDL_Rect renderQuad = {rect_.x, rect_.y, width_frame_, height_frame_};// đẩy lên màn hình với frame hiện tại
 
         SDL_RenderCopy(des, p_object_, current_clip, &renderQuad);// load len man hinh
+    }
     
 }
 
 void MainObject::HandelInputAction(SDL_Event events, SDL_Renderer* screen)
 {   // bấm phím di chuyển
-    if(events.type == SDL_KEYDOWN)
+    if(events.type == SDL_KEYDOWN)// kiểm tra sự kiện bấm phím
     {
         switch(events.key.keysym.sym)
         {
-            case SDLK_RIGHT:
+            case SDLK_d:
                 {
                     status_ = WALK_RIGHT;
                     input_type_.right_ = 1;
                     input_type_.left_ = 0;
-                    if(TrenBeMat == true) LoadImg("img/player_right.png", screen);
-                    else LoadImg("img/jum_right.png", screen);
-                    
+                    UpdateImage(screen);
                 }
                 break;
 
-            case SDLK_LEFT:
+            case SDLK_a:
                 {
                     status_ = WALK_LEFT;
                     input_type_.left_ = 1;
                     input_type_.right_ = 0;
-                    if(TrenBeMat == true) LoadImg("img/left_right.png", screen);
-                    else LoadImg("img/jum_left.png", screen);
+                    UpdateImage(screen);
                 }
                 break;
         }
     }
-    else if (events.type == SDL_KEYUP)
+    else if (events.type == SDL_KEYUP)// kiểm tra sự kiện nhả phím
     {   // keysym : cau truc chua thong tin qt sd su kien
         switch(events.key.keysym.sym)
         {
-            case SDLK_RIGHT:
+            case SDLK_d:
                 input_type_.right_ = 0;
                 break;
-            case SDLK_LEFT:
+            case SDLK_a:
                 input_type_.left_ = 0;
                 break;
         }
@@ -146,6 +138,53 @@ void MainObject::HandelInputAction(SDL_Event events, SDL_Renderer* screen)
         if(events.button.button == SDL_BUTTON_LEFT)
         {
             input_type_.jump_ = 1;
+        }
+        else if(events.button.button == SDL_BUTTON_RIGHT)
+        {
+            Dan* p_dan = new Dan();
+            p_dan->LoadImg("img/dan1.png", screen);
+
+            if(status_ == WALK_LEFT)
+            {
+                p_dan->set_huong_Dan(Dan::DIR_LEFT);
+                p_dan->SetRect(this->rect_.x, rect_.y + height_frame_ * 0.25);
+            }
+            else
+            {
+                p_dan->set_huong_Dan(Dan::DIR_RIGHT);
+                p_dan->SetRect(this->rect_.x + width_frame_ - 20, rect_.y + height_frame_ * 0.25);
+            }
+            
+            p_dan->set_x_val(20);// tốc độ đạn
+            p_dan->set_is_move(true);
+
+            dan_list_.push_back(p_dan);
+
+        }
+    }
+}
+
+void MainObject::HandelDan(SDL_Renderer *des)
+{
+    for(int i=0;i<dan_list_.size();i++)
+    {
+        Dan* p_dan = dan_list_.at(i);// lấy đạn
+        if(p_dan != NULL)
+        {
+            if(p_dan->get_is_move() == true)
+            {
+                p_dan->HandleMove(SCREEN_WIDTH , SCREEN_HEIGHT );
+                p_dan->Render(des);
+            }
+            else
+            {
+                dan_list_.erase(dan_list_.begin() + i);// xóa đạn
+                if(p_dan != NULL)
+                {
+                    delete p_dan;
+                    p_dan = NULL;
+                }
+            }
         }
     }
 }
@@ -157,7 +196,7 @@ void MainObject::DoPlayer(Map& map_data)
         x_val_ = 0 ;
         y_val_ += 0.8;  // tốc độ rơi
 
-        if (y_val_ >= MAX_FALL_SPEED)  // tốc độ rơi > tốc độ rơi tối đa
+        if (y_val_ > MAX_FALL_SPEED)  // tốc độ rơi > tốc độ rơi tối đa
         {
             y_val_ = MAX_FALL_SPEED;
         }
@@ -189,10 +228,10 @@ void MainObject::DoPlayer(Map& map_data)
         come_back_time_--;
         if(come_back_time_ == 0)
         {
+            TrenBeMat = false;
             if(x_pos_ > 256)
             {
                 x_pos_ -= 256;// lùi 4 ô
-                map_x_ -= 256;
             }
             else
             {
@@ -213,7 +252,7 @@ void MainObject::TinhToanMap(Map& map_data)
     {
         map_data.start_x = 0;
     }
-    else if (map_data.start_x + SCREEN_WIDTH >= map_data.max_x)
+    else if (map_data.start_x + SCREEN_WIDTH > map_data.max_x)
     {
         map_data.start_x = map_data.max_x - SCREEN_WIDTH;
     }
@@ -257,7 +296,7 @@ void MainObject::CheckMap(Map& map_data)
         x1,y2******x2,y2
     */
 
-    if(x1 >= 0 && x2 <= MAX_MAP_X && y1 >= 0 && y2 <= MAX_MAP_Y)
+    if(x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 < MAX_MAP_Y)
     {
         if(x_val_ > 0) // di chuyển sang phải
         {
@@ -272,7 +311,7 @@ void MainObject::CheckMap(Map& map_data)
             }
             else
             {
-                if((val1 != BLANK || val2 != BLANK) && (val1 != TREE1 || val2 != TREE2)  )
+                if(val1 != BLANK || val2 != BLANK )
                 {
                     x_pos_ = x2*TILE_SIZE;
                     x_pos_ -= width_frame_ + 1;
@@ -293,7 +332,7 @@ void MainObject::CheckMap(Map& map_data)
                 IncreaseMoney();
             }
             else{
-                if((val1 != BLANK || val2 != BLANK) && (val1 != TREE1 || val2 != TREE2) )
+                if(val1 != BLANK || val2 != BLANK )
                 {
                     x_pos_ = (x1 + 1)*TILE_SIZE;
                     x_val_ = 0;
@@ -334,7 +373,7 @@ void MainObject::CheckMap(Map& map_data)
                 IncreaseMoney();
             }
             else{
-                if((val1 != BLANK || val2 != BLANK) && (val1 != TREE1 || val2 != TREE2) )
+                if(val1 != BLANK || val2 != BLANK )
                 {
                     y_pos_ = y2*TILE_SIZE ;// đứng trên mặt đất
                     y_pos_ -= (height_frame_ + 1);
@@ -355,7 +394,7 @@ void MainObject::CheckMap(Map& map_data)
                 IncreaseMoney();
             }
             else{
-                if((val1 != BLANK || val2 != BLANK) && (val1 != TREE1 || val2 != TREE2) ){
+                if( val1 != BLANK || val2 != BLANK ){
                     y_pos_ = (y1 + 1)*TILE_SIZE ;
                     y_val_ = 0;
                 }
@@ -374,6 +413,32 @@ void MainObject::CheckMap(Map& map_data)
         if(y_pos_ > map_data.max_y )
         {
             come_back_time_ = 60;
+        }
+    }
+}
+
+void MainObject::UpdateImage(SDL_Renderer* des)
+{
+    if(TrenBeMat == true)
+    {
+        if(status_ == WALK_LEFT)
+        {
+            LoadImg("img/player_left.png", des);
+        }
+        else
+        {
+            LoadImg("img/player_right.png", des);
+        }
+    }
+    else
+    {
+        if(status_ == WALK_LEFT)
+        {
+            LoadImg("img/jum_left.png", des);
+        }
+        else
+        {
+            LoadImg("img/jum_right.png", des);
         }
     }
 }

@@ -2,6 +2,8 @@
 
 #include "BaseObject.h"
 #include "ComFun.h"
+#include <vector>
+#include "Dan.h"
 
 #define GRAVITY_APEED 0.8   // trọng lực rơi
 #define MAX_FALL_SPEED 10   // tốc độ rơi tối đa
@@ -15,11 +17,8 @@ public:
 
     enum WalkType       // di chuyển
     {
-        WALK_RIGHT = 0,
-        WALK_LEFT = 1,
-        WALK_UP = 2,
-        WALK_DOWN = 3,
-
+        WALK_RIGHT = 1,
+        WALK_LEFT = 2,
     };
     
     bool LoadImg(std::string path, SDL_Renderer* screen);// load hình ảnh
@@ -34,7 +33,12 @@ public:
     void SetMapXY(const int map_x, const int map_y){map_x_ = map_x; map_y_ = map_y;}// thiết lập vị trí map
     void TinhToanMap(Map& map_data); // tính toán thông số bản đồ 
     void IncreaseMoney();// tăng tiền 
+    void UpdateImage(SDL_Renderer* des);// cập nhật hình ảnh nhân vật
+    void set_dan_list(std::vector<Dan*> dan_list){dan_list_ = dan_list;}// thiết lập danh sách đạn
+    std::vector<Dan*> get_dan_list() const {return dan_list_;}// lấy danh sách đạn
+    void HandelDan(SDL_Renderer *des); 
 private:
+    std::vector<Dan*> dan_list_;    // danh sách đạn
 
     int money_count_;   // số tiền ăn đuọc
     int key_count_;     // số chìa khóa

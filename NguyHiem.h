@@ -14,6 +14,12 @@ class ThertsObject : public BaseObject
         ThertsObject();
         ~ThertsObject();
 
+    enum TypeMove
+    {
+        STATIC_THERTS = 0,
+        MOVE_THERTS = 1,
+    };
+
     void set_x_val(const float& xVal){x_val_ = xVal;}
     void set_y_val(const float& yVal){y_val_ = yVal;}
 
@@ -51,5 +57,11 @@ class ThertsObject : public BaseObject
         int width_frame_; // kích thước frame
         int height_frame_;// kích thước frame
         int frame_;
+
+        int type_move_;
+        int animation_a_;
+        int animation_b_;
+        Input input_type_;
+        
 
 };

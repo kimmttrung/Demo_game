@@ -144,6 +144,7 @@ int main(int argc, char* argv[])
         game_map.DrawMap(g_screen);
         Map map_data = game_map.getMap();// lấy thông tin map
 
+        p_player.HandelDan(g_screen); // xử lý đạn
         p_player.SetMapXY(map_data.start_x, map_data.start_y);// thiết lập vị trí map
         p_player.DoPlayer(map_data);// di chuyển nhân vật thông qua dữ liệu map truyền vào
         p_player.Show(g_screen);// hiển thị nhân vật
