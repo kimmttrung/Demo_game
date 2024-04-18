@@ -34,6 +34,8 @@ public:
     void TinhToanMap(Map& map_data); // tính toán thông số bản đồ 
     void IncreaseMoney();// tăng tiền 
     void UpdateImage(SDL_Renderer* des);// cập nhật hình ảnh nhân vật
+    SDL_Rect GetRectFrame();// lấy kích thước hình ảnh nhân vật
+
     void set_dan_list(std::vector<Dan*> dan_list){dan_list_ = dan_list;}// thiết lập danh sách đạn
     std::vector<Dan*> get_dan_list() const {return dan_list_;}// lấy danh sách đạn
     void HandelDan(SDL_Renderer *des); 

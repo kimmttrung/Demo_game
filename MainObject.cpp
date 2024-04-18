@@ -33,6 +33,16 @@ MainObject::~MainObject()
 
 }
 
+SDL_Rect MainObject::GetRectFrame()
+{
+    SDL_Rect rect;
+    rect.x = rect_.x;
+    rect.y = rect_.y;
+    rect.w = width_frame_;
+    rect.h = height_frame_;
+
+    return rect;
+}
 bool MainObject::LoadImg(std::string path, SDL_Renderer* screen)
 {
     bool ret = BaseObject::LoadImg(path, screen);

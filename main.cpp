@@ -164,6 +164,38 @@ int main(int argc, char* argv[])
                 therts->DoPlayer(map_data);// di chuyển threat
                 therts->MakeDan(g_screen, SCREEN_WIDTH, SCREEN_HEIGHT);// tạo đạn
                 therts->Show(g_screen);
+
+                SDL_Rect rect_player = p_player.GetRectFrame();// lấy kích thước nhân vật
+                bool bCol = false;
+                std::vector<Dan*> dan_list = therts->get_dan_list();
+                for(int z=0;z<dan_list.size();z++)
+                {
+                    Dan* p_dan = dan_list.at(z);
+                    if(p_dan != NULL)
+                    {
+                        bCol = SDLCommonFunc::CheckVaCham(p_dan->GetRect(), rect_player);
+                        if(bCol)
+                        {
+                            therts->RemoveDan(z);
+                            break;
+
+                        }
+                    }
+                }
+
+                SDL_Rect rect_threat = therts->GetRect();// lấy kích thước threat
+                bool bCol1 = SDLCommonFunc::CheckVaCham(rect_player, rect_threat);
+
+                if(bCol1 || bCol)
+                {
+                    if(MessageBoxW(NULL, L"Bạn có muốn chơi tiếp không?", L"Thong bao",  MB_YESNO) == IDNO)
+                    {
+                        therts->Free();
+                        close();
+                        SDL_Quit();
+                        return 0;
+                    }
+                }
             }
         }
 

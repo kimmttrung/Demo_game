@@ -48,6 +48,10 @@ class ThertsObject : public BaseObject
     
     void InitDan(Dan* p_dan, SDL_Renderer* screen);// khởi tạo đạn
     void MakeDan(SDL_Renderer* screen, const int& x_limit, const int& y_limit);// tạo đạn
+    void RemoveDan(const int& idx); // xóa đạn
+
+    SDL_Rect GetRectFrame();// lấy kích thước hình ảnh nhân vật
+
     private:
         int map_x_;
         int map_y_;

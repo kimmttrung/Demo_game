@@ -41,6 +41,17 @@ void ThertsObject::set_clip() // cắt hình
     }
 }
 
+SDL_Rect ThertsObject::GetRectFrame()
+{
+    SDL_Rect rect;
+    rect.x = rect_.x;
+    rect.y = rect_.y;
+    rect.w = width_frame_;
+    rect.h = height_frame_;
+
+    return rect;
+}
+
 void ThertsObject::Show(SDL_Renderer* des)
 {
     if(come_back_time_ == 0)
@@ -58,7 +69,20 @@ void ThertsObject::Show(SDL_Renderer* des)
         SDL_RenderCopy(des, p_object_, current_clip, &renderQuad);// copy hình ảnh lên màn hình
     }
 }
-
+void ThertsObject::RemoveDan(const int& idx)
+{
+    int size = dan_list_.size();
+    if(size > 0 && idx < size)
+    {
+        Dan* p_dan = dan_list_.at(idx);
+        dan_list_.erase(dan_list_.begin() + idx);
+        if(p_dan)
+        {
+            delete p_dan;
+            p_dan = NULL;
+        }
+    }
+}
 
 void ThertsObject::CheckToMap(Map& Gmap)
 {
