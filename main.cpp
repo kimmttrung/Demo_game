@@ -188,7 +188,7 @@ int main(int argc, char* argv[])
 
                 if(bCol1 || bCol)
                 {
-                    if(MessageBoxW(NULL, L"Bạn có muốn chơi tiếp không?", L"Thong bao",  MB_YESNO) == IDNO)
+                    if(MessageBoxW(NULL, L"Do you want to continue playing?", L"Thong bao",  MB_YESNO) == IDNO)
                     {
                         therts->Free();
                         close();
