@@ -66,3 +66,8 @@ struct Map // lưu trữ thông tin map
     char* file_name;// tên file map
 
 };
+
+namespace SDLCommonFunc
+{
+    bool CheckVaCham(const SDL_Rect& object1, const SDL_Rect& object2);// kiểm tra va chạm
+}

@@ -7,7 +7,7 @@
 
 #define GRAVITY_APEED 0.8   // trọng lực rơi
 #define MAX_FALL_SPEED 10   // tốc độ rơi tối đa
-#define PLAYER_SPEED 15      // tốc độ di chuyển nhân vật
+#define PLAYER_SPEED 10      // tốc độ di chuyển nhân vật
 #define PLAYER_JUMP_VAL 20  // tốc độ nhảy
 class MainObject : public BaseObject
 {
@@ -37,6 +37,7 @@ public:
     void set_dan_list(std::vector<Dan*> dan_list){dan_list_ = dan_list;}// thiết lập danh sách đạn
     std::vector<Dan*> get_dan_list() const {return dan_list_;}// lấy danh sách đạn
     void HandelDan(SDL_Renderer *des); 
+    void RemoveDan(const int& idx); // xóa đạn
 private:
     std::vector<Dan*> dan_list_;    // danh sách đạn
 

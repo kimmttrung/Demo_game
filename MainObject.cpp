@@ -122,7 +122,7 @@ void MainObject::HandelInputAction(SDL_Event events, SDL_Renderer* screen)
             case SDLK_s:
             {
                 Dan* p_dan = new Dan();
-                p_dan->set_loai_Dan(Dan::DAN_BAN); // Change to the type of bullet you want
+                p_dan->set_loai_Dan(Dan::DAN_LUA); // Change to the type of bullet you want
                 p_dan->LoadDan(screen);
 
                 if(status_ == WALK_LEFT)
@@ -164,7 +164,7 @@ void MainObject::HandelInputAction(SDL_Event events, SDL_Renderer* screen)
         else if(events.button.button == SDL_BUTTON_RIGHT)
         {
             Dan* p_dan = new Dan();
-            p_dan->set_loai_Dan(Dan::DAN_BAN_LASER);
+            p_dan->set_loai_Dan(Dan::DAN_BAN);
             p_dan->LoadDan( screen);
             
             if(status_ == WALK_LEFT)
@@ -291,6 +291,22 @@ void MainObject::TinhToanMap(Map& map_data)
     }
 
 }
+
+void MainObject::RemoveDan(const int& idx)
+{
+    int size = dan_list_.size();
+    if(size > 0 && idx < size)
+    {
+        Dan* p_dan = dan_list_.at(idx);
+        dan_list_.erase(dan_list_.begin() + idx);
+
+        if(p_dan)
+        {
+            delete p_dan;
+            p_dan = NULL;
+        }
+    }
+} 
 
 
 void MainObject::CheckMap(Map& map_data)

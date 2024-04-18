@@ -219,7 +219,7 @@ void ThertsObject::InitDan(Dan* p_dan, SDL_Renderer* screen)// khởi tạo đ�
         p_dan->LoadDan(screen);
         p_dan->set_is_move(true);// đạn di chuyển
         p_dan->set_huong_Dan(Dan::DIR_LEFT);
-        p_dan->SetRect(x_pos_  + 20, y_pos_ + 10);// vị trí đạn
+        p_dan->SetRect( rect_.x + 10, rect_.y + 10);// vị trí đạn
         p_dan->set_x_val(15);// tốc độ di chuyển của đạn
         dan_list_.push_back(p_dan);
     }
@@ -232,13 +232,21 @@ void ThertsObject::MakeDan(SDL_Renderer* screen, const int& x_limit, const int& 
         Dan* p_dan = dan_list_.at(i);// lấy đạn
         if(p_dan != NULL)
         {
+            int khoang_cach = rect_.x + width_frame_ - p_dan->GetRect().x;
             if(!p_dan->get_is_move())
             {
                 p_dan->set_is_move(true);
-                p_dan->SetRect(x_pos_  + 20, y_pos_ + 10);// vị trí đạn
+                p_dan->SetRect(rect_.x + 10, rect_.y + 10);
             }
-            p_dan->HandleMove(x_limit, y_limit);
-            p_dan->Render(screen);
+            else
+            {
+                if(khoang_cach < 600)
+                {
+                    p_dan->HandleMove(x_limit, y_limit);
+                    p_dan->Render(screen);
+                }
+                else p_dan->set_is_move(false);
+            }
         }
     }
 }

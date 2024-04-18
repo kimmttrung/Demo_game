@@ -19,6 +19,7 @@ public:
     {
         DAN_BAN = 23,
         DAN_BAN_LASER = 24,
+        DAN_LUA = 25,
     };
 
     void set_x_val(const int& x_val) { x_val_ = x_val;}// thiết lập giá trị x

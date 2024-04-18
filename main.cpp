@@ -60,28 +60,27 @@ std::vector<ThertsObject*> MakeTherts()
     ThertsObject* therts_object = new ThertsObject[20];
     std::vector<ThertsObject*> list_therts;
     
-    for(int i = 0; i < 20; i++)
+    for(int i = 0; i < 40; i++)
     {
         ThertsObject* therts_object = new ThertsObject();
         therts_object->LoadImg("img/threat_level.png", g_screen); // load hình ảnh threat
         therts_object->set_clip();// cắt hình
         
-        therts_object->set_x_pos(900 + i*1200);
+        therts_object->set_x_pos(900 + i*700);
         therts_object->set_y_pos(200);
 
         Dan* dan = new Dan();
         therts_object->InitDan(dan, g_screen);// khởi tạo đạn
-        
         list_therts.push_back(therts_object);// thêm vào danh sách threat
     }
 
-    for(int i = 0; i < 20; i++)
+    for(int i = 0; i < 40; i++)
     {
         ThertsObject* therts_object = new ThertsObject();
         therts_object->LoadImg("img/threat_level.png", g_screen); // load hình ảnh threat
         therts_object->set_clip();// cắt hình
         
-        therts_object->set_x_pos(700 + i*1500);
+        therts_object->set_x_pos(700 + i*1000);
         therts_object->set_y_pos(800);
 
         Dan* dan = new Dan();
@@ -164,12 +163,44 @@ int main(int argc, char* argv[])
                 therts->set_map_xy(map_data.start_x, map_data.start_y);
                 therts->DoPlayer(map_data);// di chuyển threat
                 therts->MakeDan(g_screen, SCREEN_WIDTH, SCREEN_HEIGHT);// tạo đạn
-
                 therts->Show(g_screen);
             }
         }
 
+        std::vector<Dan*> dan_list = p_player.get_dan_list();// lấy danh sách đạn
+        for(int i = 0; i < dan_list.size(); i++)// duyệt qua danh sách đạn
+        {
+            Dan* p_dan = dan_list.at(i);
+            if(p_dan != NULL)
+            {
+                for(int j=0;j<therts_list.size();j++)
+                {
+                    ThertsObject* therts = therts_list.at(j);
+                    if(therts != NULL)
+                    {
+                        if(therts)
+                        {
+                            SDL_Rect tRect;
+                            tRect.x = therts->GetRect().x;
+                            tRect.y = therts->GetRect().y;
+                            tRect.w = therts->get_width_frame();
+                            tRect.h = therts->get_height_frame();
 
+                            SDL_Rect danRect = p_dan->GetRect();
+                            bool isCol = SDLCommonFunc::CheckVaCham(danRect, tRect);
+
+                            if(isCol)
+                            {
+                                p_player.RemoveDan(i);
+                                p_dan->set_is_move(false);
+                                therts->Free();
+                                therts_list.erase(therts_list.begin() + j);
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
 
         SDL_RenderPresent(g_screen);
@@ -183,6 +214,17 @@ int main(int argc, char* argv[])
             
             if(delay_time >= 0)
                 SDL_Delay(delay_time);
+        }
+    }
+
+    for(int i = 0; i < therts_list.size(); i++)
+    {
+        ThertsObject* therts = therts_list.at(i);
+        if(therts != NULL)
+        {
+            therts->Free();
+            delete therts;
+            therts = NULL;
         }
     }
     

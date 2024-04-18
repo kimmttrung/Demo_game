@@ -5,7 +5,6 @@ Dan::Dan()
     x_val_ = 0;
     y_val_ = 0;
     is_move_ = false;
-    // huong_Dan_ = DIR_RIGHT;
     loai_Dan_ = DAN_BAN;
 }
 
@@ -22,6 +21,10 @@ void Dan::LoadDan(SDL_Renderer* des)
     else if(loai_Dan_ == DAN_BAN_LASER)
     {
         LoadImg("img/laser2.png", des);
+    }
+    else if(loai_Dan_ == DAN_LUA)
+    {
+        LoadImg("img/dan4.png", des);
     }
     
 }
