@@ -66,7 +66,7 @@ std::vector<ThertsObject*> MakeTherts()
         therts_object->LoadImg("img/threat_level.png", g_screen); // load hình ảnh threat
         therts_object->set_clip();// cắt hình
         
-        therts_object->set_x_pos(900 + i*700);
+        therts_object->set_x_pos(1200 + i*400);
         therts_object->set_y_pos(200);
 
         Dan* dan = new Dan();
@@ -80,7 +80,7 @@ std::vector<ThertsObject*> MakeTherts()
         therts_object->LoadImg("img/threat_level.png", g_screen); // load hình ảnh threat
         therts_object->set_clip();// cắt hình
         
-        therts_object->set_x_pos(700 + i*1000);
+        therts_object->set_x_pos(700 + i*500);
         therts_object->set_y_pos(800);
 
         Dan* dan = new Dan();
@@ -126,6 +126,8 @@ int main(int argc, char* argv[])
     p_player.set_clips();
 
     std::vector<ThertsObject*> therts_list = MakeTherts();// khai bao va tao threat
+
+    int sinh_Menh = 3;
 
     bool is_quit = false;
     while(!is_quit)
@@ -186,14 +188,35 @@ int main(int argc, char* argv[])
                 SDL_Rect rect_threat = therts->GetRect();// lấy kích thước threat
                 bool bCol1 = SDLCommonFunc::CheckVaCham(rect_player, rect_threat);
 
+
                 if(bCol1 || bCol)
                 {
-                    if(MessageBoxW(NULL, L"Do you want to continue playing?", L"Thong bao",  MB_YESNO) == IDNO)
+                    sinh_Menh--;
+                    if(sinh_Menh < 3 && sinh_Menh > 0)
                     {
-                        therts->Free();
-                        close();
-                        SDL_Quit();
-                        return 0;
+                        if(MessageBoxW(NULL, L"Do you want to continue playing?", L"Thong bao",  MB_YESNO) == IDNO)
+                        {
+                            therts->Free();
+                            close();
+                            SDL_Quit();
+                            return 0;
+                        }
+                        else{
+                            p_player.SetRect(0, 0);
+                            p_player.SetMapXY(0, 0);
+                            p_player.set_come_back_time(60);
+
+                        }
+                    }
+                    else if(sinh_Menh == 0)
+                    {
+                        if(MessageBoxW(NULL, L"GAME OVER", L"Thong bao",  MB_OK | MB_ICONSTOP) == IDOK)
+                        {
+                            therts->Free();
+                            close();
+                            SDL_Quit();
+                            return 0;
+                        }
                     }
                 }
             }

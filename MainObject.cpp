@@ -75,6 +75,7 @@ void MainObject::IncreaseMoney()
 {
     money_count_++;
     key_count_++;
+    sinh_Menh++;
 
 }
 void MainObject::Show(SDL_Renderer* des)
@@ -262,9 +263,9 @@ void MainObject::DoPlayer(Map& map_data)
         if(come_back_time_ == 0)
         {
             TrenBeMat = false;
-            if(x_pos_ > 256)
+            if(x_pos_ > 512)
             {
-                x_pos_ -= 256;// lùi 4 ô
+                x_pos_ -= 192;// lùi 4 ô
             }
             else
             {

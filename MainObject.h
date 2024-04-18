@@ -35,6 +35,7 @@ public:
     void IncreaseMoney();// tăng tiền 
     void UpdateImage(SDL_Renderer* des);// cập nhật hình ảnh nhân vật
     SDL_Rect GetRectFrame();// lấy kích thước hình ảnh nhân vật
+    void set_come_back_time(const int& cb_time){come_back_time_ = cb_time;}// thiết lập thời gian quay lại
 
     void set_dan_list(std::vector<Dan*> dan_list){dan_list_ = dan_list;}// thiết lập danh sách đạn
     std::vector<Dan*> get_dan_list() const {return dan_list_;}// lấy danh sách đạn
@@ -45,6 +46,7 @@ private:
 
     int money_count_;   // số tiền ăn đuọc
     int key_count_;     // số chìa khóa
+    int sinh_Menh;       // sinh mệnh
 
     float x_val_;       // tang bao nhieu
     float y_val_;
