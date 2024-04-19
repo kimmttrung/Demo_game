@@ -26,6 +26,10 @@ void Dan::LoadDan(SDL_Renderer* des)
     {
         LoadImg("img/dan4.png", des);
     }
+    else if(loai_Dan_ == DAN_PHI)
+    {
+        LoadImg("img/dan5.png", des);
+    }
     
 }
 
@@ -46,6 +50,24 @@ void Dan::HandleMove(const int& x_border, const int& y_border)
         {
             is_move_ = false;
         }
+        
     }
-    
+    else if(huong_Dan_ == DIR_DOWN_RIGHT)
+    {
+        rect_.x += x_val_;
+        rect_.y += y_val_;
+        if(rect_.x > x_border || rect_.y > y_border)
+        {
+            is_move_ = false;
+        }
+    }
+    else if(huong_Dan_ == DIR_DOWN_LEFT)
+    {
+        rect_.x -= x_val_;
+        rect_.y += y_val_;
+        if(rect_.x < 0 || rect_.y > y_border)
+        {
+            is_move_ = false;
+        }
+    }
 }

@@ -33,8 +33,9 @@ const int COLOR_KEY_B = 180;
 const int RENDER_DRAW_COLOR = 255;
 
 #define TILE_SIZE 64// kích thước 1 ô vuông
-#define BLANK 0 // trạng thái bằng 0
 
+#define BLANK 0 // trạng thái bằng 0
+#define KHOBAU 11 // kho báu
 #define MONEY 4 // tiền
 #define KEY 10 // chìa khóa
 #define TREE1 5 // cây1
@@ -44,6 +45,7 @@ const int RENDER_DRAW_COLOR = 255;
 #define COC 3// cọc
 #define MAX_MAP_X 200
 #define MAX_MAP_Y 20
+
 
 struct Input
 {

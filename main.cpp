@@ -105,6 +105,15 @@ void close()
     SDL_Quit();
 }
 
+void KetThucGame()
+{
+    if(MessageBoxW(NULL, L"You win", L"Thong bao",  MB_OK) == IDOK)
+    {
+        close();
+        SDL_Quit();
+    }
+}
+
 int main(int argc, char* argv[])
 { 
     ImpTimer fps_time;
@@ -127,7 +136,7 @@ int main(int argc, char* argv[])
 
     std::vector<ThertsObject*> therts_list = MakeTherts();// khai bao va tao threat
 
-    int sinh_Menh = 3;
+    int sinh_Menh = 5;
 
     bool is_quit = false;
     while(!is_quit)
@@ -192,7 +201,7 @@ int main(int argc, char* argv[])
                 if(bCol1 || bCol)
                 {
                     sinh_Menh--;
-                    if(sinh_Menh < 3 && sinh_Menh > 0)
+                    if(sinh_Menh < 5 && sinh_Menh > 0)
                     {
                         if(MessageBoxW(NULL, L"Do you want to continue playing?", L"Thong bao",  MB_YESNO) == IDNO)
                         {

@@ -131,27 +131,53 @@ void MainObject::HandelInputAction(SDL_Event events, SDL_Renderer* screen)
                 }
                 break;
             case SDLK_s:
-            {
-                Dan* p_dan = new Dan();
-                p_dan->set_loai_Dan(Dan::DAN_LUA); // Change to the type of bullet you want
-                p_dan->LoadDan(screen);
-
-                if(status_ == WALK_LEFT)
                 {
-                    p_dan->set_huong_Dan(Dan::DIR_LEFT);
-                    p_dan->SetRect(this->rect_.x, rect_.y + height_frame_ * 0.25);
+                    Dan* p_dan = new Dan();
+                    p_dan->set_loai_Dan(Dan::DAN_LUA); // Change to the type of bullet you want
+                    p_dan->LoadDan(screen);
+
+                    if(status_ == WALK_LEFT)
+                    {
+                        p_dan->set_huong_Dan(Dan::DIR_LEFT);
+                        p_dan->SetRect(this->rect_.x, rect_.y + height_frame_ * 0.25);
+                    }
+                    else
+                    {
+                        p_dan->set_huong_Dan(Dan::DIR_RIGHT);
+                        p_dan->SetRect(this->rect_.x + width_frame_ - 20, rect_.y + height_frame_ * 0.25);
+                    }
+
+                    p_dan->set_x_val(20);
+                    p_dan->set_is_move(true);
+
+                    dan_list_.push_back(p_dan);
                 }
-                else
+                break;
+            case SDLK_w:
                 {
-                    p_dan->set_huong_Dan(Dan::DIR_RIGHT);
-                    p_dan->SetRect(this->rect_.x + width_frame_ - 20, rect_.y + height_frame_ * 0.25);
+                    Dan* p_dan = new Dan();
+                    p_dan->set_loai_Dan(Dan::DAN_PHI); // Change to the type of bullet you want
+                    p_dan->LoadDan(screen);
+
+                    if(status_ == WALK_LEFT)
+                    {
+                        p_dan->set_huong_Dan(Dan::DIR_DOWN_LEFT);
+                        p_dan->SetRect(this->rect_.x, rect_.y + height_frame_ * 0.25);
+                    }
+                    else
+                    {
+                        p_dan->set_huong_Dan(Dan::DIR_DOWN_RIGHT);
+                        p_dan->SetRect(this->rect_.x + width_frame_ - 20, rect_.y + height_frame_ * 0.25);
+                    }
+
+                    p_dan->set_x_val(20);
+                    p_dan->set_y_val(20);
+                    p_dan->set_is_move(true);
+
+                    dan_list_.push_back(p_dan);
                 }
+                break;
 
-                p_dan->set_x_val(20);
-                p_dan->set_is_move(true);
-
-                dan_list_.push_back(p_dan);
-            }
         }
     }
     else if (events.type == SDL_KEYUP)// kiểm tra sự kiện nhả phím
@@ -352,7 +378,14 @@ void MainObject::CheckMap(Map& map_data)
         {
             int val1 = map_data.tile[y1][x2];
             int val2 = map_data.tile[y2][x2];
-        
+
+            if(val1 == KHOBAU || val2 == KHOBAU)
+            {
+                map_data.tile[y1][x2] = 0;
+                map_data.tile[y2][x2] = 0;
+                
+                
+            }
             if(val1 == MONEY || val2 == MONEY || val1 == KEY || val2 == KEY || val1 == HEART || val2 == HEART)
             {
                 map_data.tile[y1][x2] = 0;
@@ -369,6 +402,7 @@ void MainObject::CheckMap(Map& map_data)
 
                 }
             }
+            
             if(val1 == NGUYHIEM || val2 == NGUYHIEM)
             {
                 come_back_time_ = 60;
@@ -397,6 +431,7 @@ void MainObject::CheckMap(Map& map_data)
                     x_val_ = 0;
                 }
             }
+
             if(val1 == NGUYHIEM || val2 == NGUYHIEM)
             {
                 come_back_time_ = 60;
@@ -448,6 +483,7 @@ void MainObject::CheckMap(Map& map_data)
                     TrenBeMat = true; // lưu trạng thái đứng trên mặt đất
                 }
             }
+
             if(val1 == NGUYHIEM || val2 == NGUYHIEM)
             {
                 come_back_time_ = 60;
@@ -475,6 +511,7 @@ void MainObject::CheckMap(Map& map_data)
                     y_val_ = 0;
                 }
             }
+        
             if(val1 == NGUYHIEM || val2 == NGUYHIEM)
             {
                 come_back_time_ = 60;

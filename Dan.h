@@ -13,13 +13,16 @@ public:
     {
         DIR_RIGHT = 20,
         DIR_LEFT = 21,
+        DIR_DOWN_RIGHT = 22,
+        DIR_DOWN_LEFT = 23,
     };
 
     enum
     {
-        DAN_BAN = 23,
-        DAN_BAN_LASER = 24,
-        DAN_LUA = 25,
+        DAN_BAN = 30,
+        DAN_BAN_LASER = 31,
+        DAN_LUA = 32,
+        DAN_PHI = 33,
     };
 
     void set_x_val(const int& x_val) { x_val_ = x_val;}// thiết lập giá trị x
@@ -40,6 +43,7 @@ public:
     int get_loai_Dan() const { return loai_Dan_; }// lấy loại đạn
 
     void LoadDan(SDL_Renderer* des);// load đạn
+
 private:
     int x_val_;
     int y_val_;
