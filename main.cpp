@@ -5,8 +5,11 @@
 #include "MainObject.h"
 #include "Timer.h"
 #include "NguyHiem.h"
+#include "MenuGame.h"
+
 
 BaseObject g_background;
+TTF_Font* font_time = NULL;
 
 bool InitData()
 {
@@ -32,8 +35,7 @@ bool InitData()
         // tao render de ve hinh anh len sreeen
         // SDL_RENDERER_ACCELERATED: tang toc do phan ung
         g_screen = SDL_CreateRenderer(g_Window, -1, SDL_RENDERER_ACCELERATED);
-        if (g_screen == NULL)
-            success = false;
+        if (g_screen == NULL) success = false;
         else
         {
             // sd mau cho thao tac ve
@@ -41,6 +43,17 @@ bool InitData()
             int imgFlags = IMG_INIT_PNG;
             if(!(IMG_Init(imgFlags) && imgFlags))
                 success = false;    
+        }
+
+        if(TTF_Init() == -1)
+        {
+            success = false;
+        }
+        font_time = TTF_OpenFont("Front/font-times-new-roman.ttf", 20);
+
+        if(font_time == NULL) 
+        {
+            success = false;
         }
     }
 
@@ -60,7 +73,7 @@ std::vector<ThertsObject*> MakeTherts()
     ThertsObject* therts_object = new ThertsObject[20];
     std::vector<ThertsObject*> list_therts;
     
-    for(int i = 0; i < 40; i++)
+    for(int i = 0; i < 25; i++)
     {
         ThertsObject* therts_object = new ThertsObject();
         therts_object->LoadImg("img/threat_level.png", g_screen); // load hình ảnh threat
@@ -74,7 +87,7 @@ std::vector<ThertsObject*> MakeTherts()
         list_therts.push_back(therts_object);// thêm vào danh sách threat
     }
 
-    for(int i = 0; i < 40; i++)
+    for(int i = 0; i < 20; i++)
     {
         ThertsObject* therts_object = new ThertsObject();
         therts_object->LoadImg("img/threat_level.png", g_screen); // load hình ảnh threat
@@ -105,7 +118,7 @@ void close()
     SDL_Quit();
 }
 
-void KetThucGame()
+void ChienThang()
 {
     if(MessageBoxW(NULL, L"You win", L"Thong bao",  MB_OK) == IDOK)
     {
@@ -137,6 +150,11 @@ int main(int argc, char* argv[])
     std::vector<ThertsObject*> therts_list = MakeTherts();// khai bao va tao threat
 
     int sinh_Menh = 5;
+    // Time texxt
+    TextObject time_game;
+    time_game.SetColor(TextObject::WHITE_TEXT);
+    time_game.SetRect(1200, 0);
+
 
     bool is_quit = false;
     while(!is_quit)
@@ -265,6 +283,19 @@ int main(int argc, char* argv[])
                 }
             }
         }
+
+        time_game.SetText("Time: " + std::to_string(fps_time.get_ticks()/1000));
+        if(fps_time.get_ticks()/1000 == 300)
+        {
+            if(MessageBoxW(NULL, L"GAME OVER", L"Thong bao",  MB_OK | MB_ICONSTOP) == IDOK)
+            {
+                is_quit = true;
+                break;
+            }
+        }
+        
+        time_game.LoadFromRenderText(font_time, g_screen);// load text
+        time_game.RenderText(g_screen, SCREEN_WIDTH - 200, 15);
 
 
         SDL_RenderPresent(g_screen);

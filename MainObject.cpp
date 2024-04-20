@@ -249,7 +249,7 @@ void MainObject::HandelDan(SDL_Renderer *des)
     }
 }
 
-void MainObject::DoPlayer(Map& map_data)
+void MainObject::DoPlayer(Map& map_data)// xử lý nhân vật
 {
     
     if(come_back_time_ == 0){
@@ -295,9 +295,9 @@ void MainObject::DoPlayer(Map& map_data)
             }
             else
             {
-                x_pos_ = 0;
+                x_pos_ = 448;
             }
-            y_pos_ = 0;
+            y_pos_ = 64;
             x_val_ = 0;
             y_val_ = 0;
         }
