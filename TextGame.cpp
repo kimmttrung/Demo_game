@@ -1,4 +1,4 @@
-#include "MenuGame.h"
+#include "TextGame.h"
 
 TextObject::TextObject()
 {
@@ -16,9 +16,9 @@ TextObject::~TextObject()
     
 }
 
-bool TextObject::LoadFromRenderText(TTF_Font* font, SDL_Renderer* des)
+bool TextObject::LoadFromRenderText(TTF_Font* font, SDL_Renderer* des)// tạo văn bản từ font
 {
-    SDL_Surface* text_surface = TTF_RenderText_Solid(font, str_val_.c_str(), text_color_);
+    SDL_Surface* text_surface = TTF_RenderText_Solid(font, str_val_.c_str(), text_color_);// tạo 1 bề mặt từ văn bản
     if(text_surface)
     {
         texture_ = SDL_CreateTextureFromSurface(des, text_surface);
@@ -55,7 +55,7 @@ void TextObject::SetColor(const int& type)
     }
     else if(type == WHITE_TEXT)
     {
-        SDL_Color color = {15, 0, 180};
+        SDL_Color color = {0, 18, 255};
         text_color_ = color;
     }
     else if(type == BLACK_TEXT)
@@ -67,7 +67,7 @@ void TextObject::SetColor(const int& type)
 
 void TextObject::RenderText(SDL_Renderer* des, const int& xp, const int& yp, SDL_Rect* clip)
 {
-    SDL_Rect renderQuad = {xp, yp, width_, height_};
+    SDL_Rect renderQuad = {xp, yp, width_, height_};// vị trí và kích thước của văn bản
 
     if(clip != NULL)
     {
@@ -75,6 +75,6 @@ void TextObject::RenderText(SDL_Renderer* des, const int& xp, const int& yp, SDL
         renderQuad.h = clip->h;
     }
 
-    SDL_RenderCopy(des, texture_, clip, &renderQuad);
+    SDL_RenderCopy(des, texture_, clip, &renderQuad);// copy văn bản lên màn hình
 }
 

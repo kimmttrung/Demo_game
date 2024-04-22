@@ -16,7 +16,6 @@ public:
         BLACK_TEXT = 2,
     };
 
-    bool LoadFromFile(const char* file_name);
     bool LoadFromRenderText(TTF_Font* font, SDL_Renderer* des);
     void Free();
 
@@ -24,9 +23,9 @@ public:
     void SetColor(const int& type);
     void SetText(const std::string& text) { str_val_ = text; }
 
-    std::string GetText() const { return str_val_; }
+    //std::string GetText() const { return str_val_; }
 
-    void RenderText(SDL_Renderer* des, const int& xp, const int& yp, SDL_Rect* clip = NULL);
+    void RenderText(SDL_Renderer* des, const int& xp, const int& yp, SDL_Rect* clip = NULL);// vẽ 1 đoạn văn bản lên màn hình
 private:
     std::string str_val_;
     SDL_Color text_color_;

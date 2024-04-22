@@ -545,22 +545,22 @@ void MainObject::UpdateImage(SDL_Renderer* des)
     {
         if(status_ == WALK_LEFT)
         {
-            LoadImg("img/player_left.png", des);
+            LoadImg("img/player_left1.png", des);
         }
         else
         {
-            LoadImg("img/player_right.png", des);
+            LoadImg("img/player_right1.png", des);
         }
     }
     else
     {
         if(status_ == WALK_LEFT)
         {
-            LoadImg("img/jum_left.png", des);
+            LoadImg("img/jum_left1.png", des);
         }
         else
         {
-            LoadImg("img/jum_right.png", des);
+            LoadImg("img/jum_right1.png", des);
         }
     }
 }
