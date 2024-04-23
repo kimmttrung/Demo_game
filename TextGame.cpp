@@ -53,7 +53,7 @@ void TextObject::SetColor(const int& type)
         SDL_Color color = {255, 0, 0};
         text_color_ = color;
     }
-    else if(type == WHITE_TEXT)
+    else if(type == XANH_TEXT)
     {
         SDL_Color color = {0, 18, 255};
         text_color_ = color;

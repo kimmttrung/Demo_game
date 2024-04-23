@@ -75,11 +75,12 @@ std::vector<ThertsObject*> MakeTherts()// tạo threat
     for(int i = 0; i < 25; i++)
     {
         ThertsObject* therts_object = new ThertsObject();
-        therts_object->LoadImg("img/threat_level.png", g_screen); // load hình ảnh threat
+        therts_object->LoadImg("img/threat4.png", g_screen); // load hình ảnh threat
         therts_object->set_clip();// cắt hình
         
         therts_object->set_x_pos(1200 + i*400);
         therts_object->set_y_pos(200);
+
 
         Dan* dan = new Dan();
         therts_object->InitDan(dan, g_screen);// khởi tạo đạn
@@ -89,11 +90,11 @@ std::vector<ThertsObject*> MakeTherts()// tạo threat
     for(int i = 0; i < 20; i++)
     {
         ThertsObject* therts_object = new ThertsObject();
-        therts_object->LoadImg("img/threat_level.png", g_screen); // load hình ảnh threat
+        therts_object->LoadImg("img/threat4.png", g_screen); // load hình ảnh threat
         therts_object->set_clip();// cắt hình
         
         therts_object->set_x_pos(700 + i*500);
-        therts_object->set_y_pos(800);
+        therts_object->set_y_pos(900);
 
         Dan* dan = new Dan();
         therts_object->InitDan(dan, g_screen);// khởi tạo đạn
@@ -117,14 +118,6 @@ void close()
     SDL_Quit();
 }
 
-void ChienThang()
-{
-    if(MessageBoxW(NULL, L"You win", L"Thong bao",  MB_OK) == IDOK)
-    {
-        close();
-        SDL_Quit();
-    }
-}
 
 int main(int argc, char* argv[])
 { 
@@ -149,11 +142,22 @@ int main(int argc, char* argv[])
     std::vector<ThertsObject*> therts_list = MakeTherts();// khai bao va tao threat
 
     int sinh_Menh = 5;
-    // Time text
-    TextObject time_game;
-    time_game.SetColor(TextObject::WHITE_TEXT);
-    time_game.SetRect(1200, 0);
 
+    TextObject p_hp;
+    p_hp.SetColor(TextObject::XANH_TEXT);
+    
+    TextObject time_game;
+    time_game.SetColor(TextObject::XANH_TEXT);
+
+    TextObject mark_game;
+    mark_game.SetColor(TextObject::RED_TEXT);
+    Uint32 mark_val = 0;
+
+    TextObject money_game;
+    money_game.SetColor(TextObject::BLACK_TEXT);
+
+    TextObject key_game;
+    key_game.SetColor(TextObject::XANH_TEXT);
 
     bool is_quit = false;
     while(!is_quit)
@@ -183,6 +187,7 @@ int main(int argc, char* argv[])
         game_map.SetMap(map_data);// thiết lập thông tin map
         game_map.DrawMap(g_screen);// vẽ map
 
+        // kiểm tra nhân vật và đạn threat
         for(int i = 0; i < therts_list.size(); i++)// duyệt qua danh sách quái
         {
             ThertsObject* therts = therts_list.at(i);
@@ -220,7 +225,7 @@ int main(int argc, char* argv[])
                     sinh_Menh--;
                     if(sinh_Menh < 5 && sinh_Menh > 0)
                     {
-                        if(MessageBoxW(NULL, L"Do you want to continue playing?", L"Thong bao",  MB_YESNO) == IDNO)
+                        if(MessageBoxW(NULL, L"You have lost 1 life. Do you want to play again?", L"Thong bao",  MB_YESNO) == IDNO)
                         {
                             therts->Free();
                             close();
@@ -247,7 +252,9 @@ int main(int argc, char* argv[])
                 }
             }
         }
+        
 
+        //kiểm tra va chạm giữa đạn nhân vật và threat
         std::vector<Dan*> dan_list = p_player.get_dan_list();// lấy danh sách đạn
         for(int i = 0; i < dan_list.size(); i++)// duyệt qua danh sách đạn
         {
@@ -272,6 +279,7 @@ int main(int argc, char* argv[])
 
                             if(isCol)
                             {
+                                mark_val ++;
                                 p_player.RemoveDan(i);
                                 p_dan->set_is_move(false);
                                 therts->Free();
@@ -308,6 +316,36 @@ int main(int argc, char* argv[])
             time_game.RenderText(g_screen, SCREEN_WIDTH - 200, 15);
         }
 
+        std::string val_str_mark = std::to_string(mark_val);
+        std::string str_val = "Mark: ";
+        str_val += val_str_mark;
+        mark_game.SetText(str_val);
+        mark_game.LoadFromRenderText(font_time, g_screen);
+        mark_game.RenderText(g_screen, SCREEN_WIDTH*0.5 - 500, 15);
+
+        int money_count = p_player.get_money_count();
+        std::string str_score = "Money: ";
+        str_score += std::to_string(money_count);
+        money_game.SetText(str_score);                              
+        money_game.LoadFromRenderText(font_time, g_screen);         
+        money_game.RenderText(g_screen, SCREEN_WIDTH*0.5 - 100, 15); 
+
+        int heart = sinh_Menh;
+        std::string str_hp = "HP: ";
+        str_hp += std::to_string(heart);
+        p_hp.SetText(str_hp);
+        p_hp.LoadFromRenderText(font_time, g_screen);
+        p_hp.RenderText(g_screen, 50, 15);  
+
+        int key_count = p_player.get_key_count();
+        std::string str_key = "Key: ";
+        str_key += std::to_string(key_count);
+        key_game.SetText(str_key);
+        key_game.LoadFromRenderText(font_time, g_screen);
+        key_game.RenderText(g_screen, SCREEN_WIDTH - 500, 15);
+
+
+        
 
         SDL_RenderPresent(g_screen);
 

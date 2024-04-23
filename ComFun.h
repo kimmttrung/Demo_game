@@ -8,6 +8,8 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
+// #include "TextGame.h"
+
 
 
 static SDL_Window* g_Window = NULL;
@@ -20,6 +22,12 @@ static SDL_Event g_Event;
 // static: giữ giá trị của biến trong suốt chương trình
 // SCREEN_BPP: số bit màu cho mỗi pixel
 // RENDER_DRAW_COLOR: màu vẽ mặc định
+
+// static SDL_Surface* g_bkground = NULL;
+// static SDL_Surface* g_menu = NULL;
+// static SDL_Surface* g_img_player = NULL;
+
+
 
 const int SCREEN_WIDTH = 1920;
 const int SCREEN_HEIGHT = 960;
@@ -40,7 +48,7 @@ const int RENDER_DRAW_COLOR = 255;
 #define KEY 10 // chìa khóa
 #define TREE1 5 // cây1
 #define TREE2 13 // cây2
-#define HEART 14 // trái tim
+#define TAO 14 // trái tim
 #define NGUYHIEM 7 // nước 
 #define COC 3// cọc
 #define MAX_MAP_X 210
@@ -72,4 +80,9 @@ struct Map // lưu trữ thông tin map
 namespace SDLCommonFunc
 {
     bool CheckVaCham(const SDL_Rect& object1, const SDL_Rect& object2);// kiểm tra va chạm
+    //int ShowMenu(SDL_Renderer* des, TTF_Font* font);// hiển thị menu
+
+    //SDL_Rect ApplySurface(SDL_Surface* src, SDL_Renderer* des, int x, int y);// áp dụng hình ảnh
+
+    //bool CheckFocusWithRect(const int& x, const int& y, const SDL_Rect& rect);// kiểm tra chuột
 }

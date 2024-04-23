@@ -71,13 +71,11 @@ void MainObject::set_clips() // xử lý khung nhân vật
     }
 }
 
-void MainObject::IncreaseMoney()
-{
-    money_count_++;
-    key_count_++;
-    sinh_Menh++;
+// void MainObject::IncreaseMoney()
+// {
+//     money_count_++;
 
-}
+// }
 void MainObject::Show(SDL_Renderer* des)
 {
     UpdateImage(des);
@@ -155,26 +153,7 @@ void MainObject::HandelInputAction(SDL_Event events, SDL_Renderer* screen)
                 break;
             case SDLK_w:
                 {
-                    Dan* p_dan = new Dan();
-                    p_dan->set_loai_Dan(Dan::DAN_PHI); // Change to the type of bullet you want
-                    p_dan->LoadDan(screen);
-
-                    if(status_ == WALK_LEFT)
-                    {
-                        p_dan->set_huong_Dan(Dan::DIR_DOWN_LEFT);
-                        p_dan->SetRect(this->rect_.x, rect_.y + height_frame_ * 0.25);
-                    }
-                    else
-                    {
-                        p_dan->set_huong_Dan(Dan::DIR_DOWN_RIGHT);
-                        p_dan->SetRect(this->rect_.x + width_frame_ - 20, rect_.y + height_frame_ * 0.25);
-                    }
-
-                    p_dan->set_x_val(20);
-                    p_dan->set_y_val(20);
-                    p_dan->set_is_move(true);
-
-                    dan_list_.push_back(p_dan);
+                    input_type_.jump_ = 1;
                 }
                 break;
 
@@ -196,7 +175,26 @@ void MainObject::HandelInputAction(SDL_Event events, SDL_Renderer* screen)
     {
         if(events.button.button == SDL_BUTTON_LEFT)
         {
-            input_type_.jump_ = 1;
+            Dan* p_dan = new Dan();
+            p_dan->set_loai_Dan(Dan::DAN_PHI); // Change to the type of bullet you want
+            p_dan->LoadDan(screen);
+
+            if(status_ == WALK_LEFT)
+            {
+                p_dan->set_huong_Dan(Dan::DIR_DOWN_LEFT);
+                p_dan->SetRect(this->rect_.x, rect_.y + height_frame_ * 0.25);
+            }
+            else
+            {
+                p_dan->set_huong_Dan(Dan::DIR_DOWN_RIGHT);
+                p_dan->SetRect(this->rect_.x + width_frame_ - 20, rect_.y + height_frame_ * 0.25);
+            }
+
+            p_dan->set_x_val(20);
+            p_dan->set_y_val(20);
+            p_dan->set_is_move(true);
+
+            dan_list_.push_back(p_dan);
         }
         else if(events.button.button == SDL_BUTTON_RIGHT)
         {
@@ -349,7 +347,7 @@ void MainObject::RemoveDan(const int& idx)
 void MainObject::CheckMap(Map& map_data)
 {
     int x1 = 0;// giới hạn chiều rông nhân vật  từ A -> B  (chiều ngang x)
-    int x2 = 0; // 
+    int x2 = 0; 
 
     int y1 = 0;// giới hạn chiều cao nhân vật từ A -> B  (chiều dọc y)
     int y2 = 0;
@@ -384,15 +382,33 @@ void MainObject::CheckMap(Map& map_data)
                 map_data.tile[y1][x2] = 0;
                 map_data.tile[y2][x2] = 0;
                 
+                if(MessageBoxW(NULL, L"You win", L"Thong bao",  MB_OK) == IDOK)
+                {
+                    clean_up();
+                    SDL_Quit();
+                    exit(0);
+                }
                 
             }
-            if(val1 == MONEY || val2 == MONEY || val1 == KEY || val2 == KEY || val1 == HEART || val2 == HEART)
+            else if(val1 == TAO || val2 == TAO)
             {
                 map_data.tile[y1][x2] = 0;
                 map_data.tile[y2][x2] = 0;
-                IncreaseMoney();
+
             }
-            else
+            else if(val1 == KEY || val2 == KEY)
+            {
+                map_data.tile[y1][x2] = 0;
+                map_data.tile[y2][x2] = 0;
+                key_count_++;
+            }
+            else if(val1 == MONEY || val2 == MONEY)
+            {
+                map_data.tile[y1][x2] = 0;
+                map_data.tile[y2][x2] = 0;
+                money_count_++;
+            }
+            else 
             {
                 if(val1 != BLANK || val2 != BLANK )
                 {
@@ -418,11 +434,36 @@ void MainObject::CheckMap(Map& map_data)
             int val1 = map_data.tile[y1][x1];
             int val2 = map_data.tile[y2][x1];
 
-            if(val1 == MONEY || val2 == MONEY || val1 == KEY || val2 == KEY || val1 == HEART || val2 == HEART)
+            if(val1 == KHOBAU || val2 == KHOBAU)
             {
-                map_data.tile[y1][x1] = 0;
-                map_data.tile[y2][x1] = 0;
-                IncreaseMoney();
+                map_data.tile[y1][x2] = 0;
+                map_data.tile[y2][x2] = 0;
+                
+                if(MessageBoxW(NULL, L"You win", L"Thong bao",  MB_OK) == IDOK)
+                {
+                    clean_up();
+                    SDL_Quit();
+                    exit(0);
+                }
+                
+            }
+            else if(val1 == TAO || val2 == TAO)
+            {
+                map_data.tile[y1][x2] = 0;
+                map_data.tile[y2][x2] = 0;
+
+            }
+            else if(val1 == KEY || val2 == KEY)
+            {
+                map_data.tile[y1][x2] = 0;
+                map_data.tile[y2][x2] = 0;
+                key_count_++;
+            }
+            else if(val1 == MONEY || val2 == MONEY)
+            {
+                map_data.tile[y1][x2] = 0;
+                map_data.tile[y2][x2] = 0;
+                money_count_++;
             }
             else{
                 if(val1 != BLANK || val2 != BLANK )
@@ -468,11 +509,36 @@ void MainObject::CheckMap(Map& map_data)
             int val1 = map_data.tile[y2][x1];
             int val2 = map_data.tile[y2][x2];
 
-            if(val1 == MONEY || val2 == MONEY || val1 == KEY || val2 == KEY || val1 == HEART || val2 == HEART)
+            if(val1 == KHOBAU || val2 == KHOBAU)
             {
-                map_data.tile[y2][x1] = 0;
+                map_data.tile[y1][x2] = 0;
                 map_data.tile[y2][x2] = 0;
-                IncreaseMoney();
+                
+                if(MessageBoxW(NULL, L"You win", L"Thong bao",  MB_OK) == IDOK)
+                {
+                    clean_up();
+                    SDL_Quit();
+                    exit(0);
+                }
+                
+            }
+            else if(val1 == TAO || val2 == TAO)
+            {
+                map_data.tile[y1][x2] = 0;
+                map_data.tile[y2][x2] = 0;
+                
+            }
+            else if(val1 == KEY || val2 == KEY)
+            {
+                map_data.tile[y1][x2] = 0;
+                map_data.tile[y2][x2] = 0;
+                key_count_++;
+            }
+            else if(val1 == MONEY || val2 == MONEY)
+            {
+                map_data.tile[y1][x2] = 0;
+                map_data.tile[y2][x2] = 0;
+                money_count_++;
             }
             else{
                 if(val1 != BLANK || val2 != BLANK )
@@ -498,11 +564,36 @@ void MainObject::CheckMap(Map& map_data)
             int val1 = map_data.tile[y1][x1];
             int val2 = map_data.tile[y1][x2];
 
-            if(val1 == MONEY || val2 == MONEY || val1 == KEY || val2 == KEY || val1 == HEART || val2 == HEART)
+            if(val1 == KHOBAU || val2 == KHOBAU)
             {
-                map_data.tile[y1][x1] = 0;
                 map_data.tile[y1][x2] = 0;
-                IncreaseMoney();
+                map_data.tile[y2][x2] = 0;
+                
+                if(MessageBoxW(NULL, L"You win", L"Thong bao",  MB_OK) == IDOK)
+                {
+                    clean_up();
+                    SDL_Quit();
+                    exit(0);
+                }
+                
+            }
+            else if(val1 == TAO || val2 == TAO)
+            {
+                map_data.tile[y1][x2] = 0;
+                map_data.tile[y2][x2] = 0;
+                
+            }
+            else if(val1 == KEY || val2 == KEY)
+            {
+                map_data.tile[y1][x2] = 0;
+                map_data.tile[y2][x2] = 0;
+                key_count_++;
+            }
+            else if(val1 == MONEY || val2 == MONEY)
+            {
+                map_data.tile[y1][x2] = 0;
+                map_data.tile[y2][x2] = 0;
+                money_count_++;
             }
             else{
                 if(val1 != BLANK || val2 != BLANK )
@@ -563,4 +654,20 @@ void MainObject::UpdateImage(SDL_Renderer* des)
             LoadImg("img/jum_right1.png", des);
         }
     }
+}
+
+void MainObject::clean_up()
+{
+    
+    // Destroy renderer
+    SDL_DestroyRenderer(g_screen);
+    g_screen = NULL;
+
+    // Destroy window
+    SDL_DestroyWindow(g_Window);
+    g_Window = NULL;
+
+    // Quit SDL subsystems
+    IMG_Quit();
+    SDL_Quit();
 }

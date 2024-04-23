@@ -20,7 +20,7 @@ public:
         WALK_RIGHT = 1,
         WALK_LEFT = 2,
     };
-    
+    void clean_up();    // dọn dẹp
     bool LoadImg(std::string path, SDL_Renderer* screen);// load hình ảnh
     void Show(SDL_Renderer* des);   // hiển thị hình ảnh
    
@@ -32,7 +32,8 @@ public:
 
     void SetMapXY(const int map_x, const int map_y){map_x_ = map_x; map_y_ = map_y;}// thiết lập vị trí map
     void TinhToanMap(Map& map_data); // tính toán thông số bản đồ 
-    void IncreaseMoney();// tăng tiền 
+    
+
     void UpdateImage(SDL_Renderer* des);// cập nhật hình ảnh nhân vật
     SDL_Rect GetRectFrame();// lấy kích thước hình ảnh nhân vật
     void set_come_back_time(const int& cb_time){come_back_time_ = cb_time;}// thiết lập thời gian quay lại
@@ -41,12 +42,18 @@ public:
     std::vector<Dan*> get_dan_list() const {return dan_list_;}// lấy danh sách đạn
     void HandelDan(SDL_Renderer *des); 
     void RemoveDan(const int& idx); // xóa đạn
+
+    int get_money_count() const {return money_count_;}// lấy số tiền
+    int get_key_count() const {return key_count_;}// lấy số chìa khóa
+    // int get_heart() const {return heart;}// lấy sinh mệnh
+    
+
 private:
     std::vector<Dan*> dan_list_;    // danh sách đạn
 
-    int money_count_;   // số tiền ăn đuọc
-    int key_count_;     // số chìa khóa
-    int sinh_Menh;       // sinh mệnh
+    int money_count_ = 0;   // số tiền ăn đuọc
+    int key_count_ = 0;     // số chìa khóa
+    // int heart = 0;       // sinh mệnh
 
     float x_val_;       // tang bao nhieu
     float y_val_;

@@ -239,6 +239,7 @@ void ThertsObject::InitDan(Dan* p_dan, SDL_Renderer* screen)// khởi tạo đ�
 {
     if(p_dan != NULL)
     {
+        
         p_dan->set_loai_Dan(Dan::DAN_BAN_LASER);
         p_dan->LoadDan(screen);
         p_dan->set_is_move(true);// đạn di chuyển
@@ -264,7 +265,7 @@ void ThertsObject::MakeDan(SDL_Renderer* screen, const int& x_limit, const int& 
             }
             else
             {
-                if(khoang_cach < 600)
+                if(khoang_cach < 300)
                 {
                     p_dan->HandleMove(x_limit, y_limit);
                     p_dan->Render(screen);
