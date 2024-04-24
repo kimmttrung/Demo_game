@@ -8,13 +8,14 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
-// #include "TextGame.h"
+
 
 
 
 static SDL_Window* g_Window = NULL;
 static SDL_Renderer* g_screen = NULL;
 static SDL_Event g_Event;
+static SDL_Surface* g_menu = NULL;
 
 // SDL_Surface: là 1 cấu trúc hìn ảnh chứ pixel: tạo, vẽ, xóa, chuyển đổi, lưu, tải, ...
 // SDL_Renderer: là 1 cấu trúc vẽ hình ảnh, nó giúp vẽ hình ảnh lên màn hình và hỗ trợ tăng tốc độ vẽ hình ảnh
@@ -23,9 +24,7 @@ static SDL_Event g_Event;
 // SCREEN_BPP: số bit màu cho mỗi pixel
 // RENDER_DRAW_COLOR: màu vẽ mặc định
 
-// static SDL_Surface* g_bkground = NULL;
-// static SDL_Surface* g_menu = NULL;
-// static SDL_Surface* g_img_player = NULL;
+
 
 
 
@@ -80,9 +79,9 @@ struct Map // lưu trữ thông tin map
 namespace SDLCommonFunc
 {
     bool CheckVaCham(const SDL_Rect& object1, const SDL_Rect& object2);// kiểm tra va chạm
-    //int ShowMenu(SDL_Renderer* des, TTF_Font* font);// hiển thị menu
+    int ShowMenu(SDL_Renderer* des, TTF_Font* font);// hiển thị menu
 
-    //SDL_Rect ApplySurface(SDL_Surface* src, SDL_Renderer* des, int x, int y);// áp dụng hình ảnh
+    SDL_Rect ApplySurface(SDL_Surface* src, SDL_Renderer* des, int x, int y);// áp dụng hình ảnh
 
-    //bool CheckFocusWithRect(const int& x, const int& y, const SDL_Rect& rect);// kiểm tra chuột
+    bool CheckFocusWithRect(const int& x, const int& y, const SDL_Rect& rect);// kiểm tra chuột
 }

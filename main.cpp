@@ -66,43 +66,36 @@ bool LoadBackground()
         return false;
     return true;
 }
-
-std::vector<ThertsObject*> MakeTherts()// tạo threat
+ThertsObject* CreateThertsObject(const std::string& img_path, SDL_Renderer* renderer, int x_pos, int y_pos)
 {
-    ThertsObject* therts_object = new ThertsObject[20];
+    ThertsObject* therts_object = new ThertsObject();
+    therts_object->LoadImg(img_path, renderer);
+    therts_object->set_clip();
+    therts_object->set_x_pos(x_pos);
+    therts_object->set_y_pos(y_pos);
+
+    Dan* dan = new Dan();
+    therts_object->InitDan(dan, renderer);
+
+    return therts_object;
+}
+
+std::vector<ThertsObject*> MakeTherts()
+{
     std::vector<ThertsObject*> list_therts;
-    
-    for(int i = 0; i < 25; i++)
+
+    for(int i = 0; i < 30; i++)
     {
-        ThertsObject* therts_object = new ThertsObject();
-        therts_object->LoadImg("img/threat4.png", g_screen); // load hình ảnh threat
-        therts_object->set_clip();// cắt hình
-        
-        therts_object->set_x_pos(1200 + i*400);
-        therts_object->set_y_pos(200);
-
-
-        Dan* dan = new Dan();
-        therts_object->InitDan(dan, g_screen);// khởi tạo đạn
-        list_therts.push_back(therts_object);// thêm vào danh sách threat
+        list_therts.push_back(CreateThertsObject("img/threat4.png", g_screen, 1000 + i*400, 400));
+        list_therts.push_back(CreateThertsObject("img/threat_level.png", g_screen, 1200 + i*400, 400));
+        list_therts.push_back(CreateThertsObject("img/threat_level.png", g_screen, 700 + i*500, 1200));
+        list_therts.push_back(CreateThertsObject("img/threat4.png", g_screen, 1000 + i*500, 1200));
+        list_therts.push_back(CreateThertsObject("img/threat4.png", g_screen, 700 + i*300, 1700));
     }
 
-    for(int i = 0; i < 20; i++)
-    {
-        ThertsObject* therts_object = new ThertsObject();
-        therts_object->LoadImg("img/threat4.png", g_screen); // load hình ảnh threat
-        therts_object->set_clip();// cắt hình
-        
-        therts_object->set_x_pos(700 + i*500);
-        therts_object->set_y_pos(900);
-
-        Dan* dan = new Dan();
-        therts_object->InitDan(dan, g_screen);// khởi tạo đạn
-        list_therts.push_back(therts_object);// thêm vào danh sách threat
-    }
-    
     return list_therts;
 }
+
 
 void close()
 {
@@ -145,21 +138,24 @@ int main(int argc, char* argv[])
 
     TextObject p_hp;
     p_hp.SetColor(TextObject::XANH_TEXT);
-    
     TextObject time_game;
     time_game.SetColor(TextObject::XANH_TEXT);
-
     TextObject mark_game;
     mark_game.SetColor(TextObject::RED_TEXT);
     Uint32 mark_val = 0;
-
     TextObject money_game;
     money_game.SetColor(TextObject::BLACK_TEXT);
-
     TextObject key_game;
     key_game.SetColor(TextObject::XANH_TEXT);
 
     bool is_quit = false;
+
+    int menu = SDLCommonFunc::ShowMenu(g_screen, font_time);
+    if(menu == 1)
+    {
+        is_quit = false;
+    }
+
     while(!is_quit)
     {
         fps_time.start();
@@ -296,7 +292,7 @@ int main(int argc, char* argv[])
 
         // Time game
         Uint32 time_val = SDL_GetTicks()/1000;
-        Uint32 val_time = 3000 - time_val;
+        Uint32 val_time = 1000 - time_val;
 
         if(val_time <= 0)
         {
