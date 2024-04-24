@@ -15,7 +15,7 @@ public:
     virtual bool LoadImg(std::string path, SDL_Renderer* screen);// load hình ảnh
     void Render(SDL_Renderer* des, const SDL_Rect* clip = NULL);// vẽ hình ảnh lên màn hình
     void Free();
-
+    void Show(SDL_Renderer* des);// hiển thị hình ảnh lên màn hình
 
 protected:
     SDL_Texture* p_object_;  // luu hinh anh

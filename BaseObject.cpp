@@ -50,6 +50,15 @@ void BaseObject::Render(SDL_Renderer* des, const SDL_Rect* clip)
     SDL_RenderCopy(des, p_object_, clip, &renderquad);
 }
 
+void BaseObject::Show(SDL_Renderer* des)
+{
+    if(p_object_ != NULL)
+    {
+        SDL_Rect renderquad = {rect_.x, rect_.y, rect_.w, rect_.h};
+        SDL_RenderCopy(des, p_object_, NULL, &renderquad);
+    }
+}
+
 void BaseObject::Free()
 {
     if(p_object_ != NULL)

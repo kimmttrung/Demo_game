@@ -21,130 +21,119 @@ bool SDLCommonFunc::CheckVaCham(const SDL_Rect& object1, const SDL_Rect& object2
     return true;
 }
 
-SDL_Rect SDLCommonFunc::ApplySurface(SDL_Surface* src, SDL_Renderer* des, int x, int y)
-{
-    SDL_Texture* texture = SDL_CreateTextureFromSurface(des, src);
-    if(texture == NULL)
-    {
-        // handle error
-        return SDL_Rect();
-    }
+// SDL_Rect SDLCommonFunc::ApplySurface(SDL_Surface* src, SDL_Renderer* des, int x, int y)
+// {
+//     SDL_Rect offset;
+//     offset.x = x;
+//     offset.y = y;
+//     SDL_BlitSurface(src, NULL, des, &offset);
 
-    SDL_Rect dstRect;
-    dstRect.x = x;
-    dstRect.y = y;
-    SDL_QueryTexture(texture, NULL, NULL, &dstRect.w, &dstRect.h);
-
-    SDL_RenderCopy(des, texture, NULL, &dstRect);
-
-    SDL_DestroyTexture(texture); // don't forget to destroy the texture after using it
-
-    return dstRect;
-}
+// }
 
 // Kiểm tra focus
-bool SDLCommonFunc::CheckFocusWithRect(const int& x, const int& y, const SDL_Rect& rect)
-{
-    if(x >= rect.x && x <= rect.x + rect.w && y >= rect.y && y <= rect.y + rect.h)
-    {
-        return true;
-    }
-    return false;
-}
+// bool SDLCommonFunc::CheckFocusWithRect(const int& x, const int& y, const SDL_Rect& rect)
+// {
+//     if(x >= rect.x && x <= rect.x + rect.w && y >= rect.y && y <= rect.y + rect.h)
+//     {
+//         return true;
+//     }
+//     return false;
+// }
 
-int SDLCommonFunc::ShowMenu(SDL_Renderer* des, TTF_Font* font)
-{
-    SDL_Surface* menu_surface = IMG_Load("img/start1.png");
-    if(menu_surface == NULL)
-    {
-        return 1;
-    }
+// int SDLCommonFunc::ShowMenu(SDL_Renderer* des, TTF_Font* font)
+// {
+//     SDL_Surface* menu_surface = IMG_Load("img/start1.png");
+//     if(menu_surface == NULL)
+//     {
+//         return 1;
+//     }
 
-    const int n_menu = 2;
-    SDL_Rect pos[n_menu] = {{200, 400, 0, 0}, {200, 500, 0, 0}};
-    TextObject text_menu[n_menu];
+//     const int n_menu = 2;
+//     SDL_Rect pos[n_menu] = {{200, 400, 0, 0}, {200, 500, 0, 0}};
+//     TextObject text_menu[n_menu];
 
-    for(int i = 0; i < n_menu; i++)
-    {
-        text_menu[i].SetText((i == 0) ? "PLAY GAME" : "EXIT");
-        text_menu[i].SetColor(TextObject::BLACK_TEXT);
-        text_menu[i].SetRect(pos[i].x, pos[i].y);
-        text_menu[i].LoadFromRenderText(font, des);
-    }
+//     for(int i = 0; i < n_menu; i++)
+//     {
+//         text_menu[i].SetText((i == 0) ? "PLAY GAME" : "EXIT");
+//         text_menu[i].SetColor(TextObject::BLACK_TEXT);
+//         text_menu[i].SetRect(pos[i].x, pos[i].y);
+//         //text_menu[i].LoadFromRenderText(font, des);
+//     }
 
-    bool selected[n_menu] = {false, false};
-    int xm = 0;
-    int ym = 0;
-    SDL_Event m_event;
+//     bool selected[n_menu] = {false, false};
+//     int xm = 0;
+//     int ym = 0;
+//     SDL_Event m_event;
 
-    while(true)
-    {
-        SDL_RenderClear(des);
-        SDLCommonFunc::ApplySurface(g_menu, des, 0, 0);
-        for(int i = 0; i < n_menu; i++)
-        {
-            text_menu[i].RenderText(des, pos[i].x, pos[i].y);
-        }
+//     while(true)
+//     {
+//         // SDL_RenderClear(des);
+//         SDLCommonFunc::ApplySurface(g_menu, des, 0, 0);
+//         for(int i = 0; i < n_menu; i++)
+//         {
+//             text_menu[i].RenderText(des, font);
+//         }
 
-        while(SDL_PollEvent(&m_event))
-        {
-            switch(m_event.type)
-            {
-                case SDL_QUIT:
-                {
-                    return 1;
-                }
-                case SDL_MOUSEMOTION:
-                {
-                    xm = m_event.motion.x;// lấy tọa độ chuột
-                    ym = m_event.motion.y;
-                    for(int i = 0; i < n_menu; i++)
-                    {
-                        if(SDLCommonFunc::CheckFocusWithRect(xm, ym, text_menu[i].GetRect()))
-                        {
-                            if(selected[i] == false)
-                            {
-                                selected[i] = true;
-                                text_menu[i].SetColor(TextObject::RED_TEXT);
-                            }
-                        }
-                        else
-                        {
-                            if(selected[i] == true)
-                            {
-                                selected[i] = false;
-                                text_menu[i].SetColor(TextObject::BLACK_TEXT);
-                            }
-                        }
-                    }
-                break;
-                }
-                case SDL_MOUSEBUTTONDOWN:
-                {
-                    xm = m_event.button.x;
-                    ym = m_event.button.y;
-                    for(int i = 0; i < n_menu; i++)
-                    {
-                        if(SDLCommonFunc::CheckFocusWithRect(xm, ym, text_menu[i].GetRect()))
-                        {
-                            return i;
-                        }
-                    }
-                break;
-                }
-                case SDL_KEYDOWN:
-                {
-                    if(m_event.key.keysym.sym == SDLK_ESCAPE)
-                    {
-                        return 1;
-                    }
-                }
-                default:
-                break;
-            }
-        }
-        SDL_RenderPresent(des);
-    }
+//         while(SDL_PollEvent(&m_event))
+//         {
+//             switch(m_event.type)
+//             {
+//                 case SDL_QUIT:
+//                 {
+//                     return 1;
+//                 }
+//                 case SDL_MOUSEMOTION:
+//                 {
+//                     xm = m_event.motion.x;// lấy tọa độ chuột
+//                     ym = m_event.motion.y;
+//                     for(int i = 0; i < n_menu; i++)
+//                     {
+//                         if(SDLCommonFunc::CheckFocusWithRect(xm, ym, text_menu[i].GetRect()))
+//                         {
+//                             if(selected[i] == false)
+//                             {
+//                                 selected[i] = true;
+//                                 text_menu[i].SetColor(TextObject::RED_TEXT);
+//                             }
+//                         }
+//                         else
+//                         {
+//                             if(selected[i] == true)
+//                             {
+//                                 selected[i] = false;
+//                                 text_menu[i].SetColor(TextObject::BLACK_TEXT);
+//                             }
+//                         }
+//                     }
+//                 break;
+//                 }
+//                 case SDL_MOUSEBUTTONDOWN:
+//                 {
+//                     xm = m_event.button.x;
+//                     ym = m_event.button.y;
+//                     for(int i = 0; i < n_menu; i++)
+//                     {
+//                         if(SDLCommonFunc::CheckFocusWithRect(xm, ym, text_menu[i].GetRect()))
+//                         {
+//                             return i;
+//                         }
+//                     }
+//                 break;
+//                 }
+//                 case SDL_KEYDOWN:
+//                 {
+//                     if(m_event.key.keysym.sym == SDLK_ESCAPE)
+//                     {
+//                         return 1;
+//                     }
+//                 }
+//                 default:
+//                 break;
+//             }
+//         }
+//         SDL_RenderPresent(des);
+//     }
     
-    return 1;// thoát khỏi menu
-}
+//     return 1;// thoát khỏi menu
+// }
+

@@ -8,7 +8,7 @@
 #define GRAVITY_APEED 0.8   // trọng lực rơi
 #define MAX_FALL_SPEED 10   // tốc độ rơi tối đa
 #define PLAYER_SPEED 10      // tốc độ di chuyển nhân vật
-#define PLAYER_JUMP_VAL 20  // tốc độ nhảy
+#define PLAYER_JUMP_VAL 17.5  // tốc độ nhảy
 class MainObject : public BaseObject
 {
 public:
@@ -45,7 +45,9 @@ public:
 
     int get_money_count() const {return money_count_;}// lấy số tiền
     int get_key_count() const {return key_count_;}// lấy số chìa khóa
-    // int get_heart() const {return heart;}// lấy sinh mệnh
+    
+    void CheckTile(Map& map_data, int x, int y);
+
     
 
 private:
@@ -53,7 +55,6 @@ private:
 
     int money_count_ = 0;   // số tiền ăn đuọc
     int key_count_ = 0;     // số chìa khóa
-    // int heart = 0;       // sinh mệnh
 
     float x_val_;       // tang bao nhieu
     float y_val_;

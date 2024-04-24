@@ -44,16 +44,12 @@ bool InitData()
                 success = false;    
         }
 
-        if(TTF_Init() == -1)
-        {
-            success = false;
-        }
+        if(TTF_Init() == -1) success = false;
+    
         font_time = TTF_OpenFont("Front/font-times-new-roman.ttf", 40);// load font
 
-        if(font_time == NULL) 
-        {
-            success = false;
-        }
+        if(font_time == NULL) success = false;
+        
     }
 
     return success;
@@ -88,22 +84,24 @@ std::vector<ThertsObject*> MakeTherts()
     {
         list_therts.push_back(CreateThertsObject("img/threat4.png", g_screen, 1000 + i*400, 400));
         list_therts.push_back(CreateThertsObject("img/threat_level.png", g_screen, 1200 + i*400, 400));
+        list_therts.push_back(CreateThertsObject("img/boss1.png", g_screen, 900 + i*1000, 400));
+
         list_therts.push_back(CreateThertsObject("img/threat_level.png", g_screen, 700 + i*500, 1200));
         list_therts.push_back(CreateThertsObject("img/threat4.png", g_screen, 1000 + i*500, 1200));
+        list_therts.push_back(CreateThertsObject("img/boss1.png", g_screen, 900 + i*1000, 1200));
+        
         list_therts.push_back(CreateThertsObject("img/threat4.png", g_screen, 700 + i*300, 1700));
+        list_therts.push_back(CreateThertsObject("img/boss1.png", g_screen, 1000 + i*300, 1700));
     }
 
     return list_therts;
 }
 
-
 void close()
 {
     g_background.Free();
-
     SDL_DestroyRenderer(g_screen);
     g_screen = NULL;
-
     SDL_DestroyWindow(g_Window);
     g_Window = NULL;
 
@@ -112,15 +110,74 @@ void close()
 }
 
 
+
+void HandleCollision(ThertsObject* therts, MainObject& p_player, int& sinh_Menh)
+{
+    SDL_Rect rect_player = p_player.GetRectFrame();
+    bool bCol = false;
+    std::vector<Dan*> dan_list = therts->get_dan_list();
+    for(int z=0;z<dan_list.size();z++)
+    {
+        Dan* p_dan = dan_list.at(z);
+        if(p_dan != NULL)
+        {
+            bCol = SDLCommonFunc::CheckVaCham(p_dan->GetRect(), rect_player);
+            if(bCol)
+            {
+                therts->RemoveDan(z);
+                break;
+            }
+        }
+    }
+
+    SDL_Rect rect_threat = therts->GetRect();
+    bool bCol1 = SDLCommonFunc::CheckVaCham(rect_player, rect_threat);
+
+    if(bCol1 || bCol)
+    {
+        sinh_Menh--;
+        if(sinh_Menh < 5 && sinh_Menh > 0)
+        {
+            if(MessageBoxW(NULL, L"You have lost 1 life. Do you want to play again?", L"Thong bao",  MB_YESNO) == IDNO)
+            {
+                therts->Free();
+                close();
+                SDL_Quit();
+                exit(0);
+            }
+            else{
+                p_player.SetRect(0, 0);
+                p_player.SetMapXY(0, 0);
+                p_player.set_come_back_time(60);
+            }
+        }
+        else if(sinh_Menh == 0)
+        {
+            if(MessageBoxW(NULL, L"GAME OVER", L"Thong bao",  MB_OK | MB_ICONSTOP) == IDOK)
+            {
+                therts->Free();
+                close();
+                SDL_Quit();
+                exit(0);
+            }
+        }
+    }
+}
+
+void UpdateAndRenderInfo(TextObject& text_obj, const std::string& info, int value, TTF_Font* font, SDL_Renderer *g_screen, int x, int y)
+{
+    std::string str_info = info + std::to_string(value);
+    text_obj.SetText(str_info);
+    text_obj.LoadFromRenderText(font, g_screen);
+    text_obj.RenderText(g_screen, x, y);
+}
+
 int main(int argc, char* argv[])
 { 
     ImpTimer fps_time;
 
-    if(InitData() == false)
-        return -1;
-    if(LoadBackground() == false)
-        return -1;
-
+    if(InitData() == false) return -1;
+    if(LoadBackground() == false) return -1;
 
     GameMap game_map;// khai bao map
     #pragma GCC diagnostic ignored "-Wwrite-strings"
@@ -150,11 +207,7 @@ int main(int argc, char* argv[])
 
     bool is_quit = false;
 
-    int menu = SDLCommonFunc::ShowMenu(g_screen, font_time);
-    if(menu == 1)
-    {
-        is_quit = false;
-    }
+    
 
     while(!is_quit)
     {
@@ -167,10 +220,11 @@ int main(int argc, char* argv[])
             }
             p_player.HandelInputAction(g_Event, g_screen);// xử lý di chuyển nhân vật
         }
-
+        
         SDL_SetRenderDrawColor(g_screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
-        SDL_RenderClear(g_screen);
+        SDL_RenderClear(g_screen);// xóa màn hình
 
+    
         g_background.Render(g_screen, NULL);
         game_map.DrawMap(g_screen);
         Map map_data = game_map.getMap();// lấy thông tin map
@@ -194,58 +248,7 @@ int main(int argc, char* argv[])
                 therts->MakeDan(g_screen, SCREEN_WIDTH, SCREEN_HEIGHT);// tạo đạn
                 therts->Show(g_screen);
 
-                SDL_Rect rect_player = p_player.GetRectFrame();// lấy kích thước nhân vật
-                bool bCol = false;
-                std::vector<Dan*> dan_list = therts->get_dan_list();
-                for(int z=0;z<dan_list.size();z++)
-                {
-                    Dan* p_dan = dan_list.at(z);
-                    if(p_dan != NULL)
-                    {
-                        bCol = SDLCommonFunc::CheckVaCham(p_dan->GetRect(), rect_player);
-                        if(bCol)
-                        {
-                            therts->RemoveDan(z);
-                            break;
-
-                        }
-                    }
-                }
-
-                SDL_Rect rect_threat = therts->GetRect();// lấy kích thước threat
-                bool bCol1 = SDLCommonFunc::CheckVaCham(rect_player, rect_threat);
-
-
-                if(bCol1 || bCol)
-                {
-                    sinh_Menh--;
-                    if(sinh_Menh < 5 && sinh_Menh > 0)
-                    {
-                        if(MessageBoxW(NULL, L"You have lost 1 life. Do you want to play again?", L"Thong bao",  MB_YESNO) == IDNO)
-                        {
-                            therts->Free();
-                            close();
-                            SDL_Quit();
-                            return 0;
-                        }
-                        else{
-                            p_player.SetRect(0, 0);
-                            p_player.SetMapXY(0, 0);
-                            p_player.set_come_back_time(60);
-
-                        }
-                    }
-                    else if(sinh_Menh == 0)
-                    {
-                        if(MessageBoxW(NULL, L"GAME OVER", L"Thong bao",  MB_OK | MB_ICONSTOP) == IDOK)
-                        {
-                            therts->Free();
-                            close();
-                            SDL_Quit();
-                            return 0;
-                        }
-                    }
-                }
+                HandleCollision(therts, p_player, sinh_Menh);
             }
         }
         
@@ -287,10 +290,9 @@ int main(int argc, char* argv[])
             }
         }
 
-        
-        Uint32 last_time_val = 0;
 
         // Time game
+        Uint32 last_time_val = 0;
         Uint32 time_val = SDL_GetTicks()/1000;
         Uint32 val_time = 1000 - time_val;
 
@@ -305,45 +307,16 @@ int main(int argc, char* argv[])
         else if (time_val != last_time_val) 
         {
             last_time_val = time_val;
-
-            std::string str_time = "Time: " + std::to_string(val_time);
-            time_game.SetText(str_time);
-            time_game.LoadFromRenderText(font_time, g_screen);
-            time_game.RenderText(g_screen, SCREEN_WIDTH - 200, 15);
+            UpdateAndRenderInfo(time_game, "Time: ", val_time, font_time, g_screen, SCREEN_WIDTH - 200, 15);
         }
 
-        std::string val_str_mark = std::to_string(mark_val);
-        std::string str_val = "Mark: ";
-        str_val += val_str_mark;
-        mark_game.SetText(str_val);
-        mark_game.LoadFromRenderText(font_time, g_screen);
-        mark_game.RenderText(g_screen, SCREEN_WIDTH*0.5 - 500, 15);
-
-        int money_count = p_player.get_money_count();
-        std::string str_score = "Money: ";
-        str_score += std::to_string(money_count);
-        money_game.SetText(str_score);                              
-        money_game.LoadFromRenderText(font_time, g_screen);         
-        money_game.RenderText(g_screen, SCREEN_WIDTH*0.5 - 100, 15); 
-
-        int heart = sinh_Menh;
-        std::string str_hp = "HP: ";
-        str_hp += std::to_string(heart);
-        p_hp.SetText(str_hp);
-        p_hp.LoadFromRenderText(font_time, g_screen);
-        p_hp.RenderText(g_screen, 50, 15);  
-
-        int key_count = p_player.get_key_count();
-        std::string str_key = "Key: ";
-        str_key += std::to_string(key_count);
-        key_game.SetText(str_key);
-        key_game.LoadFromRenderText(font_time, g_screen);
-        key_game.RenderText(g_screen, SCREEN_WIDTH - 500, 15);
+        UpdateAndRenderInfo(mark_game, "Mark: ", mark_val, font_time, g_screen, SCREEN_WIDTH*0.5 - 500, 15);
+        UpdateAndRenderInfo(money_game, "Money: ", p_player.get_money_count(), font_time, g_screen, SCREEN_WIDTH*0.5 - 100, 15);
+        UpdateAndRenderInfo(p_hp, "HP: ", sinh_Menh, font_time, g_screen, 50, 15);
+        UpdateAndRenderInfo(key_game, "Key: ", p_player.get_key_count(), font_time, g_screen, SCREEN_WIDTH - 500, 15);
 
 
-        
-
-        SDL_RenderPresent(g_screen);
+        SDL_RenderPresent(g_screen);// cập nhật màn hình
 
         int real_imp_time = fps_time.get_ticks();// thoi gian thuc te
         int time_one_frame = 1000/FRAME_PER_SECOND;// thoi gian 1 frame: 1000ms/25frame = 40ms

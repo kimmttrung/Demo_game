@@ -22,6 +22,7 @@ public:
     void SetColor(Uint8 red, Uint8 green, Uint8 blue);
     void SetColor(const int& type);
     void SetText(const std::string& text) { str_val_ = text; }
+    void CreateGameText(TTF_Font* font, SDL_Renderer* des);// tạo văn bản từ font
 
     //std::string GetText() const { return str_val_; }
 

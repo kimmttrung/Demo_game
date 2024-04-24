@@ -65,6 +65,16 @@ void TextObject::SetColor(const int& type)
     }
 }
 
+void TextObject::CreateGameText(TTF_Font* font, SDL_Renderer* des)
+{
+    SDL_Surface* text_surface = TTF_RenderText_Solid(font, str_val_.c_str(), text_color_);
+    texture_ = SDL_CreateTextureFromSurface(des, text_surface);
+    width_ = text_surface->w;
+    height_ = text_surface->h;
+
+    SDL_FreeSurface(text_surface);
+}
+
 void TextObject::RenderText(SDL_Renderer* des, const int& xp, const int& yp, SDL_Rect* clip)
 {
     SDL_Rect renderQuad = {xp, yp, width_, height_};// vị trí và kích thước của văn bản
