@@ -285,8 +285,14 @@ void MainObject::DoPlayer(Map& map_data)// xử lý nhân vật
             TrenBeMat = false;
             if(x_pos_ > 512) x_pos_ -= 192;// lùi 4 ô
             else x_pos_ = 448;
-            
-            if(y_pos_ > 640)y_pos_ = 832;
+            if(y_pos_ > 640 && y_pos_ < 1280) 
+            {
+                y_pos_ = 832;
+            }
+            else if(y_pos_ > 1280) 
+            {
+                y_pos_ = 1728;
+            }
             else y_pos_ = 64;
     
             x_val_ = 0;
@@ -371,8 +377,12 @@ void MainObject::CheckTile(Map& map_data, int x, int y)
             {
                 map_data.tile[13][4] = 0;
             }
-
             else if(key_count_ == 3)
+            {
+                map_data.tile[22][2] = 0;
+            }
+
+            else if(key_count_ == 4)
             {
                 map_data.tile[1][5] = 0;
                 map_data.tile[2][5] = 0;

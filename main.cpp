@@ -81,16 +81,18 @@ std::vector<ThertsObject*> MakeTherts()
 
     for(int i = 0; i < 30; i++)
     {
-        list_therts.push_back(CreateThertsObject("img/threat4.png", g_screen, 1000 + i*400, 400));
-        list_therts.push_back(CreateThertsObject("img/threat_level.png", g_screen, 1200 + i*400, 400));
-        list_therts.push_back(CreateThertsObject("img/boss1.png", g_screen, 900 + i*1000, 400));
+        list_therts.push_back(CreateThertsObject("img/boss3.png", g_screen, 1000 + i*420, 64));
+        list_therts.push_back(CreateThertsObject("img/boss2.png", g_screen, 1200 + i*650, 64));
+        list_therts.push_back(CreateThertsObject("img/boss1.png", g_screen, 1400 + i*300, 64));
 
-        list_therts.push_back(CreateThertsObject("img/threat_level.png", g_screen, 700 + i*500, 1200));
-        list_therts.push_back(CreateThertsObject("img/threat4.png", g_screen, 1000 + i*500, 1200));
-        list_therts.push_back(CreateThertsObject("img/boss1.png", g_screen, 900 + i*1000, 1200));
+        list_therts.push_back(CreateThertsObject("img/boss1.png", g_screen, 700 + i*500, 704));
+        list_therts.push_back(CreateThertsObject("img/boss2.png", g_screen, 1000 + i*500, 704));
+        list_therts.push_back(CreateThertsObject("img/boss3.png", g_screen, 900 + i*1000, 704));
         
-        list_therts.push_back(CreateThertsObject("img/threat4.png", g_screen, 700 + i*300, 1700));
-        list_therts.push_back(CreateThertsObject("img/boss1.png", g_screen, 1000 + i*300, 1700));
+        list_therts.push_back(CreateThertsObject("img/boss2.png", g_screen, 700 + i*300, 1344));
+        list_therts.push_back(CreateThertsObject("img/boss1.png", g_screen, 7000 + i*400, 1344));
+        list_therts.push_back(CreateThertsObject("img/boss3.png", g_screen, 700 + i*500, 1344));
+
     }
 
     return list_therts;
