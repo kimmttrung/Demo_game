@@ -299,7 +299,6 @@ void MainObject::DoPlayer(Map& map_data)// xử lý nhân vật
             y_val_ = 0;
         }
     }
-
 }
 
 void MainObject::TinhToanMap(Map& map_data)
