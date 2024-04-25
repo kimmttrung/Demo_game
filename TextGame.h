@@ -21,12 +21,15 @@ public:
 
     void SetColor(Uint8 red, Uint8 green, Uint8 blue);
     void SetColor(const int& type);
-    void SetText(const std::string& text) { str_val_ = text; }
+    void SetText(const std::string& text) { str_val_ = text;}
     void CreateGameText(TTF_Font* font, SDL_Renderer* des);// tạo văn bản từ font
 
     //std::string GetText() const { return str_val_; }
 
     void RenderText(SDL_Renderer* des, const int& xp, const int& yp, SDL_Rect* clip = NULL);// vẽ 1 đoạn văn bản lên màn hình
+    void CreateGameText(TTF_Font* font, SDL_Surface* des);
+    
+    
 private:
     std::string str_val_;
     SDL_Color text_color_;

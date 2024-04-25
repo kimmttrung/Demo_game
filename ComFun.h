@@ -26,10 +26,8 @@ static SDL_Surface* g_menu = NULL;
 
 
 
-
-
 const int SCREEN_WIDTH = 1920;
-const int SCREEN_HEIGHT = 1280;
+const int SCREEN_HEIGHT = 1088;
 const int SCREEN_BPP = 32;
 
 const int FRAME_PER_SECOND = 25;// trong 1s chạy đc 25 frame(càng nhỏ -> chương trình chạy càng chậm)
@@ -76,15 +74,9 @@ struct Map // lưu trữ thông tin map
 
 };
 
+int SDL_Flip(SDL_Surface* screen);
+
 namespace SDLCommonFunc
 {
     bool CheckVaCham(const SDL_Rect& object1, const SDL_Rect& object2);// kiểm tra va chạm
-    // int ShowMenu(SDL_Renderer* des, TTF_Font* font);// hiển thị menu
-
-    // SDL_Rect ApplySurface(SDL_Surface* src, SDL_Surface* des, int x, int y);// áp dụng hình ảnh
-
-    // bool CheckFocusWithRect(const int& x, const int& y, const SDL_Rect& rect);// kiểm tra chuột
-
-    // void renderText(SDL_Renderer* renderer, TTF_Font* font, const std::string& text, SDL_Color color, int x, int y);// hiển thị văn bản
-    // void renderMenu(SDL_Renderer* renderer, TTF_Font* font, const std::vector<std::string>& items, int selectedItem);// hiển thị menu
 }

@@ -9,6 +9,7 @@
 
 
 BaseObject g_background;
+BaseObject menu;
 TTF_Font* font_time = NULL;
 
 bool InitData()
@@ -49,9 +50,7 @@ bool InitData()
         font_time = TTF_OpenFont("Front/font-times-new-roman.ttf", 40);// load font
 
         if(font_time == NULL) success = false;
-        
     }
-
     return success;
 }
 
@@ -108,8 +107,6 @@ void close()
     IMG_Quit();
     SDL_Quit();
 }
-
-
 
 void HandleCollision(ThertsObject* therts, MainObject& p_player, int& sinh_Menh)
 {
@@ -184,7 +181,7 @@ int main(int argc, char* argv[])
     game_map.LoadMap("map1/map012.dat");// load map
     #pragma GCC diagnostic warning "-Wwrite-strings"
     game_map.LoadTiles(g_screen);// load hinh anh cho map
-
+    
     MainObject p_player;// khai bao animation
     p_player.LoadImg("img/player_right1.png", g_screen);
     p_player.set_clips();
@@ -205,9 +202,61 @@ int main(int argc, char* argv[])
     TextObject key_game;
     key_game.SetColor(TextObject::XANH_TEXT);
 
+    TextObject menu_game;
+    menu_game.SetColor(TextObject::XANH_TEXT);
+    SDL_Rect exit_button = {static_cast<int>(SCREEN_WIDTH*0.5 - 100), static_cast<int>(SCREEN_HEIGHT*0.5+300), 200, 50};
+    menu.LoadImg("img/start.png", g_screen);
+    bool menuGame = true;
+    std::string str_menu_play = "PLAY GAME";
+    std::string str_menu_exit = "EXIT";
+
     bool is_quit = false;
 
-    
+    while(menuGame)
+    {
+        while(SDL_PollEvent(&g_Event) != 0)
+        {
+            if (g_Event.type == SDL_QUIT) {
+                is_quit = true;
+                menuGame = false;
+            }
+            if(g_Event.type == SDL_MOUSEBUTTONDOWN)
+            {
+                int x = g_Event.button.x;
+                int y = g_Event.button.y;
+                if (x >= exit_button.x && x <= exit_button.x + exit_button.w &&
+                    y >= exit_button.y && y <= exit_button.y + exit_button.h)
+                {
+                    // Người dùng nhấn vào chữ "Exit"
+                    is_quit = true;
+                    menuGame = false;
+                }
+                else
+                {
+                    menuGame = false;
+                    is_quit = false;
+                }
+            }
+            if(g_Event.type == SDL_KEYDOWN)
+            {
+                if(g_Event.key.keysym.sym == SDLK_ESCAPE)
+                {
+                    is_quit = true;
+                    menuGame = false;
+                }
+            }
+        }
+
+        menu.Render(g_screen, NULL);
+        menu_game.SetText(str_menu_play);
+        menu_game.LoadFromRenderText(font_time,g_screen);
+        menu_game.RenderText(g_screen,SCREEN_WIDTH*0.5 - 100, SCREEN_HEIGHT* 0.5+200);
+        
+        menu_game.SetText(str_menu_exit);
+        menu_game.LoadFromRenderText(font_time,g_screen);
+        menu_game.RenderText(g_screen, exit_button.x, exit_button.y);
+        SDL_RenderPresent(g_screen);
+    }
 
     while(!is_quit)
     {
@@ -224,7 +273,6 @@ int main(int argc, char* argv[])
         SDL_SetRenderDrawColor(g_screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
         SDL_RenderClear(g_screen);// xóa màn hình
 
-    
         g_background.Render(g_screen, NULL);
         game_map.DrawMap(g_screen);
         Map map_data = game_map.getMap();// lấy thông tin map
@@ -314,7 +362,6 @@ int main(int argc, char* argv[])
         UpdateAndRenderInfo(money_game, "Money: ", p_player.get_money_count(), font_time, g_screen, SCREEN_WIDTH*0.5 - 100, 15);
         UpdateAndRenderInfo(p_hp, "HP: ", sinh_Menh, font_time, g_screen, 50, 15);
         UpdateAndRenderInfo(key_game, "Key: ", p_player.get_key_count(), font_time, g_screen, SCREEN_WIDTH - 500, 15);
-
 
         SDL_RenderPresent(g_screen);// cập nhật màn hình
 

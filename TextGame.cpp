@@ -75,6 +75,8 @@ void TextObject::CreateGameText(TTF_Font* font, SDL_Renderer* des)
     SDL_FreeSurface(text_surface);
 }
 
+
+
 void TextObject::RenderText(SDL_Renderer* des, const int& xp, const int& yp, SDL_Rect* clip)
 {
     SDL_Rect renderQuad = {xp, yp, width_, height_};// vị trí và kích thước của văn bản

@@ -16,10 +16,12 @@ public:
     void Render(SDL_Renderer* des, const SDL_Rect* clip = NULL);// vẽ hình ảnh lên màn hình
     void Free();
     void Show(SDL_Renderer* des);// hiển thị hình ảnh lên màn hình
+    
 
 protected:
     SDL_Texture* p_object_;  // luu hinh anh
     SDL_Rect rect_;  // luu kich thuoc
+    SDL_Surface* object;
 
 };
 
