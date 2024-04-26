@@ -47,7 +47,7 @@ void GameMap::LoadTiles(SDL_Renderer* screen) // load hình ảnh cho map
 
     for(int i = 0; i < MAX_TILES; i++)
     {
-        sprintf_s(file_img, "map1/%d.png", i);
+        sprintf_s(file_img, "Image/map1/%d.png", i);
         
         fopen_s(&fp, file_img, "rb");
         if(fp == NULL)

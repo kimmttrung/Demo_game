@@ -56,7 +56,7 @@ bool InitData()
 
 bool LoadBackground()
 {
-    bool ret = g_background.LoadImg("img/Bground2.jpg", g_screen);
+    bool ret = g_background.LoadImg("Image/img/Bground2.jpg", g_screen);
     if(ret == false)
         return false;
     return true;
@@ -81,17 +81,17 @@ std::vector<ThertsObject*> MakeTherts()
 
     for(int i = 0; i < 30; i++)
     {
-        list_therts.push_back(CreateThertsObject("img/boss3.png", g_screen, 1000 + i*420, 64));
-        list_therts.push_back(CreateThertsObject("img/boss2.png", g_screen, 1200 + i*650, 64));
-        list_therts.push_back(CreateThertsObject("img/boss1.png", g_screen, 1400 + i*300, 64));
+        list_therts.push_back(CreateThertsObject("Image/img/boss3.png", g_screen, 1000 + i*420, 64));
+        list_therts.push_back(CreateThertsObject("Image/img/boss2.png", g_screen, 1200 + i*650, 64));
+        list_therts.push_back(CreateThertsObject("Image/img/boss1.png", g_screen, 1400 + i*300, 64));
 
-        list_therts.push_back(CreateThertsObject("img/boss1.png", g_screen, 700 + i*500, 704));
-        list_therts.push_back(CreateThertsObject("img/boss2.png", g_screen, 1000 + i*500, 704));
-        list_therts.push_back(CreateThertsObject("img/boss3.png", g_screen, 900 + i*1000, 704));
+        list_therts.push_back(CreateThertsObject("Image/img/boss1.png", g_screen, 700 + i*500, 704));
+        list_therts.push_back(CreateThertsObject("Image/img/boss2.png", g_screen, 1000 + i*500, 704));
+        list_therts.push_back(CreateThertsObject("Image/img/boss3.png", g_screen, 900 + i*1000, 704));
         
-        list_therts.push_back(CreateThertsObject("img/boss2.png", g_screen, 700 + i*300, 1344));
-        list_therts.push_back(CreateThertsObject("img/boss1.png", g_screen, 7000 + i*400, 1344));
-        list_therts.push_back(CreateThertsObject("img/boss3.png", g_screen, 700 + i*500, 1344));
+        list_therts.push_back(CreateThertsObject("Image/img/boss2.png", g_screen, 700 + i*300, 1344));
+        list_therts.push_back(CreateThertsObject("Image/img/boss1.png", g_screen, 7000 + i*400, 1344));
+        list_therts.push_back(CreateThertsObject("Image/img/boss3.png", g_screen, 700 + i*500, 1344));
 
     }
 
@@ -180,12 +180,12 @@ int main(int argc, char* argv[])
 
     GameMap game_map;// khai bao map
     #pragma GCC diagnostic ignored "-Wwrite-strings"
-    game_map.LoadMap("map1/map012.dat");// load map
+    game_map.LoadMap("Image/map1/map012.dat");// load map
     #pragma GCC diagnostic warning "-Wwrite-strings"
     game_map.LoadTiles(g_screen);// load hinh anh cho map
     
     MainObject p_player;// khai bao animation
-    p_player.LoadImg("img/player_right1.png", g_screen);
+    p_player.LoadImg("Image/img/player_right1.png", g_screen);
     p_player.set_clips();
 
     std::vector<ThertsObject*> therts_list = MakeTherts();// khai bao va tao threat
@@ -207,7 +207,7 @@ int main(int argc, char* argv[])
     TextObject menu_game;
     menu_game.SetColor(TextObject::XANH_TEXT);
     SDL_Rect exit_button = {static_cast<int>(SCREEN_WIDTH*0.5 - 100), static_cast<int>(SCREEN_HEIGHT*0.5+300), 200, 50};
-    menu.LoadImg("img/start.png", g_screen);
+    menu.LoadImg("Image/img/start.png", g_screen);
     bool menuGame = true;
     std::string str_menu_play = "PLAY GAME";
     std::string str_menu_exit = "EXIT";

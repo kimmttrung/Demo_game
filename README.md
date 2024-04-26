@@ -14,10 +14,10 @@
 # 2. Cách tải game
 ## Bước 1: Bạn truy cập link github: https://github.com/kimmttrung/Demo_game
 
-![ảnh 1](anh1.png)
+![ảnh 1](./Image/AnhReadMe/anh1.png)
 
 ## Bước 2: Chọn Code và sao chép địa chỉ link
-![anh2](anh2.png)
+![anh2](./Image/AnhReadMe/anh2.png)
 
 ## Bước 3: Clone link về máy tính của bạn
 

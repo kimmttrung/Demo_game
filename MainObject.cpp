@@ -378,11 +378,6 @@ void MainObject::CheckTile(Map& map_data, int x, int y)
             }
             else if(key_count_ == 3)
             {
-                map_data.tile[22][2] = 0;
-            }
-
-            else if(key_count_ == 4)
-            {
                 map_data.tile[1][5] = 0;
                 map_data.tile[2][5] = 0;
                 map_data.tile[3][5] = 0;
@@ -514,319 +509,28 @@ void MainObject::CheckMap(Map& map_data)
     }
 }
 
-
-// void MainObject::CheckMap(Map& map_data)
-// {
-
-//     int x1 = 0;// giới hạn chiều rông nhân vật  từ A -> B  (chiều ngang x)
-//     int x2 = 0; 
-
-//     int y1 = 0;// giới hạn chiều cao nhân vật từ A -> B  (chiều dọc y)
-//     int y2 = 0;
-
-//     // check theo chieu ngang
-//     int height_min = height_frame_ < TILE_SIZE ? height_frame_ : TILE_SIZE;
-
-//     x1 = (x_pos_ + x_val_)/TILE_SIZE; // x1: vị trí hiện tại của nhân vật / kích thước 1 ô vuông
-//     x2 = (x_pos_ + x_val_ + width_frame_ - 1)/TILE_SIZE;
-
-//     y1 = (y_pos_)/TILE_SIZE;
-//     y2 = (y_pos_ + height_min -1)/TILE_SIZE;
-
-//     /*
-//         x1,y1******x2,y1
-//         * -----------*
-//         * -----------*
-//         * -----------*
-//         * -----------*
-//         x1,y2******x2,y2
-//     */
-
-//     if(x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 < MAX_MAP_Y)
-//     {
-//         if(x_val_ > 0) // di chuyển sang phải
-//         {
-//             int val1 = map_data.tile[y1][x2];
-//             int val2 = map_data.tile[y2][x2];
-
-//             if(val1 == KHOBAU || val2 == KHOBAU)
-//             {
-//                 map_data.tile[y1][x2] = 0;
-//                 map_data.tile[y2][x2] = 0;
-                
-//                 if(MessageBoxW(NULL, L"You win", L"Thong bao",  MB_OK) == IDOK)
-//                 {
-//                     clean_up();
-//                     SDL_Quit();
-//                     exit(0);
-//                 }
-                
-//             }
-//             else if(val1 == TAO || val2 == TAO)
-//             {
-//                 map_data.tile[y1][x2] = 0;
-//                 map_data.tile[y2][x2] = 0;
-
-//             }
-//             else if(val1 == KEY || val2 == KEY)
-//             {
-//                 map_data.tile[y1][x2] = 0;
-//                 map_data.tile[y2][x2] = 0;
-//                 key_count_++;
-//             }
-//             else if(val1 == MONEY || val2 == MONEY)
-//             {
-//                 map_data.tile[y1][x2] = 0;
-//                 map_data.tile[y2][x2] = 0;
-//                 money_count_++;
-//             }
-//             else 
-//             {
-//                 if(val1 != BLANK || val2 != BLANK )
-//                 {
-//                     x_pos_ = x2*TILE_SIZE;
-//                     x_pos_ -= width_frame_ + 1;
-//                     x_val_ = 0;
-
-//                 }
-//             }
-            
-//             if(val1 == NGUYHIEM || val2 == NGUYHIEM)
-//             {
-//                 come_back_time_ = 60;
-//             }
-//             if(val1 == COC || val2 == COC)
-//             {
-//                come_back_time_ = 60;
-//             }
-            
-//         }
-//         else if(x_val_ < 0) // di chuyển sang trái
-//         {
-//             int val1 = map_data.tile[y1][x1];
-//             int val2 = map_data.tile[y2][x1];
-
-//             if(val1 == KHOBAU || val2 == KHOBAU)
-//             {
-//                 map_data.tile[y1][x2] = 0;
-//                 map_data.tile[y2][x2] = 0;
-                
-//                 if(MessageBoxW(NULL, L"You win", L"Thong bao",  MB_OK) == IDOK)
-//                 {
-//                     clean_up();
-//                     SDL_Quit();
-//                     exit(0);
-//                 }
-                
-//             }
-//             else if(val1 == TAO || val2 == TAO)
-//             {
-//                 map_data.tile[y1][x2] = 0;
-//                 map_data.tile[y2][x2] = 0;
-
-//             }
-//             else if(val1 == KEY || val2 == KEY)
-//             {
-//                 map_data.tile[y1][x2] = 0;
-//                 map_data.tile[y2][x2] = 0;
-//                 key_count_++;
-//             }
-//             else if(val1 == MONEY || val2 == MONEY)
-//             {
-//                 map_data.tile[y1][x2] = 0;
-//                 map_data.tile[y2][x2] = 0;
-//                 money_count_++;
-//             }
-//             else{
-//                 if(val1 != BLANK || val2 != BLANK )
-//                 {
-//                     x_pos_ = (x1 + 1)*TILE_SIZE;
-//                     x_val_ = 0;
-//                 }
-//             }
-
-//             if(val1 == NGUYHIEM || val2 == NGUYHIEM)
-//             {
-//                 come_back_time_ = 60;
-//             }
-//             if(val1 == COC || val2 == COC)
-//             {
-//                come_back_time_ = 60;
-//             }
-//         }
-//     }
-
-//     // check theo chieu doc
-
-//     int width_min = width_frame_ < TILE_SIZE ? width_frame_ : TILE_SIZE;
-//     x1 = (x_pos_)/TILE_SIZE;
-//     x2 = (x_pos_ + width_min )/TILE_SIZE;
-
-//     y1 = (y_pos_ + y_val_)/TILE_SIZE;
-//     y2 = (y_pos_ + y_val_ + height_frame_ - 1)/TILE_SIZE;
-
-//     /*
-//         x1,y1******x2,y1
-//         * -----------*
-//         * -----------*
-//         * -----------*
-//         * -----------*
-//         x1,y2******x2,y2
-//     */
-
-//     if(x1 >= 0 && x2 <= MAX_MAP_X && y1 >= 0 && y2 <= MAX_MAP_Y)
-//     {
-//         if(y_val_ > 0) // rơi xuống
-//         {
-//             int val1 = map_data.tile[y2][x1];
-//             int val2 = map_data.tile[y2][x2];
-
-//             if(val1 == KHOBAU || val2 == KHOBAU)
-//             {
-//                 map_data.tile[y1][x2] = 0;
-//                 map_data.tile[y2][x2] = 0;
-                
-//                 if(MessageBoxW(NULL, L"You win", L"Thong bao",  MB_OK) == IDOK)
-//                 {
-//                     clean_up();
-//                     SDL_Quit();
-//                     exit(0);
-//                 }
-                
-//             }
-//             else if(val1 == TAO || val2 == TAO)
-//             {
-//                 map_data.tile[y1][x2] = 0;
-//                 map_data.tile[y2][x2] = 0;
-                
-//             }
-//             else if(val1 == KEY || val2 == KEY)
-//             {
-//                 map_data.tile[y1][x2] = 0;
-//                 map_data.tile[y2][x2] = 0;
-//                 key_count_++;
-//             }
-//             else if(val1 == MONEY || val2 == MONEY)
-//             {
-//                 map_data.tile[y1][x2] = 0;
-//                 map_data.tile[y2][x2] = 0;
-//                 money_count_++;
-//             }
-//             else{
-//                 if(val1 != BLANK || val2 != BLANK )
-//                 {
-//                     y_pos_ = y2*TILE_SIZE ;// đứng trên mặt đất
-//                     y_pos_ -= (height_frame_ + 1);
-//                     y_val_ = 0;
-//                     TrenBeMat = true; // lưu trạng thái đứng trên mặt đất
-//                 }
-//             }
-
-//             if(val1 == NGUYHIEM || val2 == NGUYHIEM)
-//             {
-//                 come_back_time_ = 60;
-//             }
-//             if(val1 == COC || val2 == COC)
-//             {
-//                come_back_time_ = 60;
-//             }
-//         }
-//         else if(y_val_ < 0) // nhảy lên 
-//         {
-//             int val1 = map_data.tile[y1][x1];
-//             int val2 = map_data.tile[y1][x2];
-
-//             if(val1 == KHOBAU || val2 == KHOBAU)
-//             {
-//                 map_data.tile[y1][x2] = 0;
-//                 map_data.tile[y2][x2] = 0;
-                
-//                 if(MessageBoxW(NULL, L"You win", L"Thong bao",  MB_OK) == IDOK)
-//                 {
-//                     clean_up();
-//                     SDL_Quit();
-//                     exit(0);
-//                 }
-                
-//             }
-//             else if(val1 == TAO || val2 == TAO)
-//             {
-//                 map_data.tile[y1][x2] = 0;
-//                 map_data.tile[y2][x2] = 0;
-                
-//             }
-//             else if(val1 == KEY || val2 == KEY)
-//             {
-//                 map_data.tile[y1][x2] = 0;
-//                 map_data.tile[y2][x2] = 0;
-//                 key_count_++;
-                
-//             }
-//             else if(val1 == MONEY || val2 == MONEY)
-//             {
-//                 map_data.tile[y1][x2] = 0;
-//                 map_data.tile[y2][x2] = 0;
-//                 money_count_++;
-//             }
-//             else{
-//                 if(val1 != BLANK || val2 != BLANK )
-//                 {
-//                     y_pos_ = (y1 + 1)*TILE_SIZE ;
-//                     y_val_ = 0;
-//                 }
-//             }
-        
-//             if(val1 == NGUYHIEM || val2 == NGUYHIEM)
-//             {
-//                 come_back_time_ = 60;
-//             }
-//             if(val1 == COC || val2 == COC)
-//             {
-//                come_back_time_ = 60;
-//             }
-
-//         }
-    
-
-//         x_pos_ += x_val_ ;
-//         y_pos_ += y_val_ ;
-
-//         if(x_pos_ < 0) x_pos_ = 0;
-//         else if(x_pos_ + width_frame_ > map_data.max_x)
-//         {
-//             x_pos_ = map_data.max_x - width_frame_ - 1;
-//         }
-//         if(y_pos_ > map_data.max_y )
-//         {
-//             come_back_time_ = 30;
-//         }
-//     }
-// }
-
-
-
 void MainObject::UpdateImage(SDL_Renderer* des)
 {
     if(TrenBeMat == true)
     {
         if(status_ == WALK_LEFT)
         {
-            LoadImg("img/player_left1.png", des);
+            LoadImg("Image/img/player_left1.png", des);
         }
         else
         {
-            LoadImg("img/player_right1.png", des);
+            LoadImg("Image/img/player_right1.png", des);
         }
     }
     else
     {
         if(status_ == WALK_LEFT)
         {
-            LoadImg("img/jum_left1.png", des);
+            LoadImg("Image/img/jum_left1.png", des);
         }
         else
         {
-            LoadImg("img/jum_right1.png", des);
+            LoadImg("Image/img/jum_right1.png", des);
         }
     }
 }

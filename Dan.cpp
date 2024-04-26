@@ -16,19 +16,19 @@ void Dan::LoadDan(SDL_Renderer* des)
 {
     if(loai_Dan_ == DAN_BAN)
     {
-        LoadImg("img/dan1.png", des);
+        LoadImg("Image/img/dan1.png", des);
     }
     else if(loai_Dan_ == DAN_BAN_LASER)
     {
-        LoadImg("img/laser2.png", des);
+        LoadImg("Image/img/laser2.png", des);
     }
     else if(loai_Dan_ == DAN_LUA)
     {
-        LoadImg("img/dan4.png", des);
+        LoadImg("Image/img/dan4.png", des);
     }
     else if(loai_Dan_ == DAN_PHI)
     {
-        LoadImg("img/dan5.png", des);
+        LoadImg("Image/img/dan5.png", des);
     }
     
 }

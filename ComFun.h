@@ -49,7 +49,7 @@ const int RENDER_DRAW_COLOR = 255;
 #define NGUYHIEM 7 // nước 
 #define COC 3// cọc
 #define MAX_MAP_X 210
-#define MAX_MAP_Y 30
+#define MAX_MAP_Y 20
 
 
 struct Input
