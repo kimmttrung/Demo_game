@@ -1,23 +1,25 @@
 # **Dự án bài tập lớn: Game Treasure**
 
 ### Họ và tên: MAi Tấn Trung 
-- MÃ Sinh Viên: 23020713
+- Mã sinh viên: 23020713
 - Lớp: K68J 
 - INT2215 52
 
 # Mục lục
 - [**Game Treasure**](#Fireboy-and-Watergirl-Adventure)
-    - [**Video Demo**](#Video-demo)
-    - [***Cách tải game***](#Cách-tải-gamegame)
-    - [**Giới thiệu game**](#Giới-thiệu-game)
-    - [**Hướng dẫn chơi**](#Hướng-dẫn-chơi)
-    - [**Các thành phần trong game**](#Các-thành-phần-trong-game)
-    - [**Chiến thắng và thất bại**](#Chiến-thắng-và-thất-bại)
-    - [**Cấu trúc game**](#Cấu-trúc-game)
+    - [**1. Video Demo**](#Video-demo)
+    - [**2. Giới thiệu game**](#Giới-thiệu-game)
+    - [**3. Cách tải game**](#Cách-tải-gamegame)
+    - [**4. Hướng dẫn chơi**](#Hướng-dẫn-chơi)
+    - [**5. Các thành phần trong game**](#Các-thành-phần-trong-game)
+    - [**6. Chiến thắng và thất bại**](#Chiến-thắng-và-thất-bại)
+    - [**7. Cấu trúc game**](#Cấu-trúc-game)
+    - [**8. Kĩ thuật lập trình**](#Cấu-trúc-game)
     - [**Đồ họa**](#Về-đồ-họa)
     - [**Nguồn tham khảo**](#Nguồn-tham-khảo)
     
 # 1. Video Demo
+
 # 2. Giới thiệu game
 
 - *Game Treasure* trò chơi bắn súng tìm kho báu là một thể loại game hấp dẫn kết hợp giữa hành động bắn súng và mạo hiểm tìm kiếm kho báu. 
@@ -92,7 +94,7 @@
 |![Kho Báu](./Image/map1/11.png)|Kho báu|Win|
 |![Key](./Image/map1/10.png)|Key|Mở cửa|
 |![Cửa](./Image/map1/15.png)|Cửa|Chặn không cho đi qua|
-|![Táo](./Image/map1/14.png)|Táo|Năng lượng|
+|![Táo](./Image/map1/14.png)|Táo|Thức ăn|
 
 - Động
 
@@ -121,23 +123,52 @@
 ![anh6](./Image/AnhReadMe/anh6.png)
 ## Lose
 - Giới hạn thời gian 300s và khi chạy hết thời gian mà người chơi chưa ăn được kho báu thì bị `GAME OVER`
+- Và người chơi có 3 mạng nếu chết 3 lần thì cũng `GAME OVER`
+![anh7](./Image/AnhReadMe/anh7.png)
 - Va chạm quái và đạn quái bị mất 1 mạng 
 - Rơi xuống nước và cọc cũng mất 1 mạng
-- khi mất 1 mạng sẽ hiện ![anh8](./Image/AnhReadMe/anh8.png) 
+- Khi mất 1 mạng sẽ hiện 
+- ![anh8](./Image/AnhReadMe/anh8.png) 
 - Chọn `YES` sẽ quay trở lại chơi và mất 1 mạng
 - Chọn `NO` sẽ thoát game
 
 # 7. Cấu trúc game
-- main.cpp: 
-- ComFun.cpp:
-- BaseObject:
-- GameMap.cpp:
-- MainObject:
-- Dan.cpp:
-- NguyHiem:
-- TextGame.cpp:
-- Timer.cpp:
-# Kĩ thuật lập trình
+- File main 
+    - Khởi tạo SDL, cửa sổ, các đối tượng cho game
+    - Tải hình ảnh và thiết lập color
+    - Va chạm quái và người chơi
+    - Vòng lặp chính chạy game
+    - Clean khi thoát chương trình
+- File ComFun
+    - Liên kết các thư viên
+    - các define mặc định cho game
+    - Kiểm tra va chạm
+- File BaseObject
+    - Chứa các thông số cơ bản để sử dụng cho nhiều file khác
+    - Như load ảnh, load Map, ...
+- File GameMap
+    - Tải thông tin bản đồ từ một file
+    - Tải hình ảnh cho các ô trên bản đồ
+    - Vẽ bản đồ
+- File MainObject
+    - Xử lý di chuyển nhân vật
+    - Tính toán các thông số bản đồ 
+    - Thiết lập `you win` và `lose`
+    - xửa lý các object như: tiền, chìa khóa, táo ,..
+- File Dan
+    - Xét loại đạn và hướng di chuyển
+    - Cập nhật trạng thái đạn trên bản đồ 
+- File NguyHiem
+    - Load hình ảnh quái và hướng đạn quái
+    - Tính toán các thông số bản đồ 
+- File TextGame
+    - Hiển thị văn bản trên màn hình 
+    - Màu sắc và phông chữ
+- File Timer
+    - Thiết lập chỉ số FPS
+    - Giới hạn thời gian chơi game
+    
+# 8. Kĩ thuật lập trình
 ## Phát triển trên nền tảng
 - Visual Studio Code
 - Ngôn ngữ lập trình C++
@@ -147,11 +178,10 @@
 	- SDL2_Mixer: Hỗ trợ xử lý âm thanh
 	- SDL2_TTF: Hỗ trợ xử lý font
 
-## 8. Các kĩ thuật lập trình
+## Các kĩ thuật lập trình
 - Vòng lặp, cấu trúc rẽ nhánh,...
 - Con trỏ, vector, string,...
 - Class, struct, kế thừa, hàm ảo,...
-- Đọc viết file: fstream
 - Tách file quản lý code
 - Kỹ thuật duyệt mảng, sinh số ngẫu nhiên
 - Các kĩ thuật, syntax của SDL
@@ -165,12 +195,12 @@
 	- Hình ảnh [Map](https://www.youtube.com/redirect?event=video_description&redir_token=QUFFLUhqbjU5RFFDOFBWNzdfc1l5Qjl5YVlIbFlHWTV5d3xBQ3Jtc0ttWk9aRjRKSVNUcVZVMWFHUnBLRk9fWFpOVU8weDhrVUQzU244TWw4bjl3bmh5MjdHUVd3WTFwUVBhVXA5VVdGODBYTVpUS052M3VQMUJaYTQ4ZEVWMUZWdHBDd3VJM3JHUDZuN2s0NXFfbENGU09UOA&q=http%3A%2F%2Fwww.mediafire.com%2Ffile%2Fb3u640qz5dhku33%2Fmap.rar%2Ffile&v=jOKOU9_jvEA)
 	- Hình ảnh [Background](https://www.google.com/search?q=bachground+tr%E1%BB%9Di&rlz=1C1ONGR_enVN1094VN1094&oq=bachground+tr%E1%BB%9Di&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIJCAEQABgNGIAEMgkIAhAAGA0YgAQyCQgDEAAYDRiABDIJCAQQABgNGIAEMgkIBRAAGA0YgAQyCQgGEAAYDRiABDIJCAcQABgNGIAEMggICBAAGBYYHjIICAkQABgWGB7SAQg2NDA3ajBqN6gCALACAA&sourceid=chrome&ie=UTF-8#vhid=FlXzvkqPC02lKM&vssid=l)
 	
-- Các hình ảnh còn lại là bản thân mình tự làm sao cho phù hợp với game
+- Và còn 1 số hình ảnh khác mình down trên mạng
 - Sử dụng công cụ để vã ảnh: `Tile` và `Aseprite`
 # 10. Nguồn tham khảo
 - Các syntax SDL cơ bản: [Lazyfoo](https://lazyfoo.net/tutorials/SDL/)
 - Map, character: [Phát Triển Phần Mềm 123A-Z](https://www.youtube.com/@PhatTrienPhanMem123AZ)
-
+- Youtube:[codergopher](https://www.youtube.com/watch?v=KsG6dJlLBDw&list=PL2RPjWnJduNmXHRYwdtublIPdlqocBoLS)
 
 
 
