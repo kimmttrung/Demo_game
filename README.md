@@ -19,7 +19,7 @@
     - [**Nguồn tham khảo**](#Nguồn-tham-khảo)
     
 # 1. Video Demo
-
+- [Video](https://youtu.be/UCzKoMMaKHc?si=VAwqWtZj7ITMJ5aJ)
 # 2. Giới thiệu game
 
 - *Game Treasure* trò chơi bắn súng tìm kho báu là một thể loại game hấp dẫn kết hợp giữa hành động bắn súng và mạo hiểm tìm kiếm kho báu. 
